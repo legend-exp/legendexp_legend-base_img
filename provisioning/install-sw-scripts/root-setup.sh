@@ -2,6 +2,7 @@
 #
 # Copyright (c) 2016: Oliver Schulz.
 
+
 pkg_install() {
     DOWNLOAD_URL=""
     if [ "${LINUX_DIST_BINCOMPAT}" = "ubuntu-14.04" ] ; then
@@ -22,6 +23,7 @@ pkg_install() {
     download "${DOWNLOAD_URL}" \
         | tar --strip-components=1 -x -z -f - -C "${INSTALL_PREFIX}"
 }
+
 
 pkg_env_vars() {
 cat <<-EOF

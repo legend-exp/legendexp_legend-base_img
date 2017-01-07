@@ -30,6 +30,7 @@ DEFAULT_BUILD_OPTS=`echo ${BASIC_BUILD_OPTS} ${ADDITIONAL_BUILD_OPTS}`
 
 
 download_url() {
+    # Note: Currently using plain HTTP, as the SSL cert of geant4.cern.ch is expired.
     local PKG_VERSION="${1}" \
     && local PKG_VERSION_MAJOR=$(echo "${PKG_VERSION}" | cut -d '.' -f 1) \
     && local PKG_VERSION_MINOR=$(echo "${PKG_VERSION}" | cut -d '.' -f 2) \
