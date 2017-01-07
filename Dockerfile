@@ -94,3 +94,9 @@ ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 EXPOSE 8888
 
 CMD /bin/bash
+
+ENV LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/nvvm/lib64:$LD_LIBRARY_PATH"
+
+RUN true \
+    && (cd /usr/local/cuda-8.0/lib64 && ln -s stubs/libcuda.so libcuda.so.1 && ln -s libcuda.so.1 libcuda.so) \
+    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
