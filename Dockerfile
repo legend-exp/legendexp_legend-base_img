@@ -95,8 +95,12 @@ EXPOSE 8888
 
 CMD /bin/bash
 
+# ===========================================================================
+
+RUN pip install matplotlib sympy
+
+
+# Note: NVIDIA driver must be mounted from host to /usr/local/nvidia
 ENV LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/nvvm/lib64:$LD_LIBRARY_PATH"
 
-RUN true \
-    && (cd /usr/local/cuda-8.0/lib64 && ln -s stubs/libcuda.so libcuda.so.1 && ln -s libcuda.so.1 libcuda.so) \
-    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
+RUN (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
