@@ -101,6 +101,8 @@ RUN pip install matplotlib sympy
 
 
 # Note: NVIDIA driver must be mounted from host to /usr/local/nvidia
+# Note: OpenCL icd directory /etc/OpenCL/vendors should be mounted from host
+RUN mkdir -p /etc/OpenCL/vendors
 ENV LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/nvvm/lib64:$LD_LIBRARY_PATH"
 
 RUN (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
