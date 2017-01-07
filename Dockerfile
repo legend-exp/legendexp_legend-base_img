@@ -1,6 +1,10 @@
 FROM nvidia/cuda:8.0-cudnn5-devel-centos7
 # FROM centos:7
 
+# Note: NVIDIA driver libs must be mounted in from host to "/usr/local/nvidia"
+# (e.g. via nvidia-docker or manually). OpenCL icd directory
+# "/etc/OpenCL/vendors" should be mounted in from host as well.
+
 USER root
 WORKDIR /root
 
@@ -40,12 +44,19 @@ RUN yum install -y epel-release && yum install -y \
     \
     fftw-devel \
     \
+    && mkdir -p /etc/OpenCL/vendors \
+    \
     && rpm -ihv https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm \
+    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .) \
+    \
     && yum clean all
 
+ENV LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/nvvm/lib64:$LD_LIBRARY_PATH"
+
 RUN pip install --upgrade pip && pip install \
-    arrow enum34 luigi subprocess32 \
-    jupyter metakernel
+    jupyter metakernel \
+    matplotlib \
+    sympy
 
 COPY provisioning/install-sw.sh /root/provisioning/
 
@@ -77,7 +88,7 @@ ENV \
     ROOTSYS="/opt/root"
 RUN provisioning/install-sw.sh root 6.06.08 /opt/root
 
-COPY provisioning/install-sw-scripts/julia-setup.sh provisioning/install-sw-scripts/julia-cxx-setup.sh provisioning/install-sw-scripts/julia-rjulia-setup.sh provisioning/install-sw-scripts/
+COPY provisioning/install-sw-scripts/julia-* provisioning/install-sw-scripts/
 ENV \
     PATH="/opt/julia/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/julia/lib:$LD_LIBRARY_PATH" \
@@ -94,15 +105,3 @@ ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 EXPOSE 8888
 
 CMD /bin/bash
-
-# ===========================================================================
-
-RUN pip install matplotlib sympy
-
-
-# Note: NVIDIA driver must be mounted from host to /usr/local/nvidia
-# Note: OpenCL icd directory /etc/OpenCL/vendors should be mounted from host
-RUN mkdir -p /etc/OpenCL/vendors
-ENV LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/nvvm/lib64:$LD_LIBRARY_PATH"
-
-RUN (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
