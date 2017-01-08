@@ -147,6 +147,10 @@ RUN true \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
 
+# Additional packages:
+
+RUN sed -i '/tsflags=nodocs/d' /etc/yum.conf
+RUN yum install -y nmap-ncat socat hdf5-devel && yum clean all
 
 # Custom hostspec for swmod:
 
