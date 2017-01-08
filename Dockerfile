@@ -148,9 +148,23 @@ RUN true \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
 
 
-# Final steps
+# Custom hostspec for swmod:
 
 ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
+
+
+# Redirect some things from "$HOME" to "/user":
+
+ENV \
+    XDG_DATA_HOME="/user/.local/$SWMOD_HOSTSPEC/share" \
+    JULIA_PKGDIR="/user/.julia/$SWMOD_HOSTSPEC"
+
+RUN mkdir -p \
+    "$XDG_DATA_HOME/jupyter" \
+    "$JULIA_PKGDIR"
+
+
+# Final steps
 
 EXPOSE 8888
 
