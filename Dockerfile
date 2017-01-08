@@ -147,25 +147,22 @@ RUN true \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
 
-# Additional packages:
+
+# Additional packages: #!!! Move up
 
 RUN sed -i '/tsflags=nodocs/d' /etc/yum.conf
 RUN yum install -y nmap-ncat socat hdf5-devel && yum clean all
+
 
 # Custom hostspec for swmod:
 
 ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 
 
-# Redirect some things from "$HOME" to "/user":
+# Additional for Julia: #!!! Move up
 
-ENV \
-    XDG_DATA_HOME="/user/.local/$SWMOD_HOSTSPEC/share" \
-    JULIA_PKGDIR="/user/.julia/$SWMOD_HOSTSPEC"
-
-RUN mkdir -p \
-    "$XDG_DATA_HOME/jupyter" \
-    "$JULIA_PKGDIR"
+ENV JULIA_PKGDIR="/user/.julia/$SWMOD_HOSTSPEC"
+RUN mkdir -p "$JULIA_PKGDIR"
 
 
 # Final steps
