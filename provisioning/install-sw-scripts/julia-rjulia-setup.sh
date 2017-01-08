@@ -11,7 +11,8 @@ pkg_installed_check() {
 pkg_install() {
     GITHUB_USER=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 1`
     GIT_BRANCH=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 2`
-    git clone "https://github.com/${GITHUB_USER}/ROOT.jl.git" --branch "${GIT_BRANCH}" ROOT.jl
+    git clone "https://github.com/${GITHUB_USER}/ROOT.jl.git"
+    (cd "ROOT.jl" && git checkout "${GIT_BRANCH}")
 
     cd "ROOT.jl/deps"
     julia build.jl

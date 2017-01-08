@@ -14,10 +14,10 @@ pkg_installed_check() {
 pkg_install() {
     GITHUB_USER=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 1`
     GIT_BRANCH=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 2`
-    git clone --recursive "https://github.com/${GITHUB_USER}/mxnet" --branch "${GIT_BRANCH}"
+    git clone --recursive "https://github.com/${GITHUB_USER}/mxnet"
+    (cd mxnet && git checkout "${GIT_BRANCH}" && git submodule update)
 
     cd mxnet
-
     cp make/config.mk config.mk
     sed -i 's/USE_BLAS = atlas/USE_BLAS = openblas/g' config.mk
     sed -i 's/USE_CUDA = 0/USE_CUDA = 1/g' config.mk

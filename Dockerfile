@@ -90,7 +90,7 @@ ENV \
     LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
     MXNET_HOME="/opt/mxnet"
 
-RUN provision-install-sw/install-sw.sh mxnet dmlc/master /opt/mxnet
+RUN provisioning/install-sw.sh mxnet dmlc/873b928 /opt/mxnet
 
 
 # Install CLHep and Geant4:

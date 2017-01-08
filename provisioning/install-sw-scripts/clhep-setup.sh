@@ -19,7 +19,7 @@ pkg_install() {
         ${DEFAULT_BUILD_OPTS} \
         ../src/CLHEP
 
-    time make "-j${NTHREADS}" install
+    time make -j"$(nproc)" install
 }
 
 

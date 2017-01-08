@@ -56,7 +56,7 @@ pkg_install() {
         ${DEFAULT_BUILD_OPTS} \
         ../src
 
-    time make "-j${NTHREADS}" install
+    time make -j"$(nproc)" install
 }
 
 
