@@ -28,7 +28,7 @@ RUN yum install -y epel-release centos-release-scl && yum install -y \
     less man-db \
     openssh-clients rsync \
     wget curl nettle \
-    bzip2 pbzip2 \
+    bzip2 pbzip2 zip unzip p7zip \
     nano vim \
     \
     gcc-c++ gcc-gfortran make \
@@ -82,17 +82,6 @@ RUN pip install --upgrade pip && pip install \
 COPY provisioning/install-sw.sh /root/provisioning/
 
 
-# Install MXNet:
-
-COPY provisioning/install-sw-scripts/mxnet-* provisioning/install-sw-scripts/
-
-ENV \
-    LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
-    MXNET_HOME="/opt/mxnet"
-
-RUN provisioning/install-sw.sh mxnet dmlc/873b928 /opt/mxnet
-
-
 # Install CLHep and Geant4:
 
 COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/geant4-* provisioning/install-sw-scripts/
@@ -131,6 +120,17 @@ ENV \
 RUN provisioning/install-sw.sh root 6.06.08 /opt/root
 
 
+# Install MXNet:
+
+COPY provisioning/install-sw-scripts/mxnet-* provisioning/install-sw-scripts/
+
+ENV \
+    LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
+    MXNET_HOME="/opt/mxnet"
+
+RUN provisioning/install-sw.sh mxnet dmlc/873b928 /opt/mxnet
+
+
 # Install Julia:
 
 COPY provisioning/install-sw-scripts/julia-* provisioning/install-sw-scripts/
@@ -155,9 +155,3 @@ ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 EXPOSE 8888
 
 CMD /bin/bash
-
-# ==============================================================================
-
-RUN yum install yum install -y \
-	zip unzip p7zip \
-	&& yum clean all
