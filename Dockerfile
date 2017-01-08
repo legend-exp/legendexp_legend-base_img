@@ -155,3 +155,9 @@ ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 EXPOSE 8888
 
 CMD /bin/bash
+
+# ==============================================================================
+
+RUN yum install yum install -y \
+	zip unzip p7zip \
+	&& yum clean all
