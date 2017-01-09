@@ -21,58 +21,33 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda/nvvm/lib64:$LD_LIBRAR
 
 COPY provisioning/wandisco-centos7-git.repo /etc/yum.repos.d/wandisco-git.repo
 
-RUN yum install -y epel-release centos-release-scl && yum install -y \
-    \
-    deltarpm \
-    \
-    less man-db \
-    openssh-clients rsync \
-    wget curl nettle \
-    bzip2 pbzip2 zip unzip p7zip \
-    nano vim \
-    \
-    gcc-c++ gcc-gfortran make \
-    autoconf automake libtool m4 \
-    cmake \
-    \
-    patch tar \
-    git \
-    \
-    python2-pip python2-devel \
-    python-daemon \
-    zeromq-devel \
-    \
-    openblas-devel \
-    opencv-devel \
-    \
-    libSM-devel \
-    libX11-devel libXext-devel libXft-devel libXpm-devel \
-    libjpeg-devel libpng-devel \
-    mesa-libGLU-devel \
-    \
-    openssl openssl-devel \
-    \
-    expat-devel \
-    xerces-c-devel \
-    libXmu-devel \
-    libXi-devel \
-    libzip-devel \
-    \
-    fftw-devel \
-    \
+RUN true \
+    && sed -i '/tsflags=nodocs/d' /etc/yum.conf \
+    && yum install -y epel-release centos-release-scl \
+    && yum install -y \
+        \
+        deltarpm \
+        \
+        less man-db \
+        openssh-clients rsync \
+        wget curl nettle \
+        tar bzip2 pbzip2 zip unzip p7zip \
+        nano vim \
+        nmap-ncat socat \
+        xterm \
+        \
+        gcc-c++ gcc-gfortran make \
+        autoconf automake libtool m4 \
+        cmake \
+        patch git \
     && mkdir -p /etc/OpenCL/vendors \
     \
     && rpm -ihv https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm \
     && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .) \
     \
-    && yum clean all
-
-
-# Install extra Python packages via pip:
-
-RUN pip install --upgrade pip && pip install \
-    jupyter jupyterlab metakernel \
-    sympy
+    && yum clean all \
+    \
+    && dbus-uuidgen > /etc/machine-id
 
 
 # Copy provisioning script(s):
@@ -97,6 +72,13 @@ ENV \
     G4SAIDXSDATA="/opt/geant4/share/Geant4-9.6.4/data/G4SAIDDATA1.1"
 
 RUN true \
+    && yum install -y \
+        expat-devel \
+        xerces-c-devel \
+        libXmu-devel \
+        libXi-devel \
+        libzip-devel \
+    && yum clean all \
     && provisioning/install-sw.sh clhep 2.1.3.1 /opt/clhep \
     && provisioning/install-sw.sh geant4 9.6.4 /opt/geant4
 
@@ -115,7 +97,14 @@ ENV \
     \
     ROOTSYS="/opt/root"
 
-RUN provisioning/install-sw.sh root 6.06.08 /opt/root
+RUN true \
+    && yum install -y \
+        libSM-devel \
+        libX11-devel libXext-devel libXft-devel libXpm-devel \
+        libjpeg-devel libpng-devel \
+        mesa-libGLU-devel \
+    && yum clean all \
+    provisioning/install-sw.sh root 6.06.08 /opt/root
 
 
 # Install MXNet:
@@ -126,7 +115,28 @@ ENV \
     LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
     MXNET_HOME="/opt/mxnet"
 
-RUN provisioning/install-sw.sh mxnet dmlc/873b928 /opt/mxnet
+RUN true \
+    && yum install -y \
+        openblas-devel \
+        opencv-devel \
+    && yum clean all \
+    && provisioning/install-sw.sh mxnet dmlc/873b928 /opt/mxnet
+
+
+# Install Anaconda2:
+
+COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/anaconda2/bin:$PATH" \
+    MANPATH="/opt/anaconda2/share/man:$MANPATH"
+
+RUN true \
+    && yum install -y \
+        libXdmcp \
+    && yum clean all \
+    && provisioning/install-sw.sh anaconda2 4.2.0 /opt/anaconda2 \
+    && conda upgrade -y pip notebook
 
 
 # Install Julia:
@@ -138,39 +148,31 @@ ENV \
     LD_LIBRARY_PATH="/opt/julia/lib:$LD_LIBRARY_PATH" \
     MANPATH="/opt/julia/share/man:$MANPATH" \
     JULIA_HOME="/opt/julia/bin" \
-    JULIA_CXX_RTTI="1"
+    JULIA_CXX_RTTI="1" \
+    JULIA_PKGDIR="/user/.julia/$SWMOD_HOSTSPEC"
 
 RUN true \
+    && yum install -y \
+        libedit-devel ncurses-devel openssl openssl-devel \
+        hdf5-devel ImageMagick zeromq-devel \
+    && yum clean all \
     && provisioning/install-sw.sh julia 0.5.0 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
-    && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
+    && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia \
+    && mkdir -p "$JULIA_PKGDIR"
 
 
-# Additional packages: #!!! Move up
+# Install GitHub Atom:
 
-RUN sed -i '/tsflags=nodocs/d' /etc/yum.conf
-RUN yum install -y nmap-ncat socat hdf5-devel ImageMagick && yum clean all
+RUN yum install -y \
+        lsb-core-noarch libXScrnSaver libXss.so.1 gtk2 libXtst libxkbfile GConf2 alsa-lib \
+    && yum clean all \
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.12.9/atom.x86_64.rpm
 
-RUN yum install -y lsb-core-noarch libXScrnSaver libXss.so.1 libXtst libxkbfile GConf2 && yum clean all
-RUN rpm -ihv https://github.com/atom/atom/releases/download/v1.12.9/atom.x86_64.rpm
-
-RUN yum install -y xterm && yum clean all
 
 # Custom hostspec for swmod:
 
 ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
-
-# ToDo: Install matplotlib deps:
-# yum install -y tk gtk3-devel agg texlive-base texlive-dvipng ...
-# ... numpy freetype-devel python-freetype python-dateutil ...
-RUN yum install -y python-matplotlib pycairo && yum clean all
-# Alternative - use Anaconda?
-
-
-# Additional for Julia: #!!! Move up
-
-ENV JULIA_PKGDIR="/user/.julia/$SWMOD_HOSTSPEC"
-RUN mkdir -p "$JULIA_PKGDIR"
 
 
 # Final steps
