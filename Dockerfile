@@ -164,7 +164,7 @@ ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 
 # ToDo: Install matplotlib deps:
 # yum install -y tcl tk gtk3-devel agg texlive-base texlive-dvipng ...
-RUN yum install -y tcl tk && yum clean all
+RUN yum install -y tcl tk gtk2-devel gtk3-devel && yum clean all
 # Alternative - use Anaconda?
 
 
