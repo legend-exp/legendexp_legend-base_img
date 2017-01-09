@@ -151,12 +151,21 @@ RUN true \
 # Additional packages: #!!! Move up
 
 RUN sed -i '/tsflags=nodocs/d' /etc/yum.conf
-RUN yum install -y nmap-ncat socat hdf5-devel && yum clean all
+RUN yum install -y nmap-ncat socat hdf5-devel ImageMagick && yum clean all
 
+RUN yum install -y lsb-core-noarch libXScrnSaver libXss.so.1 libXtst libxkbfile GConf2 && yum clean all
+RUN rpm -ihv https://github.com/atom/atom/releases/download/v1.12.9/atom.x86_64.rpm
+
+RUN yum install -y xterm && yum clean all
 
 # Custom hostspec for swmod:
 
 ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
+
+# ToDo: Install matplotlib deps:
+# yum install -y tcl tk gtk3-devel agg texlive-base texlive-dvipng ...
+RUN yum install -y tcl tk && yum clean all
+# Alternative - use Anaconda?
 
 
 # Additional for Julia: #!!! Move up
