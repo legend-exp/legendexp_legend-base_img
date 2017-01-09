@@ -72,8 +72,6 @@ RUN yum install -y epel-release centos-release-scl && yum install -y \
 
 RUN pip install --upgrade pip && pip install \
     jupyter jupyterlab metakernel \
-    numpy \
-    matplotlib \
     sympy
 
 
@@ -163,8 +161,9 @@ RUN yum install -y xterm && yum clean all
 ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
 
 # ToDo: Install matplotlib deps:
-# yum install -y tcl tk gtk3-devel agg texlive-base texlive-dvipng ...
-RUN yum install -y tcl tk gtk2-devel gtk3-devel && yum clean all
+# yum install -y tk gtk3-devel agg texlive-base texlive-dvipng ...
+# ... numpy freetype-devel python-freetype python-dateutil ...
+RUN yum install -y python-matplotlib pycairo && yum clean all
 # Alternative - use Anaconda?
 
 
