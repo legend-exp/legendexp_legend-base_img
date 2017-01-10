@@ -22,25 +22,20 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda/nvvm/lib64:$LD_LIBRAR
 COPY provisioning/wandisco-centos7-git.repo /etc/yum.repos.d/wandisco-git.repo
 
 RUN true \
+    && mkdir -p /etc/OpenCL/vendors \
+    \
     && sed -i '/tsflags=nodocs/d' /etc/yum.conf \
-    && yum install -y epel-release centos-release-scl \
     && yum install -y \
-        \
+        epel-release \
+        centos-release-scl \
+    && yum groupinstall -y "Development Tools"
+    && yum install -y \
         deltarpm \
         \
-        less man-db \
-        openssh-clients rsync \
-        wget curl nettle \
-        tar bzip2 pbzip2 zip unzip p7zip \
-        nano vim \
-        nmap-ncat socat \
-        xterm \
-        \
-        gcc-c++ gcc-gfortran make \
-        autoconf automake libtool m4 \
+        wget \
         cmake \
-        patch git \
-    && mkdir -p /etc/OpenCL/vendors \
+        p7zip pbzip2 \
+        nano vim \
     \
     && rpm -ihv https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm \
     && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .) \
@@ -73,11 +68,10 @@ ENV \
 
 RUN true \
     && yum install -y \
-        expat-devel \
-        xerces-c-devel \
-        libXmu-devel \
-        libXi-devel \
+        expat-devel xerces-c-devel \
+        libXmu-devel libXi-devel \
         libzip-devel \
+        mesa-libGLU-devel \
     && yum clean all \
     && provisioning/install-sw.sh clhep 2.1.3.1 /opt/clhep \
     && provisioning/install-sw.sh geant4 9.6.4 /opt/geant4
@@ -104,7 +98,7 @@ RUN true \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
     && yum clean all \
-    provisioning/install-sw.sh root 6.06.08 /opt/root
+    && provisioning/install-sw.sh root 6.06.08 /opt/root
 
 
 # Install MXNet:
@@ -172,7 +166,7 @@ RUN yum install -y \
 
 # Custom hostspec for swmod:
 
-ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-0ead8bff
+ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-aec2b2b4
 
 
 # Final steps
