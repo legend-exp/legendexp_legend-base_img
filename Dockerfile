@@ -28,7 +28,7 @@ RUN true \
     && yum install -y \
         epel-release \
         centos-release-scl \
-    && yum groupinstall -y "Development Tools"
+    && yum groupinstall -y "Development Tools" \
     && yum install -y \
         deltarpm \
         \
