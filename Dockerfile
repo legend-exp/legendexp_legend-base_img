@@ -22,7 +22,7 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda/nvvm/lib64:$LD_LIBRAR
 COPY provisioning/wandisco-centos7-git.repo /etc/yum.repos.d/wandisco-git.repo
 
 RUN true \
-    && mkdir -p /etc/OpenCL/vendors \
+    && mkdir -p /usr/local/nvidia /etc/OpenCL/vendors \
     \
     && sed -i '/tsflags=nodocs/d' /etc/yum.conf \
     && yum install -y \
