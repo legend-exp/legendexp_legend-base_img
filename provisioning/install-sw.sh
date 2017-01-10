@@ -48,15 +48,6 @@ get_linux_dist_info() {
 }
 
 
-NTHREADS=""
-get_nthreads() {
-    if [ -z "${NTHREADS}" ]; then
-        NTHREADS=`grep -c '^processor' /proc/cpuinfo 2>/dev/null`
-        echo "Number of threads: ${NTHREADS}"
-    fi
-}
-
-
 download() {
     if (hash curl 2>/dev/null) ; then
         curl -L "$1"
@@ -106,7 +97,6 @@ shift 3
 
 
 get_linux_dist_info
-get_nthreads
 
 . "${SCRIPT_DIR}/install-sw-scripts/${PACKAGE_NAME}-setup.sh"
 
@@ -116,6 +106,7 @@ if pkg_installed_check; then
     echo "INFO: ${PACKAGE_NAME}-${PACKAGE_VERSION} already installed." >&2
 else
     echo "INFO: Installing ${PACKAGE_NAME}-${PACKAGE_VERSION} to ${INSTALL_PREFIX}" >&2
+    echo "Number of threads available: $(nproc)"
     in_buildarea pkg_install "$@"
     echo "INFO: Successfully installed ${PACKAGE_NAME}-${PACKAGE_VERSION} to ${INSTALL_PREFIX}" >&2
 fi
