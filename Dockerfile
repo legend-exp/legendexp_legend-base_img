@@ -105,7 +105,7 @@ RUN true \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
     && yum clean all \
-    && provisioning/install-sw.sh root 6.06.08 /opt/root
+    && provisioning/install-sw.sh root 6.08.02 /opt/root
 
 
 # Install MXNet:
