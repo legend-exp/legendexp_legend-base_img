@@ -137,7 +137,8 @@ RUN true \
         libXdmcp \
     && yum clean all \
     && provisioning/install-sw.sh anaconda2 4.2.0 /opt/anaconda2 \
-    && conda upgrade -y pip notebook
+    && conda upgrade -y pip notebook \
+    && pip install --upgrade jupyterlab
 
 
 # Install Julia:
