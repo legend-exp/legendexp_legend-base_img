@@ -8,22 +8,11 @@ USER root
 WORKDIR /root
 
 
-# Add CUDA libraries to LD_LIBRARY_PATH:
-
-ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda/nvvm/lib64:$LD_LIBRARY_PATH"
-
-# Note: NVIDIA driver libs must be mounted in from host to "/usr/local/nvidia"
-# (e.g. via nvidia-docker or manually). OpenCL icd directory
-# "/etc/OpenCL/vendors" should be mounted in from host as well.
-
-
 # Install yum/RPM packages:
 
 COPY provisioning/wandisco-centos7-git.repo /etc/yum.repos.d/wandisco-git.repo
 
 RUN true \
-    && mkdir -p /usr/local/nvidia /etc/OpenCL/vendors \
-    \
     && sed -i '/tsflags=nodocs/d' /etc/yum.conf \
     && yum install -y \
         epel-release \
@@ -48,6 +37,24 @@ RUN true \
 # Copy provisioning script(s):
 
 COPY provisioning/install-sw.sh /root/provisioning/
+
+
+# Add CUDA libraries to LD_LIBRARY_PATH:
+
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda/nvvm/lib64:$LD_LIBRARY_PATH"
+
+# Install NVIDIA libcuda and create driver mount directories:
+
+COPY provisioning/install-sw-scripts/nvidia-* provisioning/install-sw-scripts/
+
+RUN true \
+    && mkdir -p /usr/local/nvidia /etc/OpenCL/vendors \
+    && provisioning/install-sw.sh nvidia-libcuda 375.26 /usr/lib64
+
+# Note: Installed libcuda.so.1 only acts as a kind of stub. To run GPU code,
+# NVIDIA driver libs must be mounted in from host to "/usr/local/nvidia"
+# (e.g. via nvidia-docker or manually). OpenCL icd directory
+# "/etc/OpenCL/vendors" should be mounted in from host as well.
 
 
 # Install CLHep and Geant4:
