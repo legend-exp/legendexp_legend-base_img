@@ -151,7 +151,7 @@ ENV \
     MANPATH="/opt/julia/share/man:$MANPATH" \
     JULIA_HOME="/opt/julia/bin" \
     JULIA_CXX_RTTI="1" \
-    JULIA_PKGDIR="/user/.julia/$SWMOD_HOSTSPEC"
+    JULIA_PKGDIR="/user/.julia"
 
 RUN true \
     && yum install -y \
