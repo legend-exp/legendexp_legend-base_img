@@ -179,7 +179,10 @@ RUN yum install -y \
 
 # Custom hostspec for swmod:
 
-ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-aec2b2b4
+ENV \
+    SWMOD_HOSTSPEC=linux-centos-7-x86_64-aec2b2b4 \
+    SWMOD_INST_BASE="/user/.local/sw" \
+    SWMOD_MODPATH="/user/.local/sw"
 
 
 # Final steps
