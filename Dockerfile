@@ -130,15 +130,20 @@ COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts
 
 ENV \
     PATH="/opt/anaconda2/bin:$PATH" \
-    MANPATH="/opt/anaconda2/share/man:$MANPATH"
+    MANPATH="/opt/anaconda2/share/man:$MANPATH" \
+    JUPYTER_DATA_DIR="/user/.local/share/jupyter"
+
 
 RUN true \
     && yum install -y \
         libXdmcp \
     && yum clean all \
     && provisioning/install-sw.sh anaconda2 4.2.0 /opt/anaconda2 \
+    && conda install metakernel \
     && conda upgrade -y pip notebook \
     && pip install --upgrade jupyterlab
+
+EXPOSE 8888
 
 
 # Install Julia:
@@ -178,7 +183,5 @@ ENV SWMOD_HOSTSPEC=linux-centos-7-x86_64-aec2b2b4
 
 
 # Final steps
-
-EXPOSE 8888
 
 CMD /bin/bash
