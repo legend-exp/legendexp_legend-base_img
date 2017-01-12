@@ -138,7 +138,6 @@ RUN true \
         libXdmcp \
     && yum clean all \
     && provisioning/install-sw.sh anaconda2 4.2.0 /opt/anaconda2 \
-    && conda install -y metakernel \
     && conda upgrade -y pip notebook pexpect \
     && pip install --upgrade jupyterlab metakernel
 
