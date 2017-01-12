@@ -133,7 +133,6 @@ ENV \
     MANPATH="/opt/anaconda2/share/man:$MANPATH" \
     JUPYTER_DATA_DIR="/user/.local/share/jupyter"
 
-
 RUN true \
     && yum install -y \
         libXdmcp \
