@@ -165,8 +165,7 @@ RUN true \
     && yum clean all \
     && provisioning/install-sw.sh julia 0.5.0 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
-    && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia \
-    && mkdir -p "$JULIA_PKGDIR"
+    && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
 
 
 # Install GitHub Atom:
