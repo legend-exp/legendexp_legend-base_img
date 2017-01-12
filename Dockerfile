@@ -179,9 +179,18 @@ RUN yum install -y \
 # Custom hostspec for swmod:
 
 ENV \
-    SWMOD_HOSTSPEC=linux-centos-7-x86_64-aec2b2b4 \
+    SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4" \
     SWMOD_INST_BASE="/user/.local/sw" \
-    SWMOD_MODPATH="/user/.local/sw"
+    SWMOD_MODPATH="/user/.local/sw" \
+    SWMOD_INST_PREFIX="/user/.local" \
+    \
+    PATH="/user/.local/bin:$PATH" \
+    LD_LIBRARY_PATH="/user/.local/lib:$LD_LIBRARY_PATH" \
+    MANPATH="/user/.local/share/man:$MANPATH" \
+    PKG_CONFIG_PATH="/user/.local/lib/pkgconfig:$PKG_CONFIG_PATH" \
+    CPATH="/user/.local/include:$CPATH" \
+    PYTHONUSERBASE="/user/.local" \
+    PYTHONPATH="/user/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 
 # Final steps
