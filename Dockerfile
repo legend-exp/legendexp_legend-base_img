@@ -130,8 +130,7 @@ COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts
 
 ENV \
     PATH="/opt/anaconda2/bin:$PATH" \
-    MANPATH="/opt/anaconda2/share/man:$MANPATH" \
-    JUPYTER_DATA_DIR="/user/.local/share/jupyter"
+    MANPATH="/opt/anaconda2/share/man:$MANPATH"
 
 RUN true \
     && yum install -y \
@@ -153,8 +152,7 @@ ENV \
     LD_LIBRARY_PATH="/opt/julia/lib:$LD_LIBRARY_PATH" \
     MANPATH="/opt/julia/share/man:$MANPATH" \
     JULIA_HOME="/opt/julia/bin" \
-    JULIA_CXX_RTTI="1" \
-    JULIA_PKGDIR="/user/.julia"
+    JULIA_CXX_RTTI="1"
 
 RUN true \
     && yum install -y \
