@@ -172,6 +172,13 @@ RUN yum install -y \
     && rpm -ihv https://github.com/atom/atom/releases/download/v1.12.9/atom.x86_64.rpm
 
 
+# Install additional packages:
+
+RUN yum install -y \
+        fftw-devel.x86_64 \
+    && yum clean all
+
+
 # Custom hostspec for swmod:
 
 ENV \
