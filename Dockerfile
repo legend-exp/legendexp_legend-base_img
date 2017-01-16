@@ -25,12 +25,6 @@ RUN true \
         cmake \
         p7zip pbzip2 \
         nano vim \
-    \
-    && rpm -ihv https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm \
-    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .) \
-    \
-    && yum clean all \
-    \
     && dbus-uuidgen > /etc/machine-id
 
 
@@ -55,6 +49,13 @@ RUN true \
 # NVIDIA driver libs must be mounted in from host to "/usr/local/nvidia"
 # (e.g. via nvidia-docker or manually). OpenCL icd directory
 # "/etc/OpenCL/vendors" should be mounted in from host as well.
+
+
+# Install ArrayFire:
+
+RUN true \
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm" \
+    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
 
 
 # Install CLHep and Geant4:
@@ -172,14 +173,14 @@ RUN yum install -y \
     && rpm -ihv https://github.com/atom/atom/releases/download/v1.12.9/atom.x86_64.rpm
 
 
-# Install additional packages:
+# Install additional packages and yum clean up:
 
 RUN yum install -y \
         fftw-devel.x86_64 \
     && yum clean all
 
 
-# Custom hostspec for swmod:
+# Environment variables for swmod and "/user":
 
 ENV \
     SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4" \
