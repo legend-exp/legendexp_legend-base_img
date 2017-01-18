@@ -80,7 +80,6 @@ RUN true \
         libXmu-devel libXi-devel \
         libzip-devel \
         mesa-libGLU-devel \
-    && yum clean all \
     && provisioning/install-sw.sh clhep 2.1.3.1 /opt/clhep \
     && provisioning/install-sw.sh geant4 9.6.4 /opt/geant4
 
@@ -105,7 +104,6 @@ RUN true \
         libX11-devel libXext-devel libXft-devel libXpm-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && yum clean all \
     && provisioning/install-sw.sh root 6.06.08 /opt/root
 
 
@@ -121,7 +119,6 @@ RUN true \
     && yum install -y \
         openblas-devel \
         opencv-devel \
-    && yum clean all \
     && provisioning/install-sw.sh mxnet dmlc/873b928 /opt/mxnet
 
 
@@ -136,7 +133,6 @@ ENV \
 RUN true \
     && yum install -y \
         libXdmcp \
-    && yum clean all \
     && provisioning/install-sw.sh anaconda2 4.2.0 /opt/anaconda2 \
     && conda upgrade -y pip notebook pexpect \
     && pip install --upgrade jupyterlab metakernel
@@ -159,7 +155,6 @@ RUN true \
     && yum install -y \
         libedit-devel ncurses-devel openssl openssl-devel \
         hdf5-devel ImageMagick zeromq-devel \
-    && yum clean all \
     && provisioning/install-sw.sh julia 0.5.0 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
@@ -169,11 +164,11 @@ RUN true \
 
 RUN yum install -y \
         lsb-core-noarch libXScrnSaver libXss.so.1 gtk2 libXtst libxkbfile GConf2 alsa-lib \
-    && yum clean all \
+        levien-inconsolata-fonts dejavu-sans-fonts \
     && rpm -ihv https://github.com/atom/atom/releases/download/v1.12.9/atom.x86_64.rpm
 
 
-# Install additional packages and yum clean up:
+# Install additional packages and clean up:
 
 RUN yum install -y \
         fftw-devel.x86_64 \
