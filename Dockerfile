@@ -171,7 +171,7 @@ RUN yum install -y \
 # Install additional packages and clean up:
 
 RUN yum install -y \
-        fftw-devel.x86_64 \
+        readline-devel fftw-devel \
     && yum clean all
 
 
