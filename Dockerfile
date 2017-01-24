@@ -171,6 +171,7 @@ RUN yum install -y \
 # Install additional packages and clean up:
 
 RUN yum install -y \
+        numactl \
         readline-devel fftw-devel \
     && yum clean all
 
