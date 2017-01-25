@@ -153,7 +153,7 @@ ENV \
 RUN true \
     && yum install -y \
         libedit-devel ncurses-devel openssl openssl-devel \
-        hdf5-devel ImageMagick zeromq-devel \
+        hdf5-devel ImageMagick zeromq-devel gtk2 gtk3 \
     && provisioning/install-sw.sh julia 0.5.0 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
@@ -162,7 +162,7 @@ RUN true \
 # Install GitHub Atom:
 
 RUN yum install -y \
-        lsb-core-noarch libXScrnSaver libXss.so.1 gtk2 libXtst libxkbfile GConf2 alsa-lib \
+        lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
         levien-inconsolata-fonts dejavu-sans-fonts \
     && rpm -ihv https://github.com/atom/atom/releases/download/v1.13.0/atom.x86_64.rpm
 
