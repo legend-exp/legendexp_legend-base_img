@@ -16,7 +16,6 @@ RUN true \
     && sed -i '/tsflags=nodocs/d' /etc/yum.conf \
     && yum install -y \
         epel-release \
-        centos-release-scl \
     && yum groupinstall -y "Development Tools" \
     && yum install -y \
         deltarpm \
