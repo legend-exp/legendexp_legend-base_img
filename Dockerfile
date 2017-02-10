@@ -143,9 +143,8 @@ ENV \
 RUN true \
     && yum install -y \
         libXdmcp \
-    && provisioning/install-sw.sh anaconda2 4.2.0 /opt/anaconda2 \
-    && conda upgrade -y pip notebook pexpect \
-    && pip install --upgrade jupyterlab metakernel
+    && provisioning/install-sw.sh anaconda2 4.3.0 /opt/anaconda2 \
+    && pip install jupyterlab metakernel
 
 EXPOSE 8888
 
