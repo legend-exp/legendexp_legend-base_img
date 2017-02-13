@@ -57,6 +57,17 @@ RUN true \
     && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
 
 
+# Install CMake:
+
+COPY provisioning/install-sw-scripts/cmake-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/cmake/bin:$PATH" \
+    MANPATH="/opt/cmake/share/man:$MANPATH"
+
+RUN provisioning/install-sw.sh cmake 3.5.1 /opt/cmake
+
+
 # Install CLHep and Geant4:
 
 COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/geant4-* provisioning/install-sw-scripts/
@@ -64,14 +75,14 @@ COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/gea
 ENV \
     PATH="/opt/geant4/bin:/opt/clhep/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/geant4/lib64:/opt/clhep/lib:$LD_LIBRARY_PATH" \
-    G4LEDATA="/opt/geant4/share/Geant4-9.6.4/data/G4EMLOW6.32" \
-    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-9.6.4/data/PhotonEvaporation2.3" \
-    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-9.6.4/data/G4NDL4.2" \
-    G4NEUTRONXSDATA="/opt/geant4/share/Geant4-9.6.4/data/G4NEUTRONXS1.2" \
-    G4PIIDATA="/opt/geant4/share/Geant4-9.6.4/data/G4PII1.3" \
-    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-9.6.4/data/RadioactiveDecay3.6" \
-    G4REALSURFACEDATA="/opt/geant4/share/Geant4-9.6.4/data/RealSurface1.0" \
-    G4SAIDXSDATA="/opt/geant4/share/Geant4-9.6.4/data/G4SAIDDATA1.1"
+    G4LEDATA="/opt/geant4/share/Geant4-10.3.0/data/G4EMLOW6.32" \
+    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.3.0/data/PhotonEvaporation2.3" \
+    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.3.0/data/G4NDL4.2" \
+    G4NEUTRONXSDATA="/opt/geant4/share/Geant4-10.3.0/data/G4NEUTRONXS1.2" \
+    G4PIIDATA="/opt/geant4/share/Geant4-10.3.0/data/G4PII1.3" \
+    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.3.0/data/RadioactiveDecay3.6" \
+    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.3.0/data/RealSurface1.0" \
+    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.3.0/data/G4SAIDDATA1.1"
 
 RUN true \
     && yum install -y \
@@ -79,8 +90,8 @@ RUN true \
         libXmu-devel libXi-devel \
         libzip-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh clhep 2.1.3.1 /opt/clhep \
-    && provisioning/install-sw.sh geant4 9.6.4 /opt/geant4
+    && provisioning/install-sw.sh clhep 2.3.4.3 /opt/clhep \
+    && provisioning/install-sw.sh geant4 10.3.0 /opt/geant4
 
 
 # Install CERN ROOT:
