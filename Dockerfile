@@ -84,7 +84,7 @@ ENV \
     G4PIIDATA="/opt/geant4/share/Geant4-10.3.0/data/G4PII1.3 \
     G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.3.0/data/RadioactiveDecay5.1 \
     G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.3.0/data/RealSurface1.0 \
-    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.3.0/data/G4SAIDDATA1.1 \
+    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.3.0/data/G4SAIDDATA1.1
 
 RUN true \
     && yum install -y \
