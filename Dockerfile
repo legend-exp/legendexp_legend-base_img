@@ -146,6 +146,7 @@ RUN true \
     && yum install -y \
         libXdmcp \
     && provisioning/install-sw.sh anaconda2 4.3.0 /opt/anaconda2 \
+    && conda install -c damianavila82 rise \
     && pip install jupyterlab metakernel
 
 EXPOSE 8888
