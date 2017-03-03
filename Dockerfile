@@ -188,7 +188,8 @@ RUN yum install -y \
 RUN yum install -y \
         numactl \
         readline-devel fftw-devel \
-        graphviz-devel \       
+        graphviz-devel \
+        texlive-collection-latexrecommended \
         \
         http://linuxsoft.cern.ch/cern/centos/7/cern/x86_64/Packages/parallel-20150522-1.el7.cern.noarch.rpm \
     && yum clean all
