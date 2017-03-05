@@ -146,11 +146,13 @@ ENV \
 RUN true \
     && yum install -y \
         libXdmcp \
+        texlive-collection-latexrecommended texlive-adjustbox texlive-upquote texlive-ulem \
     && provisioning/install-sw.sh anaconda2 4.3.0 /opt/anaconda2 \
     && conda install -c conda-forge nbpresent pandoc \
     && conda install -c anaconda-nb-extensions nbbrowserpdf \
     && conda install -c damianavila82 rise \
-    && pip install jupyterlab metakernel
+    && pip install jupyterlab metakernel bash_kernel \
+    && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
 EXPOSE 8888
 
@@ -189,7 +191,6 @@ RUN yum install -y \
         numactl \
         readline-devel fftw-devel \
         graphviz-devel \
-        texlive-collection-latexrecommended \
         \
         http://linuxsoft.cern.ch/cern/centos/7/cern/x86_64/Packages/parallel-20150522-1.el7.cern.noarch.rpm \
     && yum clean all
