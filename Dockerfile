@@ -172,7 +172,7 @@ RUN true \
     && yum install -y \
         libedit-devel ncurses-devel openssl openssl-devel \
         hdf5-devel ImageMagick zeromq-devel gtk2 gtk3 \
-    && provisioning/install-sw.sh julia 0.5.0 /opt/julia \
+    && provisioning/install-sw.sh julia 0.5.1 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
 
