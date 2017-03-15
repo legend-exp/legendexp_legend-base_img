@@ -147,7 +147,7 @@ RUN true \
     && yum install -y \
         libXdmcp \
         texlive-collection-latexrecommended texlive-adjustbox texlive-upquote texlive-ulem \
-    && provisioning/install-sw.sh anaconda2 4.3.0 /opt/anaconda2 \
+    && provisioning/install-sw.sh anaconda2 4.3.1 /opt/anaconda2 \
     && conda install -c conda-forge nbpresent pandoc \
     && conda install -c anaconda-nb-extensions nbbrowserpdf \
     && conda install -c damianavila82 rise \
