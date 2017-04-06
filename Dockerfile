@@ -207,7 +207,6 @@ ENV \
     LD_LIBRARY_PATH="/user/.local/lib:$LD_LIBRARY_PATH" \
     MANPATH="/user/.local/share/man:$MANPATH" \
     PKG_CONFIG_PATH="/user/.local/lib/pkgconfig:$PKG_CONFIG_PATH" \
-    CPATH="/user/.local/include:$CPATH" \
     PYTHONUSERBASE="/user/.local" \
     PYTHONPATH="/user/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
