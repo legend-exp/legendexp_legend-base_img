@@ -200,8 +200,6 @@ RUN yum install -y \
 
 ENV \
     SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4" \
-    SWMOD_INST_BASE="/user/.local/sw" \
-    SWMOD_MODPATH="/user/.local/sw" \
     \
     PATH="/user/.local/bin:$PATH" \
     LD_LIBRARY_PATH="/user/.local/lib:$LD_LIBRARY_PATH" \
