@@ -196,17 +196,9 @@ RUN yum install -y \
     && yum clean all
 
 
-# Environment variables for swmod and "/user":
+# Set container-specific SWMOD_HOSTSPEC:
 
-ENV \
-    SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4" \
-    \
-    PATH="/user/.local/bin:$PATH" \
-    LD_LIBRARY_PATH="/user/.local/lib:$LD_LIBRARY_PATH" \
-    MANPATH="/user/.local/share/man:$MANPATH" \
-    PKG_CONFIG_PATH="/user/.local/lib/pkgconfig:$PKG_CONFIG_PATH" \
-    PYTHONUSERBASE="/user/.local" \
-    PYTHONPATH="/user/.local/lib/python2.7/site-packages:$PYTHONPATH"
+ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4"
 
 
 # Final steps
