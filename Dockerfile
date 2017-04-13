@@ -141,6 +141,7 @@ COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts
 
 ENV \
     PATH="/opt/anaconda2/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/anaconda2/export/lib:$LD_LIBRARY_PATH" \
     MANPATH="/opt/anaconda2/share/man:$MANPATH"
 
 RUN true \
@@ -148,6 +149,7 @@ RUN true \
         libXdmcp \
         texlive-collection-latexrecommended texlive-adjustbox texlive-upquote texlive-ulem \
     && provisioning/install-sw.sh anaconda2 4.3.1 /opt/anaconda2 \
+    && mkdir -p /opt/anaconda2/export/lib \
     && conda install -c conda-forge nbpresent pandoc \
     && conda install -c anaconda-nb-extensions nbbrowserpdf \
     && conda install -c damianavila82 rise \
@@ -155,6 +157,28 @@ RUN true \
     && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
 EXPOSE 8888
+
+
+# Export Anaconda-provided HDF5:
+
+RUN true \
+    && cd /opt/anaconda2/export/lib \
+    && for f in ../../lib/*hdf*.so*; do ln -s "$f" .; done
+
+
+# Install Java:
+
+RUN yum install -y \
+        java-1.8.0-openjdk-devel
+
+
+# Install HDFView:
+
+COPY provisioning/install-sw-scripts/hdfview-* provisioning/install-sw-scripts/
+
+ENV PATH="/opt/hdfview/bin:$PATH"
+
+RUN provisioning/install-sw.sh hdfview 2.13.0 /opt/hdfview
 
 
 # Install Julia:
@@ -175,24 +199,6 @@ RUN true \
     && provisioning/install-sw.sh julia 0.5.1 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
-
-
-# Install HDF5:
-
-ENV \
-    PATH="/opt/hdf5/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/anaconda2/export/lib:$LD_LIBRARY_PATH" \
-
-RUN true \
-    && mkdir -p /opt/anaconda2/export/lib \
-    && cd /opt/anaconda2/export/lib \
-    && for f in ../../lib/*hdf*.so*; do ln -s "$f" .; done
-
-
-# Install Java:
-
-RUN yum install -y \
-        java-1.8.0-openjdk-devel
 
 
 # Install GitHub Atom:
