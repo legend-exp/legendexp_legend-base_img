@@ -200,7 +200,7 @@ RUN yum install -y \
 RUN yum install -y \
         lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
         levien-inconsolata-fonts dejavu-sans-fonts \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.15.0/atom.x86_64.rpm
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.16.0/atom.x86_64.rpm
 
 
 # Install additional packages and clean up:
