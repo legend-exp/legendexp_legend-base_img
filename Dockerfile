@@ -171,10 +171,22 @@ ENV \
 RUN true \
     && yum install -y \
         libedit-devel ncurses-devel openssl openssl-devel \
-        hdf5-devel ImageMagick zeromq-devel gtk2 gtk3 \
+        ImageMagick zeromq-devel gtk2 gtk3 \
     && provisioning/install-sw.sh julia 0.5.1 /opt/julia \
     && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
+
+
+# Install HDF5:
+
+ENV \
+    PATH="/opt/hdf5/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/anaconda2/export/lib:$LD_LIBRARY_PATH" \
+
+RUN true \
+    && mkdir -p /opt/anaconda2/export/lib \
+    && cd /opt/anaconda2/export/lib \
+    && for f in ../../lib/*hdf*.so*; do ln -s "$f" .; done
 
 
 # Install GitHub Atom:
