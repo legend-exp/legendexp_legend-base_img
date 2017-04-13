@@ -189,6 +189,12 @@ RUN true \
     && for f in ../../lib/*hdf*.so*; do ln -s "$f" .; done
 
 
+# Install Java:
+
+RUN yum install -y \
+        java-1.8.0-openjdk-devel
+
+
 # Install GitHub Atom:
 
 RUN yum install -y \
