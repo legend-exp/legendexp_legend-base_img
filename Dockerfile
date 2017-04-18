@@ -142,7 +142,10 @@ COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts
 ENV \
     PATH="/opt/anaconda2/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/anaconda2/export/lib:$LD_LIBRARY_PATH" \
-    MANPATH="/opt/anaconda2/share/man:$MANPATH"
+    MANPATH="/opt/anaconda2/share/man:$MANPATH" \
+    JUPYTER=jupyter
+
+    # JUPYTER environment variable used by IJulia to detect Jupyter installation
 
 RUN true \
     && yum install -y \
