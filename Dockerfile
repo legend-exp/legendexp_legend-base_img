@@ -141,7 +141,6 @@ COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts
 
 ENV \
     PATH="/opt/anaconda2/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/anaconda2/export/lib:$LD_LIBRARY_PATH" \
     MANPATH="/opt/anaconda2/share/man:$MANPATH" \
     JUPYTER=jupyter
 
@@ -152,7 +151,6 @@ RUN true \
         libXdmcp \
         texlive-collection-latexrecommended texlive-adjustbox texlive-upquote texlive-ulem \
     && provisioning/install-sw.sh anaconda2 4.3.1 /opt/anaconda2 \
-    && mkdir -p /opt/anaconda2/export/lib \
     && conda install -c conda-forge nbpresent pandoc \
     && conda install -c anaconda-nb-extensions nbbrowserpdf \
     && conda install -c damianavila82 rise \
@@ -160,28 +158,6 @@ RUN true \
     && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
 EXPOSE 8888
-
-
-# Export Anaconda-provided HDF5:
-
-RUN true \
-    && cd /opt/anaconda2/export/lib \
-    && for f in ../../lib/*hdf*.so*; do ln -s "$f" .; done
-
-
-# Install Java:
-
-RUN yum install -y \
-        java-1.8.0-openjdk-devel
-
-
-# Install HDFView:
-
-COPY provisioning/install-sw-scripts/hdfview-* provisioning/install-sw-scripts/
-
-ENV PATH="/opt/hdfview/bin:$PATH"
-
-RUN provisioning/install-sw.sh hdfview 2.13.0 /opt/hdfview
 
 
 # Install Julia:
@@ -204,12 +180,38 @@ RUN true \
     && provisioning/install-sw.sh julia-rjulia jpata/cxx /opt/julia
 
 
+# Install Java:
+
+RUN yum install -y \
+        java-1.8.0-openjdk-devel
+
+
+# Install HDF5:
+
+COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/hdf5/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/hdf5/lib:$LD_LIBRARY_PATH"
+
+RUN provisioning/install-sw.sh hdf5 1.10.0-patch1 /opt/hdf5
+
+
+# Install HDFView:
+
+COPY provisioning/install-sw-scripts/hdfview-* provisioning/install-sw-scripts/
+
+ENV PATH="/opt/hdfview/bin:$PATH"
+
+RUN provisioning/install-sw.sh hdfview 2.13.0 /opt/hdfview
+
+
 # Install GitHub Atom:
 
 RUN yum install -y \
         lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
         levien-inconsolata-fonts dejavu-sans-fonts \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.16.0/atom.x86_64.rpm
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.17.2/atom.x86_64.rpm
 
 
 # Install additional packages and clean up:
