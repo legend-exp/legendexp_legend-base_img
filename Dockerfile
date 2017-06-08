@@ -51,13 +51,6 @@ RUN true \
 # "/etc/OpenCL/vendors" should be mounted in from host as well.
 
 
-# Install ArrayFire:
-
-RUN true \
-    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm" \
-    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
-
-
 # Install CMake:
 
 COPY provisioning/install-sw-scripts/cmake-* provisioning/install-sw-scripts/
@@ -67,6 +60,37 @@ ENV \
     MANPATH="/opt/cmake/share/man:$MANPATH"
 
 RUN provisioning/install-sw.sh cmake 3.5.1 /opt/cmake
+
+
+# Install Julia:
+
+COPY provisioning/install-sw-scripts/julia-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/julia/usr/bin:$PATH" \
+    MANPATH="/opt/julia/usr/share/man:$MANPATH"
+
+RUN true\
+    && yum install -y \
+        libedit-devel ncurses-devel openssl openssl-devel symlinks \
+    && MARCH=core-avx2 provisioning/install-sw.sh julia-srcbuild JuliaLang/v0.5.2 /opt/julia
+
+
+# Install depencencies of common Julia packages:
+
+ENV \
+    JULIA_CXX_RTTI="1"
+
+RUN true \
+    && yum install -y \
+        ImageMagick zeromq-devel gtk2 gtk3
+
+
+# Install ArrayFire:
+
+RUN true \
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm" \
+    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
 
 
 # Install CLHep and Geant4:
@@ -158,25 +182,6 @@ RUN true \
     && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
 EXPOSE 8888
-
-
-# Install Julia:
-
-COPY provisioning/install-sw-scripts/julia-* provisioning/install-sw-scripts/
-
-ENV \
-    PATH="/opt/julia/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/julia/lib:$LD_LIBRARY_PATH" \
-    MANPATH="/opt/julia/share/man:$MANPATH" \
-    JULIA_HOME="/opt/julia/bin" \
-    JULIA_CXX_RTTI="1"
-
-RUN true \
-    && yum install -y \
-        libedit-devel ncurses-devel openssl openssl-devel \
-        ImageMagick zeromq-devel gtk2 gtk3 \
-    && provisioning/install-sw.sh julia 0.5.2 /opt/julia \
-    && provisioning/install-sw.sh julia-cxx oschulz/julia0.5-root /opt/julia/share/julia/site
 
 
 # Install Java:
