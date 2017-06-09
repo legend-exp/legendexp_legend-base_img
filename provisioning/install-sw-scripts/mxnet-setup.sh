@@ -14,8 +14,13 @@ pkg_installed_check() {
 pkg_install() {
     GITHUB_USER=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 1`
     GIT_BRANCH=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 2`
-    git clone --recursive "https://github.com/${GITHUB_USER}/mxnet"
-    (cd mxnet && git checkout "${GIT_BRANCH}" && git submodule update)
+    git clone "https://github.com/${GITHUB_USER}/mxnet"
+    (
+        cd mxnet
+        git fetch
+        git checkout "${GIT_BRANCH}"
+        git submodule update --init --recursive --no-recommend-shallow
+    )
 
     cd mxnet
     cp make/config.mk config.mk
