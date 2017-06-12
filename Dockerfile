@@ -83,7 +83,7 @@ ENV \
 
 RUN true \
     && yum install -y \
-        ImageMagick zeromq-devel gtk2 gtk3
+        ImageMagick zeromq-devel gtk2 gtk3 gsl-devel
 
 
 # Install ArrayFire:
