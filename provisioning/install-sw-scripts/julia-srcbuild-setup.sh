@@ -17,15 +17,29 @@ pkg_install() {
 
     git clone "https://github.com/${GITHUB_USER}/julia"
     cd julia
+
+    # For Cxx.jl:
+    echo "BUILD_LLVM_CLANG=1" >> Make.user
+
+    # Build:
     git checkout "${GIT_BRANCH}"
     time make -j"$(nproc)" all debug
-    mkdir -p "${INSTALL_PREFIX}"
     symlinks -r -c .
+
+    # Install:
+    mkdir -p "${INSTALL_PREFIX}"
     rsync -a "usr" "base" "test" "LICENSE.md" "${INSTALL_PREFIX}/"
+    rm -f "${INSTALL_PREFIX}/usr/bin"/*clang* "${INSTALL_PREFIX}/usr/bin"/scan-*
+
     # For Julia v0.5:
     test -d "/usr/include/julia" || rsync -a "src" "${INSTALL_PREFIX}/"
+
     # For Cxx.jl:
+    rsync -a "Make.user" "${INSTALL_PREFIX}/"
     mkdir -p "${INSTALL_PREFIX}/deps" && rsync -a "deps/Versions.make" "${INSTALL_PREFIX}/deps/Versions.make"
+    SRCCACHE_LLVM_PATH=`find deps/srccache -maxdepth 1 -type d -name "llvm-*" | head -n1`
+    mkdir -p "${INSTALL_PREFIX}/${SRCCACHE_LLVM_PATH}/tools/clang"
+    rsync -a "${SRCCACHE_LLVM_PATH}/tools/clang/"lib "${INSTALL_PREFIX}/${SRCCACHE_LLVM_PATH}/tools/clang/"
 }
 
 
