@@ -113,10 +113,9 @@ ENV \
 
 RUN true \
     && yum install -y \
-        expat-devel xerces-c-devel \
+        expat-devel xerces-c-devel zlib-devel \
         libXmu-devel libXi-devel \
-        libzip-devel \
-        mesa-libGLU-devel \
+        mesa-libGLU-devel motif-devel mesa-libGLw qt-devel \
     && provisioning/install-sw.sh clhep 2.3.4.3 /opt/clhep \
     && provisioning/install-sw.sh geant4 10.3.0 /opt/geant4
 
