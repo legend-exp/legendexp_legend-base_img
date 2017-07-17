@@ -86,13 +86,6 @@ RUN true \
         ImageMagick zeromq-devel gtk2 gtk3 gsl-devel fftw-devel
 
 
-# Install ArrayFire:
-
-RUN true \
-    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.4.2/ArrayFire-no-gl-v3.4.2_Linux_x86_64.rpm" \
-    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
-
-
 # Install CLHep and Geant4:
 
 COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/geant4-* provisioning/install-sw-scripts/
@@ -181,6 +174,13 @@ RUN true \
     && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
 EXPOSE 8888
+
+
+# Install ArrayFire:
+
+RUN true \
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.5.0/ArrayFire-no-gl-v3.5.0_Linux_x86_64.rpm" \
+    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
 
 
 # Install Java:
