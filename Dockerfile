@@ -213,8 +213,8 @@ RUN provisioning/install-sw.sh hdfview 2.13.0 /opt/hdfview
 
 RUN yum install -y \
         lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
-        levien-inconsolata-fonts dejavu-sans-fonts \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.17.2/atom.x86_64.rpm
+        levien-inconsolata-fonts dejavu-sans-fonts libsecret \
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.18.0/atom.x86_64.rpm
 
 
 # Install additional packages and clean up:
