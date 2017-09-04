@@ -200,15 +200,6 @@ ENV \
 RUN provisioning/install-sw.sh hdf5-srcbuild 1.10.0-patch1 /opt/hdf5
 
 
-# Install HDFView:
-
-COPY provisioning/install-sw-scripts/hdfview-* provisioning/install-sw-scripts/
-
-ENV PATH="/opt/hdfview/bin:$PATH"
-
-RUN provisioning/install-sw.sh hdfview 2.13.0 /opt/hdfview
-
-
 # Install GitHub Atom:
 
 RUN yum install -y \
