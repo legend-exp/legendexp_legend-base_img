@@ -205,7 +205,7 @@ RUN provisioning/install-sw.sh hdf5-srcbuild 1.10.0-patch1 /opt/hdf5
 RUN yum install -y \
         lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
         levien-inconsolata-fonts dejavu-sans-fonts libsecret \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.18.0/atom.x86_64.rpm
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.21.0/atom.x86_64.rpm
 
 
 
