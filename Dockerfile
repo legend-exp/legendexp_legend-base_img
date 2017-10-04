@@ -208,6 +208,19 @@ RUN yum install -y \
     && rpm -ihv https://github.com/atom/atom/releases/download/v1.18.0/atom.x86_64.rpm
 
 
+
+# Install development tools:
+RUN yum install -y \
+        valgrind
+
+
+# Install device control development dependencies:
+RUN yum install -y \
+        net-snmp-devel net-snmp-utils \
+        libmodbus-devel \
+        libusbx-devel
+
+
 # Install additional packages and clean up:
 
 RUN yum install -y \
