@@ -148,7 +148,7 @@ RUN true \
     && yum install -y \
         openblas-devel \
         opencv-devel \
-    && provisioning/install-sw.sh mxnet dmlc/0.11.0.rc3 /opt/mxnet
+    && provisioning/install-sw.sh mxnet dmlc/0.11.0 /opt/mxnet
 
 
 # Install Anaconda2:
