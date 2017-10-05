@@ -227,6 +227,7 @@ RUN yum install -y \
         numactl \
         readline-devel \
         graphviz-devel \
+        poppler-utils \
         \
         xorg-x11-server-utils mesa-dri-drivers glx-utils \
         xdg-utils \
