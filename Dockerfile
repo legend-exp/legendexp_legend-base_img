@@ -180,7 +180,7 @@ EXPOSE 8888
 # Install ArrayFire:
 
 RUN true \
-    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.5.0/ArrayFire-no-gl-v3.5.0_Linux_x86_64.rpm" \
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.5.1/ArrayFire-no-gl-v3.5.1_Linux_x86_64.rpm" \
     && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
 
 
