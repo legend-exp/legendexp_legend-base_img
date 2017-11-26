@@ -22,7 +22,7 @@ RUN true \
         \
         wget \
         cmake \
-        p7zip pbzip2 \
+        p7zip \
         nano vim \
         git git-gui gitk \
     && dbus-uuidgen > /etc/machine-id
@@ -228,6 +228,7 @@ RUN yum install -y \
         readline-devel \
         graphviz-devel \
         poppler-utils \
+        pbzip2 zstd libzstd-devel \
         \
         xorg-x11-server-utils mesa-dri-drivers glx-utils \
         xdg-utils \
