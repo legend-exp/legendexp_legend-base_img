@@ -14,7 +14,7 @@ pkg_installed_check() {
 pkg_install() {
     GITHUB_USER=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 1`
     GIT_BRANCH=`echo "${PACKAGE_VERSION}" | cut -d '/' -f 2`
-    git clone "https://github.com/${GITHUB_USER}/mxnet"
+    git clone "https://github.com/${GITHUB_USER}/incubator-mxnet" mxnet
     (
         cd mxnet
         git fetch
