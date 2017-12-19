@@ -78,7 +78,7 @@ COPY provisioning/install-sw-scripts/nvidia-* provisioning/install-sw-scripts/
 
 RUN true \
     && mkdir -p /usr/local/nvidia /etc/OpenCL/vendors \
-    && provisioning/install-sw.sh nvidia-libcuda 387.26 /usr/lib64
+    && provisioning/install-sw.sh nvidia-libcuda 387.34 /usr/lib64
 
 # Note: Installed libcuda.so.1 only acts as a kind of stub. To run GPU code,
 # NVIDIA driver libs must be mounted in from host to "/usr/local/nvidia"
