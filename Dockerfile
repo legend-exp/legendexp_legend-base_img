@@ -149,7 +149,7 @@ RUN true \
     && yum install -y \
         openblas-devel \
         opencv-devel \
-    && provisioning/install-sw.sh mxnet apache/1.0.0.rc0 /opt/mxnet
+    && provisioning/install-sw.sh mxnet apache/1.0.0 /opt/mxnet
 
 
 # Install Anaconda2:
