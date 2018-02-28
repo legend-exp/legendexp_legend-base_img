@@ -55,7 +55,7 @@ ENV \
 RUN true\
     && yum install -y \
         libedit-devel ncurses-devel openssl openssl-devel symlinks \
-    && MARCH=core-avx2 provisioning/install-sw.sh julia-srcbuild JuliaLang/v0.6.2 /opt/julia
+    && MARCH=core-avx2 provisioning/install-sw.sh julia-srcbuild JuliaLang/7b2b68d9b9 /opt/julia
 
 
 # Install depencencies of common Julia packages:
