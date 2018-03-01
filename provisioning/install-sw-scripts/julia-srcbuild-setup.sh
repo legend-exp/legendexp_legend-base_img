@@ -18,11 +18,14 @@ pkg_install() {
     git clone "https://github.com/${GITHUB_USER}/julia"
     cd julia
 
+
+    # Checkout:
+    git checkout "${GIT_BRANCH}"
+
     # For Cxx.jl:
     echo "BUILD_LLVM_CLANG=1" >> Make.user
 
     # Build:
-    git checkout "${GIT_BRANCH}"
     time make -j"$(nproc)" all debug
     symlinks -r -c .
 
@@ -30,6 +33,9 @@ pkg_install() {
     mkdir -p "${INSTALL_PREFIX}"
     rsync -a "usr" "base" "test" "LICENSE.md" "${INSTALL_PREFIX}/"
     rm -f "${INSTALL_PREFIX}/usr/bin"/*clang* "${INSTALL_PREFIX}/usr/bin"/scan-*
+
+    # For Julia v0.7
+    test -d "stdlib" && rsync -a "stdlib" "${INSTALL_PREFIX}/"
 
     # For Julia v0.5:
     test -d "/usr/include/julia" || rsync -a "src" "${INSTALL_PREFIX}/"
