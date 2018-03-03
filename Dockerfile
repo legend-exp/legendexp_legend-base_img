@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn5-devel-centos7
+FROM nvidia/cuda:9.1-cudnn7-devel-centos7
 # FROM centos:7
 
 
