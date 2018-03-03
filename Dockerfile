@@ -134,7 +134,7 @@ RUN true \
         libX11-devel libXext-devel libXft-devel libXpm-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.12.04 /opt/root
+    && provisioning/install-sw.sh root 6.12.06 /opt/root
 
 
 # Install MXNet:
