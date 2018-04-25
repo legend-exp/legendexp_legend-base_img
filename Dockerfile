@@ -72,6 +72,7 @@ RUN true \
     && yum install -y \
         libSM-devel \
         libX11-devel libXext-devel libXft-devel libXpm-devel \
+        libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
     && provisioning/install-sw.sh root 6.12.06 /opt/root
