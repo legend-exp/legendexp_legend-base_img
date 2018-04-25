@@ -113,6 +113,13 @@ RUN yum install -y \
         libusbx-devel
 
 
+# Install Nvidia visual profiler:
+
+RUN true \
+    && yum install -y \
+        cuda-nvvp-9-1
+
+
 # Install additional packages and clean up:
 
 RUN yum install -y \
