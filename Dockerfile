@@ -99,6 +99,14 @@ RUN true \
     && pip install bash_kernel && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
 
+# Install Julia packages:
+
+COPY provisioning/install-sw-scripts/julia-* provisioning/install-sw-scripts/
+COPY provisioning/data/julia/* provisioning/data/julia/
+
+RUN provisioning/install-sw.sh julia-packages 551b2f5 /opt/julia
+
+
 # Install Atom:
 
 RUN yum install -y \
