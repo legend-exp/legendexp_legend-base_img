@@ -172,6 +172,7 @@ NaNMath
 NearestNeighbors
 Netpbm
 Nettle
+NetworkLayout
 NLopt
 NLSolversBase
 NullableArrays
@@ -192,6 +193,7 @@ ParserCombinator
 PDMats
 PenaltyFunctions
 PkgDev
+PlotRecipes
 PlotThemes
 PlotUtils
 Polynomials
