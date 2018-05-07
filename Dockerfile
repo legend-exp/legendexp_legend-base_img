@@ -104,7 +104,7 @@ RUN true \
 COPY provisioning/install-sw-scripts/julia-* provisioning/install-sw-scripts/
 COPY provisioning/data/julia/* provisioning/data/julia/
 
-RUN provisioning/install-sw.sh julia-packages 551b2f5 /opt/julia
+RUN provisioning/install-sw.sh julia-packages 7c02c50 /opt/julia
 
 
 # Install Atom:
