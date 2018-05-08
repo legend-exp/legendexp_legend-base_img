@@ -24,6 +24,9 @@ pkg_install() {
     (cd "${pkgdir}/METADATA" && git reset --hard "${PACKAGE_VERSION}")
     test -f "${pkgdir}/REQUIRE"
 
+    # Installed patched Cxx.jl with support for env variable JULIA_CXX_CPU:
+    julia -e 'Pkg.clone("https://github.com/oschulz/Cxx.jl.git"); Pkg.checkout("Cxx", "julia_cxx_cpu"); Pkg.build("Cxx")'
+
     #!cat "${SCRIPT_DIR}/data/julia/REQUIRE" >> "${pkgdir}/REQUIRE"
     cat "${SCRIPT_DIR}/data/julia/REQUIRE" > "${pkgdir}/REQUIRE" #!
 
