@@ -1,6 +1,9 @@
+AbstractAlgebra
 AbstractFFTs
 AbstractNumbers
 Adapt
+AdjacentFloats
+ArbFloats
 ArgParse
 ArrayFire
 ASTInterpreter2
@@ -41,6 +44,7 @@ Contour
 CoordinateTransformations
 CoupledFields
 Crayons
+CRlibm
 CSV
 Cuba
 Cubature
@@ -70,6 +74,8 @@ DoubleDouble
 DSP
 DualNumbers
 EllipsisNotation
+ErrorfreeArithmetic
+FastRounding
 Feather
 FFTViews
 FFTW
@@ -99,6 +105,7 @@ GZip
 HCubature
 HDF5
 Hiccup
+HigherPrecision
 HttpCommon
 HttpParser
 HttpServer
@@ -118,6 +125,7 @@ IndirectArrays
 InplaceOps
 Interact
 Interpolations
+IntervalArithmetic
 IntervalSets
 IterableTables
 IteratorInterfaceExtensions
@@ -153,6 +161,7 @@ Match
 Matcha
 MathProgBase
 MbedTLS
+Measurements
 Measures
 Media
 Memento
@@ -170,6 +179,7 @@ NamedArrays
 NamedTuples
 NaNMath
 NearestNeighbors
+Nemo
 Netpbm
 Nettle
 NetworkLayout
@@ -216,9 +226,11 @@ RangeArrays
 Ratios
 Reactive
 ReactiveBasics
+ReadableNumbers
 Reexport
 Requests
 Requires
+ReverseDiff
 ReverseDiffSparse
 Revise
 Rmath
