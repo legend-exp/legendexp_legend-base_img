@@ -41,6 +41,7 @@ pkg_install() {
     julia -e 'Pkg.resolve()'
 
     # Precompile  packages in REQUIRE
+    julia -e 'isdir(Pkg.dir("IntervalArithmetic")) && import IntervalArithmetic'
     xvfb-run --server-args="-screen 0 1024x768x24" julia -e 'foreach(pkg -> eval(:(info("import " * $pkg); import $(Symbol(pkg)))), sort!(collect(keys(Pkg.Reqs.parse(Pkg.dir("REQUIRE"))))))'
 
     # Modify site-wide juliarc.jl
