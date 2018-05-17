@@ -40,9 +40,12 @@ pkg_install() {
     # Install packages in REQUIRE
     julia -e 'Pkg.resolve()'
 
+    JULIA_PRECOMP_DIR=`julia -e 'println(joinpath(dirname(Pkg.dir()), "lib", basename(Pkg.dir())))'`
+
     # Precompile  packages in REQUIRE
     julia -e 'isdir(Pkg.dir("IntervalArithmetic")) && import IntervalArithmetic'
     xvfb-run --server-args="-screen 0 1024x768x24" julia -e 'foreach(pkg -> eval(:(info("import " * $pkg); import $(Symbol(pkg)))), sort!(collect(keys(Pkg.Reqs.parse(Pkg.dir("REQUIRE"))))))'
+    chmod -R g+rX,o+rX "${JULIA_PRECOMP_DIR}/"
 
     # Modify site-wide juliarc.jl
     juliarc=`julia -e 'println(joinpath(dirname(JULIA_HOME), "etc", "julia", "juliarc.jl"))'`
