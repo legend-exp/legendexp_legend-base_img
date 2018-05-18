@@ -106,7 +106,7 @@ COPY provisioning/data/julia/* provisioning/data/julia/
 
 RUN true \
     && yum install -y glibc-2.17 \
-    && provisioning/install-sw.sh julia-packages 7c02c50 /opt/julia
+    && provisioning/install-sw.sh julia-packages 5069b4b /opt/julia
 
 
 # Install Atom:

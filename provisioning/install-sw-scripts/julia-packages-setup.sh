@@ -56,7 +56,7 @@ cat >> "${juliarc}" <<"EOF"
 # Custom addition: If no user package directory exists, use preinstalled
 # packages and precompilation cache.
 if !ispath(Pkg.dir())
-    if parse(Int, get(ENV, "JULIA_FORCE_ORIG_PKGDIR", "1")) <= 0
+    if parse(Int, get(ENV, "JULIA_FORCE_USER_PKGDIR", "0")) <= 0
         let
             old_cachedir = joinpath(dirname(Pkg.dir()), "lib", basename(Pkg.dir()))
             ENV["JULIA_PKGDIR"] = joinpath(dirname(JULIA_HOME), "share", "julia", "packages")
