@@ -5,7 +5,7 @@
 
 pkg_installed_check() {
     export PATH="${INSTALL_PREFIX}/usr/bin:${INSTALL_PREFIX}/bin::$PATH"
-    JULIA_PKGDIR=`julia -e 'println(dirname(last(LOAD_PATH)))'`
+    JULIA_PKGDIR=`julia -e 'println(joinpath(dirname(JULIA_HOME), "share", "julia", "packages"))'`
     ls "${JULIA_PKGDIR}/"*"/META_BRANCH" >/dev/null 2>/dev/null
     false
 }
@@ -13,7 +13,7 @@ pkg_installed_check() {
 
 pkg_install() {
     export PATH="${INSTALL_PREFIX}/usr/bin:${INSTALL_PREFIX}/bin::$PATH"
-    export JULIA_PKGDIR=`julia -e 'println(dirname(last(LOAD_PATH)))'`
+    export JULIA_PKGDIR=`julia -e 'println(joinpath(dirname(JULIA_HOME), "share", "julia", "packages"))'`
     echo "INFO: JULIA_PKGDIR=\"${JULIA_PKGDIR}\"." >&2
 
     julia -e 'Pkg.init()'
@@ -51,12 +51,24 @@ pkg_install() {
     juliarc=`julia -e 'println(joinpath(dirname(JULIA_HOME), "etc", "julia", "juliarc.jl"))'`
     echo "DEBUG: juliarc=\"${juliarc}\"." >&2
 
-cat >> "${juliarc}" <<EOF
+cat >> "${juliarc}" <<"EOF"
 
-# Custom addition: If no user package directory exists, use site package
-# directory for LOAD_CACHE_PATH
-if !ispath(Pkg.dir()) && !ispath(Base.LOAD_CACHE_PATH[1])
-    Base.LOAD_CACHE_PATH[1] = joinpath(dirname(last(LOAD_PATH)), "lib", basename(last(LOAD_PATH)))
+# Custom addition: If no user package directory exists, use preinstalled
+# packages and precompilation cache.
+if !ispath(Pkg.dir())
+    if parse(Int, get(ENV, "JULIA_FORCE_ORIG_PKGDIR", "1")) <= 0
+        let
+            old_cachedir = joinpath(dirname(Pkg.dir()), "lib", basename(Pkg.dir()))
+            ENV["JULIA_PKGDIR"] = joinpath(dirname(JULIA_HOME), "share", "julia", "packages")
+            new_cachedir = joinpath(dirname(Pkg.dir()), "lib", basename(Pkg.dir()))
+            for i in eachindex(Base.LOAD_CACHE_PATH)
+                if Base.LOAD_CACHE_PATH[i] == old_cachedir
+                    Base.LOAD_CACHE_PATH[i] = new_cachedir
+                end
+            end
+            nothing
+        end
+    end
 end
 EOF
 

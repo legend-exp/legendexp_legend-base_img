@@ -1,24 +1,41 @@
 #!/bin/bash -e
 
-site_JULIA_PKGDIR="`julia -e 'println(dirname(last(LOAD_PATH)))'`"
-# echo "DEBUG: site_JULIA_PKGDIR=\"${site_JULIA_PKGDIR}\"." >&2
+preinst_pkgdir=`JULIA_PKGDIR="/dev/null/nosuchdir" julia -e julia -e 'println(Pkg.dir())'`
+user_pkgdir=`JULIA_FORCE_USER_PKGDIR="1" julia -e 'println(Pkg.dir())'`
 
-site_pkgdir=`JULIA_PKGDIR="${site_JULIA_PKGDIR}" julia -e julia -e 'println(Pkg.dir())'`
-echo "INFO: Site-wide Julia package directory: \"${site_pkgdir}\"." >&2
+preinst_LOAD_CACHE_PATH=`JULIA_PKGDIR="/dev/null/nosuchdir" julia -e 'println(Base.LOAD_CACHE_PATH[1])'`
+user_LOAD_CACHE_PATH=`JULIA_FORCE_USER_PKGDIR="1" julia -e 'println(Base.LOAD_CACHE_PATH[1])'`
 
-user_pkgdir=`julia -e 'println(Pkg.dir())'`
-echo "INFO: User Julia package directory: \"${user_pkgdir}\"." >&2
 
-mkdir -p "${user_pkgdir}"
-ln -s "${site_pkgdir}"/* "${user_pkgdir}/"
+cat >&2 <<EOF
+Creating user Julia package directory
+
+	"${user_pkgdir}"
+
+containing symbolic links to
+
+	"${preinst_pkgdir}"
+
+EOF
+
+mkdir -p `dirname "${user_pkgdir}"`
+mkdir "${user_pkgdir}"
+ln -s "${preinst_pkgdir}"/* "${user_pkgdir}/"
 rm "${user_pkgdir}/REQUIRE"
-cp -a "${site_pkgdir}/REQUIRE" "${user_pkgdir}/"
+cp -a "${preinst_pkgdir}/REQUIRE" "${user_pkgdir}/"
 
-site_LOAD_CACHE_PATH=`JULIA_PKGDIR="${site_JULIA_PKGDIR}" julia -e 'println(Base.LOAD_CACHE_PATH[1])'`
-# echo "DEBUG: site_LOAD_CACHE_PATH=\"${site_LOAD_CACHE_PATH}\"." >&2
 
-user_LOAD_CACHE_PATH=`julia -e 'println(Base.LOAD_CACHE_PATH[1])'`
-# echo "DEBUG: user_LOAD_CACHE_PATH=\"${user_LOAD_CACHE_PATH}\"." >&2
+cat >&2 <<EOF
+Creating user Julia precompilation cache directory
 
-mkdir -p "${user_LOAD_CACHE_PATH}"
-ln -s "${site_LOAD_CACHE_PATH}"/* "${user_LOAD_CACHE_PATH}/"
+	"${user_LOAD_CACHE_PATH}"
+
+containing symbolic links to
+
+	"${preinst_LOAD_CACHE_PATH}"
+
+EOF
+
+mkdir -p `dirname "${user_LOAD_CACHE_PATH}"`
+mkdir "${user_LOAD_CACHE_PATH}"
+ln -s "${preinst_LOAD_CACHE_PATH}"/* "${user_LOAD_CACHE_PATH}/"
