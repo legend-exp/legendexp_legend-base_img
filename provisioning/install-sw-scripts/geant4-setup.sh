@@ -48,7 +48,21 @@ download_url() {
 }
 
 
+# Function "remove_from_path" is a variation of a solution by Mark Booth,
+# see https://unix.stackexchange.com/a/291611:
+function remove_from_path {
+    # Delete path by parts so we can never accidentally remove sub paths
+    export PATH=${PATH//":$1:"/":"} # delete any instances in the middle
+    export PATH=${PATH/#"$1:"/} # delete any instance at the beginning
+    export PATH=${PATH/%":$1"/} # delete any instance in the at the end
+}
+
+
 pkg_install() {
+    if (command -v ls > /dev/null) ; then
+        remove_from_path "$(dirname `command -v conda`)"
+    fi
+
     DOWNLOAD_URL=`download_url "${PACKAGE_VERSION}"`
     echo "INFO: Download URL: \"${DOWNLOAD_URL}\"." >&2
 
