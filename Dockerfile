@@ -87,8 +87,7 @@ ENV JULIA_CXX_RTTI="1"
 # Install ArrayFire:
 
 RUN true \
-    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.5.1/ArrayFire-no-gl-v3.5.1_Linux_x86_64.rpm" \
-    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.1/ArrayFire-no-gl-v3.6.1_Linux_x86_64.rpm"
 
 
 # Install additional Python packages:
