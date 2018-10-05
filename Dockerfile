@@ -75,7 +75,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.12.06 /opt/root
+    && provisioning/install-sw.sh root 6.14.04 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN pip install metakernel  
