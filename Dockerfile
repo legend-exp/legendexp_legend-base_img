@@ -1,4 +1,4 @@
-FROM mppmu/cuda-julia-anaconda:julia10-cuda91
+FROM mppmu/cuda-julia-anaconda:julia10-cuda92
 
 # User and workdir settings:
 
@@ -117,7 +117,7 @@ RUN yum install -y \
 
 RUN true \
     && yum install -y \
-        cuda-nvvp-9-1
+        cuda-nvvp-9-2
 
 
 # Install additional packages and clean up:
