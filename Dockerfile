@@ -128,6 +128,7 @@ RUN yum install -y \
         nano vim \
         git-gui gitk \
         valgrind \
+        nmap-ncat \
         \
         pbzip2 zstd libzstd-devel \
         \
