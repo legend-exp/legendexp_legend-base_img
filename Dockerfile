@@ -94,7 +94,7 @@ RUN true \
 
 RUN true \
     && conda install -y -c anaconda-nb-extensions nbbrowserpdf \
-    && conda install -y -c damianavila82 rise \
+    && conda install -y -c conda-forge rise \
     && conda install -y -c conda-forge jupyter_contrib_nbextensions \
     && pip install bash_kernel && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
 
