@@ -126,7 +126,7 @@ RUN true \
 RUN yum install -y \
         \
         numactl \
-        htop \
+        htop nmon \
         nano vim \
         git-gui gitk \
         valgrind \
