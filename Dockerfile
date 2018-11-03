@@ -150,7 +150,7 @@ RUN yum install -y \
 
 # Set container-specific SWMOD_HOSTSPEC:
 
-ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4"
+ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-38e8fd83"
 
 
 # Final steps
