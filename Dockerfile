@@ -90,13 +90,18 @@ RUN true \
     && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.1/ArrayFire-no-gl-v3.6.1_Linux_x86_64.rpm"
 
 
-# Install additional Python packages:
+# Install additional Jupyter-related Python packages:
 
 RUN true \
     && conda install -y -c anaconda-nb-extensions nbbrowserpdf \
     && conda install -y -c conda-forge rise \
     && conda install -y -c conda-forge jupyter_contrib_nbextensions \
     && pip install bash_kernel && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
+
+
+# Install additional Science-related Python packages:
+
+RUN pip install uproot
 
 
 # Install Atom:
