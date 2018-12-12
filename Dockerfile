@@ -33,16 +33,17 @@ COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/gea
 ENV \
     PATH="/opt/geant4/bin:/opt/clhep/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/geant4/lib64:/opt/clhep/lib:$LD_LIBRARY_PATH" \
-    G4ABLADATA="/opt/geant4/share/Geant4-10.4.2/data/G4ABLA3.1" \
-    G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.4.2/data/G4ENSDFSTATE2.2" \
-    G4LEDATA="/opt/geant4/share/Geant4-10.4.2/data/G4EMLOW7.3" \
-    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.4.2/data/PhotonEvaporation5.2" \
-    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.4.2/data/G4NDL4.5" \
-    G4NEUTRONXSDATA="/opt/geant4/share/Geant4-10.4.2/data/G4NEUTRONXS1.4" \
-    G4PIIDATA="/opt/geant4/share/Geant4-10.4.2/data/G4PII1.3" \
-    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.4.2/data/RadioactiveDecay5.2" \
-    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.4.2/data/RealSurface2.1" \
-    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.4.2/data/G4SAIDDATA1.1" \
+    G4ABLADATA="/opt/geant4/share/Geant4-10.5.0/data/G4ABLA3.1" \
+    G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.5.0/data/G4ENSDFSTATE2.2" \
+    G4INCLDATA="/opt/geant4/share/Geant4-10.5.0/data/G4INCL1.0" \
+    G4LEDATA="/opt/geant4/share/Geant4-10.5.0/data/G4EMLOW7.7" \
+    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.5.0/data/PhotonEvaporation5.3" \
+    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.5.0/data/G4NDL4.5" \
+    G4PARTICLEXSDATA="/opt/geant4/share/Geant4-10.5.0/data/G4PARTICLEXS1.1" \
+    G4PIIDATA="/opt/geant4/share/Geant4-10.5.0/data/G4PII1.3" \
+    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.5.0/data/RadioactiveDecay5.3" \
+    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.5.0/data/RealSurface2.1.1" \
+    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.5.0/data/G4SAIDDATA2.0" \
     AllowForHeavyElements=1
 
 RUN true \
@@ -50,8 +51,8 @@ RUN true \
         expat-devel xerces-c-devel zlib-devel \
         libXmu-devel libXi-devel \
         mesa-libGLU-devel motif-devel mesa-libGLw qt-devel \
-    && provisioning/install-sw.sh clhep 2.4.0.0 /opt/clhep \
-    && provisioning/install-sw.sh geant4 10.4.2 /opt/geant4
+    && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
+    && provisioning/install-sw.sh geant4 10.5.0 /opt/geant4
 
 
 # Install CERN ROOT:
