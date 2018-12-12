@@ -88,7 +88,7 @@ ENV JULIA_CXX_RTTI="1"
 # Install ArrayFire:
 
 RUN true \
-    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.1/ArrayFire-no-gl-v3.6.1_Linux_x86_64.rpm"
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.2/ArrayFire-no-gl-v3.6.2_Linux_x86_64.rpm"
 
 
 # Install additional Jupyter-related Python packages:
