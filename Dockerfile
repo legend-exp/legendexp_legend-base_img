@@ -110,7 +110,7 @@ RUN pip install uproot
 RUN yum install -y \
         lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
         levien-inconsolata-fonts dejavu-sans-fonts libsecret \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.32.1/atom.x86_64.rpm
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.33.0/atom.x86_64.rpm
 
 
 # Install device control development dependencies:

@@ -6,6 +6,7 @@ The Docker image includes the following Software:
 
 * Anaconda v5.2 (Python 2.7)
 * ArrayFire v3.6
+* GitHub Atom v1.33
 * CERN ROOT v6.14
 * CUDA v9.2
 * Geant4 v10.5 and CLHep
