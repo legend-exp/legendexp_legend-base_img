@@ -102,7 +102,7 @@ RUN true \
 
 # Install additional Science-related Python packages:
 
-RUN pip install uproot
+RUN conda install -y -c conda-forge lz4 && pip install uproot
 
 
 # Install Atom:
