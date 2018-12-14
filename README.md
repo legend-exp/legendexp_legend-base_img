@@ -52,3 +52,24 @@ On systems with NVIDIA GPUs, use
     singularity shell --nv /path/to/legend-base.[sqsh|sif]
 
 to make the NVIDIA driver available within the container instance (the command `nvidia-smi` should then become available in the container instance as well.)
+
+
+## Use with Docker
+
+If you have sufficient privileges on your local system to install and use Docker, you can also run the Docker image directly:
+
+```shell
+docker pull legendexp/legend-base:latest
+docker run -it --name mylegendinstance legendexp/legend-base:latest
+```
+
+You will probably want to use additional `docker run` options like `-p 8888:8888` and `-v /home/dir:/home/dir`. You may want to familiarize yourself with Docker first.
+
+
+### Installing Docker
+
+* On Linux: Install the [Docker Community Edition (CE)](https://docs.docker.com/install/)
+* On OS-X: Install [Docker for Mac](https://docs.docker.com/docker-for-mac/)
+* On Windows: Install [Docker for Windows](https://docs.docker.com/docker-for-windows/)
+
+On OS-X and Windows, Docker will runs container instances in a lightweight virtual Linux system (this is mostly transparent to the user). Likewise, the container instance itself is always a Linux system, independent of the system's native OS.
