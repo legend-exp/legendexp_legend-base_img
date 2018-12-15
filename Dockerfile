@@ -1,4 +1,4 @@
-FROM mppmu/cuda-julia-anaconda:cuda92-jula10-anaconda252
+FROM mppmu/cuda-julia-anaconda:cuda92-jula10-anaconda352
 
 # User and workdir settings:
 
