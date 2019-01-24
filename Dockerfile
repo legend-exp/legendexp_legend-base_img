@@ -123,7 +123,7 @@ RUN yum install -y \
 
 RUN true \
     && yum install -y \
-        cuda-nvvp-9-2
+        cuda-nvvp-10-0
 
 
 # Install additional packages and clean up:
