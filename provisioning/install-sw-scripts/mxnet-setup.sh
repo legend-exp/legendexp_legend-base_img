@@ -23,18 +23,26 @@ pkg_install() {
     )
 
     cd mxnet
-    cp make/config.mk config.mk
-    sed -i 's/USE_BLAS = atlas/USE_BLAS = openblas/g' config.mk
-    sed -i 's/USE_CUDA = 0/USE_CUDA = 1/g' config.mk
-    sed -i 's/USE_CUDA_PATH = NONE/USE_CUDA_PATH = \/usr\/local\/cuda/g' config.mk
-    sed -i 's/USE_CUDNN = 0/USE_CUDNN = 1/g' config.mk
 
-    CPATH=/usr/include/openblas make -j"$(nproc)"
+    (
+        mkdir build && cd build
+        cmake \
+            -DUSE_BLAS=openblas \
+            -DUSE_CUDA=1 \
+            -DUSE_CUDA_PATH="/usr/local/cuda" \
+            -DUSE_CUDNN=1 \
+            -DUSE_CPP_PACKAGE=1 \
+            -GNinja ..
+        ninja-build -v
+    )
 
     mkdir -p "${INSTALL_PREFIX}"
     cp -a include "${INSTALL_PREFIX}/"
     mkdir "${INSTALL_PREFIX}/lib/"
     cp -a lib/*.so* "${INSTALL_PREFIX}/lib/"
+
+    (cd python && pip install -e .)
+    cp -a julia "${INSTALL_PREFIX}/"
 }
 
 
