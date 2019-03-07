@@ -23,18 +23,14 @@ pkg_install() {
     )
 
     cd mxnet
+    cp make/config.mk config.mk
+    echo 'USE_BLAS = openblas' >> config.mk
+    echo 'USE_CUDA = 1' >> config.mk
+    echo 'USE_CUDA_PATH = /usr/local/cuda' >> config.mk
+    echo 'USE_CUDNN = 1' >> config.mk
+    # echo 'USE_CPP_PACKAGE = 1' >> config.mk
 
-    (
-        mkdir build && cd build
-        cmake \
-            -DUSE_BLAS=openblas \
-            -DUSE_CUDA=1 \
-            -DUSE_CUDA_PATH="/usr/local/cuda" \
-            -DUSE_CUDNN=1 \
-            -DUSE_CPP_PACKAGE=1 \
-            -GNinja ..
-        ninja-build -v
-    )
+    CPATH=/usr/include/openblas make -j"$(nproc)"
 
     mkdir -p "${INSTALL_PREFIX}"
     cp -a include "${INSTALL_PREFIX}/"
