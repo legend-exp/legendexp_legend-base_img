@@ -12,7 +12,7 @@ The Docker image includes the following Software:
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
 * Julia v1.1
-* MXNet v1.3
+* MXNet
 * Node.js
 
 Builds of this image are available on [Dockerhub](https://hub.docker.com/r/legendexp/legend-base/).
