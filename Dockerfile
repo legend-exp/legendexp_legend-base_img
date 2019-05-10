@@ -52,7 +52,7 @@ RUN true \
         libXmu-devel libXi-devel \
         mesa-libGLU-devel motif-devel mesa-libGLw qt-devel \
     && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
-    && provisioning/install-sw.sh geant4 10.5.0 /opt/geant4
+    && provisioning/install-sw.sh geant4 10.5.1 /opt/geant4
 
 
 # Install CERN ROOT:
