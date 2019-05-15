@@ -33,17 +33,17 @@ COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/gea
 ENV \
     PATH="/opt/geant4/bin:/opt/clhep/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/geant4/lib64:/opt/clhep/lib:$LD_LIBRARY_PATH" \
-    G4ABLADATA="/opt/geant4/share/Geant4-10.5.0/data/G4ABLA3.1" \
-    G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.5.0/data/G4ENSDFSTATE2.2" \
-    G4INCLDATA="/opt/geant4/share/Geant4-10.5.0/data/G4INCL1.0" \
-    G4LEDATA="/opt/geant4/share/Geant4-10.5.0/data/G4EMLOW7.7" \
-    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.5.0/data/PhotonEvaporation5.3" \
-    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.5.0/data/G4NDL4.5" \
-    G4PARTICLEXSDATA="/opt/geant4/share/Geant4-10.5.0/data/G4PARTICLEXS1.1" \
-    G4PIIDATA="/opt/geant4/share/Geant4-10.5.0/data/G4PII1.3" \
-    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.5.0/data/RadioactiveDecay5.3" \
-    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.5.0/data/RealSurface2.1.1" \
-    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.5.0/data/G4SAIDDATA2.0" \
+    G4ABLADATA="/opt/geant4/share/Geant4-10.5.1/data/G4ABLA3.1" \
+    G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.5.1/data/G4ENSDFSTATE2.2" \
+    G4INCLDATA="/opt/geant4/share/Geant4-10.5.1/data/G4INCL1.0" \
+    G4LEDATA="/opt/geant4/share/Geant4-10.5.1/data/G4EMLOW7.7" \
+    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.5.1/data/PhotonEvaporation5.3" \
+    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4NDL4.5" \
+    G4PARTICLEXSDATA="/opt/geant4/share/Geant4-10.5.1/data/G4PARTICLEXS1.1" \
+    G4PIIDATA="/opt/geant4/share/Geant4-10.5.1/data/G4PII1.3" \
+    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.5.1/data/RadioactiveDecay5.3" \
+    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.5.1/data/RealSurface2.1.1" \
+    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.5.1/data/G4SAIDDATA2.0" \
     AllowForHeavyElements=1
 
 RUN true \
