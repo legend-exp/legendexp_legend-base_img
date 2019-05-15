@@ -149,3 +149,12 @@ ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-fab953d4"
 # Final steps
 
 CMD /bin/bash
+
+
+# Install Julia packages
+
+COPY provisioning/install-sw-scripts/julia-packages-* provisioning/install-sw-scripts/
+
+RUN true \
+    && export JUPYTER_DATA_DIR="/opt/anaconda3/share/jupyter" \
+    && provisioning/install-sw.sh julia-packages noversion /opt/julia/local/share/julia
