@@ -123,6 +123,16 @@ RUN yum install -y \
     https://download.opensuse.org/repositories/home:/rabin-io/CentOS_7/x86_64/mlterm-3.8.7-3.4.x86_64.rpm
 
 
+# Install OpenSSH Server:
+
+RUN true \
+    && yum install -y openssh-server \
+    && ssh-keygen -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key \
+    && ssh-keygen -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key \
+    && ssh-keygen -N "" -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key \
+    && ssh-keygen -N "" -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
+
+
 # Install device control development dependencies:
 RUN yum install -y \
         net-snmp-devel net-snmp-utils \
