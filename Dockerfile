@@ -112,6 +112,17 @@ RUN yum install -y \
     && rpm -ihv https://github.com/atom/atom/releases/download/v1.36.1/atom.x86_64.rpm
 
 
+# Install Xpra:
+
+COPY provisioning/xpra-centos7.repo /etc/yum.repos.d/xpra-centos7.repo
+
+RUN yum install -y \
+    xpra python2-uinput python-paramiko python-websockify \
+    pwgen apg \
+    xterm rxvt-unicode st \
+    https://download.opensuse.org/repositories/home:/rabin-io/CentOS_7/x86_64/mlterm-3.8.7-3.4.x86_64.rpm
+
+
 # Install device control development dependencies:
 RUN yum install -y \
         net-snmp-devel net-snmp-utils \

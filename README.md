@@ -139,3 +139,25 @@ This will start a container with an interactive X11-enabled bash shell. You shou
 See the Jupyter example above for the meaning of the `-it`, `--rm` and `-v` options.
 
 **Note:** Using `xhost + 127.0.0.1` is less than optimal from a security point of view! It is only barely acceptable on a single user system, and *must not* be used on a system with multiple users. Is may be possible to bind the ".Xauthority" from the host into the container instead, but at least on OS-X that also doesn't seem to work.
+
+
+#### Running GUI/X11 applications with Docker and Xpra/HTML5
+
+A fairly robust, but less performant alternative to using an X11 server *outside* of the container (see above) is to use an Xpra server with HTML5 support *inside* of the container. This allows access to X11/GUI applications running in the container with a web browser from outside of it.
+
+##### OS-X
+
+Run
+
+```
+docker run -it --rm \
+    -v "$HOME":"/home/user" \
+    -v "$HOME/legend-base":"/root":delegated \
+    -p 14500:14500 \
+    legendexp/legend-base:latest \
+    xpra start --no-daemon --bind-tcp=0.0.0.0:14500 --start=mlterm
+```
+
+to start the Docker container with an Xpra server with an mlterm terminal window (that can be used to start other X11/GUI applications). Point a web browser on the host to ["http://127.0.0.1:14500"](http://127.0.0.1:14500).
+
+**Note:** This will allow all users and programs on the machine running the Docker container access to all applications (including the initial terminal window) running under Xpra. Security-wise, this *must not* be used on a system with multiple users. You should enable [Xpra password authentication](https://xpra.org/trac/wiki/Clients/HTML5) if anyone but you could possibly connect to the Xpra server (and even on a single-user system it would be advisable to use a password).
