@@ -96,7 +96,7 @@ RUN true \
 RUN true \
     && conda install -y -c conda-forge rise \
     && conda install -y -c conda-forge jupyter_contrib_nbextensions \
-    && pip install bash_kernel && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
+    && pip install bash_kernel && JUPYTER_DATA_DIR="/opt/anaconda3/share/jupyter" python -m bash_kernel.install
 
 
 # Install additional Science-related Python packages:
