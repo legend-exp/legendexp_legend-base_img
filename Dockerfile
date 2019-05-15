@@ -158,3 +158,14 @@ COPY provisioning/install-sw-scripts/julia-packages-* provisioning/install-sw-sc
 RUN true \
     && export JUPYTER_DATA_DIR="/opt/anaconda3/share/jupyter" \
     && provisioning/install-sw.sh julia-packages noversion /opt/julia/local/share/julia
+
+
+# Install gears:
+
+COPY provisioning/install-sw-scripts/gears-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/gears/bin:$PATH"
+
+RUN true \
+    && provisioning/install-sw.sh gears jintonic/master /opt/gears
