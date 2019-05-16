@@ -168,7 +168,7 @@ ENV \
     PATH="/opt/gears/bin:$PATH"
 
 RUN true \
-    && provisioning/install-sw.sh gears jintonic/master /opt/gears
+    && provisioning/install-sw.sh gears schustermartin/pire-gemadarc /opt/gears
 
 
 # Install additional Julia packages:
