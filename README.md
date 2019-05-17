@@ -17,6 +17,8 @@ The Docker image includes the following Software:
 
 Builds of this image are available on [Dockerhub](https://hub.docker.com/r/legendexp/legend-base/).
 
+You can run instances of the image via Shifter (recommended for NERSC users), Singularity (recommended for non-NERSC Linux systems) or directly via Docker (on personal systems only, recommended for Mac OS-X and MS Windows users).
+
 
 ## Use with [NERSC Shifter](https://docs.nersc.gov/development/shifter/how-to-use/)
 
@@ -30,8 +32,12 @@ Then try running an interactive session via
     shifter --image docker:legendexp/legend-base:latest -- /bin/bash
 
 
-## Use with [Singularity](https://www.sylabs.io/singularity/)
+### Running GUI/X11 applications
 
+When connected to NERSC via `ssh -X`, you can run X11/GUI applications inside (and outside) of Shifter containers. However, X11 over SSH can be slow, depending on your network bandwidth and latency to NERSC. Starting an Xpra server (see below in, but in contrast to Docker no network port binding is necessary) may be a good alternative.
+
+
+## Use with [Singularity](https://www.sylabs.io/singularity/)
 
 With Singularity v2.x, convert the Docker image to a Singularity image via
 
@@ -54,7 +60,12 @@ On systems with NVIDIA GPUs, use
 to make the NVIDIA driver available within the container (the command `nvidia-smi` should then become available in the container as well.)
 
 
-## Use with Docker
+### Running GUI/X11 applications
+
+When using Singularity on a local system, you should be able to seamlessly run X11/GUI applications inside of containers. When using a remote system, starting an Xpra server (see below, but in contrast to Docker no network port binding is necessary) may be a good alternative to `ssh -X`.
+
+
+## Use with [Docker](https://www.docker.com/)
 
 If you have sufficient privileges on your local system to install and use Docker, you can also run the Docker image directly:
 
@@ -63,11 +74,17 @@ docker pull legendexp/legend-base:latest
 docker run -it --name mylegendinstance legendexp/legend-base:latest
 ```
 
-You will probably want to use additional `docker run` options like `-p 8888:8888` and `-v /home/dir:/home/dir`. You may want to familiarize yourself with Docker first.
+To load saved Docker image from a file, use `docker load` instead of `docker pull`:
 
-When using Docker Desktop (for Windows or for Mac), files created in mounted volumes (`-v` option) will belong the user who started the container, as one would expect. The docker engine actually runs inside a lightweight virtual Linux system (this is mostly transparent to the user). Likewise, the container themselves are also a Linux systems, independent of the system's native OS. Docker Desktop automatically manages the Linux VM, and transfers files between the VM and Host OS [which can result in noticeable latency](https://docs.docker.com/docker-for-mac/osxfs-caching/).
+```shell
+docker load -i IMAGE_FILENAME.tar[.gz]
+```
 
-On Linux, the situation is different: Docker runs natively - and this means that all files that a container creates in mounted volumes will belong to "root", even if a user's home directory was mounted. This is typically not in the interest of the user. It is possibly to change this behavior by using [user namespaces](https://docs.docker.com/engine/security/userns-remap/), which is an advanced use case. Most Linux users will find it more convenient to use Singularity (see above) instead of Docker (Singularity utilizes user namespaces by default).
+You will probably want to use additional `docker run` options like `-p 8888:8888` and `-v /dir/outside:/dir/inside`. You may want to familiarize yourself with Docker first.
+
+When using Docker Desktop (for Windows or for Mac), files created in mounted volumes (`-v` option) will belong the user who started the container, as one would expect. The docker engine itself actually runs inside a lightweight virtual Linux system (this is mostly transparent to the user). Likewise, the containers themselves are also a Linux systems, independent of the host system's native OS. Docker Desktop automatically manages the Linux VM, and transfers files between the VM and Host OS [which can result in noticeable latency](https://docs.docker.com/docker-for-mac/osxfs-caching/).
+
+On Linux, the situation is different: Docker runs natively and this means that all files that a container creates in mounted volumes will belong to "root", even if a user's home directory was mounted. This is typically not in the interest of the user. It is possibly to change this behavior by using [user namespaces](https://docs.docker.com/engine/security/userns-remap/), which is an advanced use case. Most Linux users will find it more convenient to use Singularity (see above) instead of Docker (Singularity utilizes user namespaces by default).
 
 
 ### Installing Docker
@@ -79,21 +96,24 @@ On Linux, the situation is different: Docker runs natively - and this means that
 
 ### Docker usage examples
 
-#### Running a JupyterLab server inside a Docker container
+#### Running Bash shell inside a Docker container
 
-We'll want to do something like this:
+We want to:
 
 * Connect the current terminal input/output to the container (`docker` command option `--it`)
 
-* Bind directory "/home/user" inside the container to your home directory on the host machine (option `-v "$HOME":"/home/user"`).
+* Bind directory `"/home/user"` inside the container to your home directory on the host machine (option `-v "$HOME":"/home/user"`).
 
-* Bind directory "/root" inside the container to directory "legend-base" in your home on the host machine (option -v "$HOME/legend-base":"/root":delegated). Since "$HOME" is set to "/root" inside the container, this ensure that all files created in "$HOME" by the container (e.g. Jupyter configuration, Julia packages, etc.) end up in "legend-base", instead of messing up your home directory. We'll use the `delegated` [mount semantics](https://docs.docker.com/docker-for-mac/osxfs-caching/) to reduce latency.
+* Bind directory `"/root"` inside the container to directory `"legend-base"` in your home on the host machine (option `-v "$HOME/legend-base":"/root":delegated`). Since `"$HOME"` is set to `"/root"` inside the container, this ensure that all files created in `"$HOME"` by the container (e.g. config files like Jupyter configuration, Julia packages, etc.) end up in `"legend-base"` on the host system, instead of messing up your home directory. We'll use the `delegated` [mount semantics](https://docs.docker.com/docker-for-mac/osxfs-caching/) to reduce latency.
 
-* Start a Jupyter server on port 8888 and configure it to accept connections on any container network interface (command `jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --no-browser`).
+* Bind port 8888 inside the container to port 8888 on the host system (option `-p 8888:8888`), so a Jupyter server running in the container (see below) can be accessed from the host system.
 
-* Bind port 8888 inside the container to port 8888 on the host system (option `-p 8888:8888`), so Jupyter can be accessed from the host system.
+* Bind port 14500 inside the container to port 14500 on the host system, so an Xpra server running in the container (see below) can be accessed from the host system.
 
-* Automatically remove the container (option `--rm`) after exiting Jupyter. This will also remove all files created within the container's file system while it ran (but not those created within the mount points "/home/user" and "/root").
+* Automatically remove the container (option `--rm`) after exiting it. This will also remove all files created within the container's file system while it ran (but not those created within the mount points "/home/user" and "/root").
+
+We'll start a container running a Bash shell, which will have access to all software the container provides. Within the Docker container, you will be user "root". "$HOME" will point to `"/root"`, which is kept in sync, bi-directionally and in (almost) real time, to the directory "$HOME/legend-base" outside of the container (see above). Likewise, `"/home/user"` within the container will be kept in sync with `"$HOME"` outside of the container.
+
 
 ##### OS-X
 
@@ -104,18 +124,71 @@ docker run -it --rm \
     -v "$HOME":"/home/user" \
     -v "$HOME/legend-base":"/root":delegated \
     -p 8888:8888 \
-    legendexp/legend-base:latest \
-    jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --no-browser
+    -p 14500:14500 \
+    legendexp/legend-base:latest
 ```
 
-Then point your web browser (on the host system) to "http://127.0.0.1:8888/?token=..." (the Jupyter server will display the current valid token during it's start sequence).
+To start the container and run a different program than `bash` inside of it directly (not via the shell), use
+
+```shell
+docker run [...options...] legendexp/legend-base:latest PROGRAM_TO_RUN ARGS...
+```
+
+
+#### Running a JupyterLab server inside a Docker container
+
+First, start a containerized shell (don't forget `docker` option `-p 8888:8888`). Then, from that shell, start a Jupyter server on port 8888 and configure it to accept connections on any container network interface:
+
+```shell
+# Within container:
+jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --no-browser
+```
+
+Now point your web browser (outside of the container) to "http://127.0.0.1:8888/?token=..." (the Jupyter server will display the current valid token during it's start sequence).
+
+You can also use [password-based access](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html#automatic-password-setup) instead of token based access. To set a Jupyter password, run
+
+```shell
+# Within container:
+jupyter notebook password
+```
+
+
+#### Running GUI/X11 applications with Docker and Xpra/HTML5
+
+In contrast to Singularity, Docker does not allow for running X11/GUI applications in a container by default. It's possible (see below), but it will often be easier and more secure (though less performant on a local system) to run an Xpra server with HTML5 support within the container. This allows access to X11/GUI applications running in the container via a web browser from outside of of the container.
+
+First, you should set an Xpra TCP password. Start a containerized shell as described above. Then, in that shell, run
+
+```shell
+# Within container:
+xpra list # To create /root/.xpra/xpra.conf
+echo "tcp-auth=password:value=`pwgen -n1 10`" >> /root/.xpra/xpra.conf
+```
+
+and exit the containerized shell.
+
+Outside of the container, the Xpra config file should reside under `"$HOME/legend-base/.xpra/xpra.conf"`. Open the file with an editor to look up the password or to change it to a password of your choice.
+
+Now, again in a containerized shell (don't forget `docker` option `-p 14500:14500`), run
+
+```shell
+# Within container:
+xpra start --no-daemon --bind-tcp=127.0.0.1:14500 --html=on --start=mlterm
+```
+
+to start a Docker container with a password-secured Xpra server. Point your web browser on the host to ["http://127.0.0.1:14500"](http://127.0.0.1:14500). You should see a web page titled "Xpra HTML5 Client". Enter the password (leave the user name field empty) and click on "Connect". You should then get an mlterm terminal window within your browser window - other X11/GUI applications can now be started using that terminal.
+
+This procedure can also be used to run graphical applications on a remote system, by tunneling port 14500 via SSH.
 
 
 #### Running GUI/X11 applications with Docker and local X11-Server
 
-Running X11/GUI applications in a Docker container, using a local X11 server (outside of the container) as the display, is non-trivial on any host OS platform, but possible.
+Running X11/GUI applications in a Docker container, using a local X11 server (outside of the container) as the display, is possible but non-trivial on any host OS. On a local system, it will perform better than using Xpra, but is also potentially less secure.
 
 ##### OS-X
+
+Before starting the container, you will need to
 
 * Install XQuartz (https://www.xquartz.org/)
 
@@ -123,7 +196,7 @@ Running X11/GUI applications in a Docker container, using a local X11 server (ou
 
 * Quite and restart XQuartz to activate the new security settings
 
-In a terminal, run
+In a terminal (outside of the container), run
 
 ```shell
 xhost + 127.0.0.1 # allow X11 access from localhost
@@ -138,26 +211,4 @@ docker run -it --rm \
 This will start a container with an interactive X11-enabled bash shell. You should now be able to run X11/GUI programs.
 See the Jupyter example above for the meaning of the `-it`, `--rm` and `-v` options.
 
-**Note:** Using `xhost + 127.0.0.1` is less than optimal from a security point of view! It is only barely acceptable on a single user system, and *must not* be used on a system with multiple users. Is may be possible to bind the ".Xauthority" from the host into the container instead, but at least on OS-X that also doesn't seem to work.
-
-
-#### Running GUI/X11 applications with Docker and Xpra/HTML5
-
-A fairly robust, but less performant alternative to using an X11 server *outside* of the container (see above) is to use an Xpra server with HTML5 support *inside* of the container. This allows access to X11/GUI applications running in the container with a web browser from outside of it.
-
-##### OS-X
-
-Run
-
-```
-docker run -it --rm \
-    -v "$HOME":"/home/user" \
-    -v "$HOME/legend-base":"/root":delegated \
-    -p 14500:14500 \
-    legendexp/legend-base:latest \
-    xpra start --no-daemon --bind-tcp=0.0.0.0:14500 --start=mlterm
-```
-
-to start the Docker container with an Xpra server with an mlterm terminal window (that can be used to start other X11/GUI applications). Point a web browser on the host to ["http://127.0.0.1:14500"](http://127.0.0.1:14500).
-
-**Note:** This will allow all users and programs on the machine running the Docker container access to all applications (including the initial terminal window) running under Xpra. Security-wise, this *must not* be used on a system with multiple users. You should enable [Xpra password authentication](https://xpra.org/trac/wiki/Clients/HTML5) if anyone but you could possibly connect to the Xpra server (and even on a single-user system it would be advisable to use a password).
+**Note:** Using `xhost + 127.0.0.1` is less than optimal from a security point of view! It is only barely acceptable on a single user system, and *must not* be used on a system with multiple users. Is may be possible to bind the ".Xauthority" from the host into the container instead, but at least on OS-X that alone doesn't seem to be sufficient.
