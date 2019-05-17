@@ -22,11 +22,11 @@ You can run instances of the image via Shifter (recommended for NERSC users), Si
 
 Pull the image via
 
-    shifterimg pull docker:legendexp/legend-base:latest
+    shifterimg pull docker:legendexp/legend-base:gemadarc
 
 Then try running an interactive session via
 
-    shifter --image docker:legendexp/legend-base:latest -- /bin/bash
+    shifter --image docker:legendexp/legend-base:gemadarc -- /bin/bash
 
 
 ### Running GUI/X11 applications
@@ -38,11 +38,11 @@ When connected to NERSC via `ssh -X`, you can run X11/GUI applications inside (a
 
 With Singularity v2.x, convert the Docker image to a Singularity image via
 
-    sudo singularity build legend-base.sqsh docker://legendexp/legend-base:latest
+    sudo singularity build legend-base.sqsh docker://legendexp/legend-base:gemadarc
 
 With Singularity v3.x, you'll probably want to use the new SIF container format:
 
-    sudo singularity build legend-base.sif docker://legendexp/legend-base:latest
+    sudo singularity build legend-base.sif docker://legendexp/legend-base:gemadarc
 
 The resulting Singularity image file is quite large. On shared computing environments, the image file is best placed on a shared network/cluster file system (not in your home directory).
 
@@ -67,8 +67,8 @@ When using Singularity on a local system, you should be able to seamlessly run X
 If you have sufficient privileges on your local system to install and use Docker, you can also run the Docker image directly:
 
 ```shell
-docker pull legendexp/legend-base:latest
-docker run -it --name mylegendinstance legendexp/legend-base:latest
+docker pull legendexp/legend-base:gemadarc
+docker run -it --name mylegendinstance legendexp/legend-base:gemadarc
 ```
 
 To load saved Docker image from a file, use `docker load` instead of `docker pull`:
@@ -122,13 +122,13 @@ docker run -it --rm \
     -v "$HOME/legend-base":"/root":delegated \
     -p 8888:8888 \
     -p 14500:14500 \
-    legendexp/legend-base:latest
+    legendexp/legend-base:gemadarc
 ```
 
 To start the container and run a different program than `bash` inside of it directly (not via the shell), use
 
 ```shell
-docker run [...options...] legendexp/legend-base:latest PROGRAM_TO_RUN ARGS...
+docker run [...options...] legendexp/legend-base:gemadarc PROGRAM_TO_RUN ARGS...
 ```
 
 
@@ -208,7 +208,7 @@ docker run -it --rm \
     -v "$HOME":"/home/user" \
     -v "$HOME/legend-base":"/root":delegated \
     -e DISPLAY=host.docker.internal:0 \
-    legendexp/legend-base:latest
+    legendexp/legend-base:gemadarc
 ```
 
 This will start a container with an interactive X11-enabled bash shell. You should now be able to run X11/GUI programs. See the Jupyter example above for the meaning of the `-it`, `--rm` and `-v` options.
