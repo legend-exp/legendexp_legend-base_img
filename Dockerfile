@@ -169,3 +169,11 @@ ENV \
 
 RUN true \
     && provisioning/install-sw.sh gears jintonic/master /opt/gears
+
+
+# Install additional Julia packages:
+
+RUN true \
+    && export JULIA_DEPOT_PATH="/opt/julia/local/share/julia" \
+    && julia -e 'using Pkg; pkg"add SolidStateDetectors#master"' \
+    && julia -e 'using Pkg; pkg"precompile"'
