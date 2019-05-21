@@ -202,7 +202,10 @@ Before starting the container, you will need to
 In a terminal (outside of the container), run
 
 ```shell
-xhost + 127.0.0.1 # allow X11 access from localhost
+# allow X11 access from localhost:
+xhost + 127.0.0.1
+# allow indirect GLX, for OpenGL programs:
+defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
 
 docker run -it --rm \
     -v "$HOME":"/home/user" \
@@ -211,7 +214,6 @@ docker run -it --rm \
     legendexp/legend-base:latest
 ```
 
-This will start a container with an interactive X11-enabled bash shell. You should now be able to run X11/GUI programs.
-See the Jupyter example above for the meaning of the `-it`, `--rm` and `-v` options.
+This will start a container with an interactive X11-enabled bash shell. You should now be able to run X11/GUI programs. See the Jupyter example above for the meaning of the `-it`, `--rm` and `-v` options.
 
 **Note:** Using `xhost + 127.0.0.1` is less than optimal from a security point of view! It is only barely acceptable on a single user system, and *must not* be used on a system with multiple users. Is may be possible to bind the ".Xauthority" from the host into the container instead, but at least on OS-X that alone doesn't seem to be sufficient.
