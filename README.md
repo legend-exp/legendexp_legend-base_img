@@ -162,22 +162,25 @@ First, you should set an Xpra TCP password. Start a containerized shell as descr
 
 ```shell
 # Within container:
-xpra list # To create /root/.xpra/xpra.conf
-echo "tcp-auth=password:value=`pwgen -n1 10`" >> /root/.xpra/xpra.conf
+export XPRA_CONF_FILENAME="$HOME/.xpra/xpra.conf"
+mkdir "$HOME/.xpra" && chmod 700 "$HOME/.xpra"
+xpra showconfig # will create "$HOME/.xpra/xpra.conf"
+echo "tcp-auth=password:value=`pwgen -n1 10`" >> "$HOME/.xpra/xpra.conf"
+xpra showconfig
 ```
 
-and exit the containerized shell.
-
-Outside of the container, the Xpra config file should reside under `"$HOME/legend-base/.xpra/xpra.conf"`. Open the file with an editor to look up the password or to change it to a password of your choice.
+and exit the containerized shell. Check the output of `xpra config` to look up the password.
+Open the the Xpra config file with `nano -w "$HOME/.xpra/xpra.conf"` change the password.
 
 Now, again in a containerized shell (don't forget `docker` option `-p 14500:14500`), run
 
 ```shell
 # Within container:
-xpra start --no-daemon --bind-tcp=127.0.0.1:14500 --html=on --start=mlterm
+export XPRA_CONF_FILENAME="$HOME/.xpra/xpra.conf"
+xpra start --no-daemon --bind-tcp=0.0.0.0:14500 --html=on --start=mlterm
 ```
 
-to start a Docker container with a password-secured Xpra server. Point your web browser on the host to ["http://127.0.0.1:14500"](http://127.0.0.1:14500). You should see a web page titled "Xpra HTML5 Client". Enter the password (leave the user name field empty) and click on "Connect". You should then get an mlterm terminal window within your browser window - other X11/GUI applications can now be started using that terminal.
+to start your personal password-secured Xpra server. Point your web browser on the host to ["http://127.0.0.1:14500"](http://127.0.0.1:14500). You should see a web page titled "Xpra HTML5 Client". Enter the password (leave the user name field empty) and click on "Connect". You should then get an mlterm terminal window within your browser window - other X11/GUI applications can now be started using that terminal.
 
 This procedure can also be used to run graphical applications on a remote system, by tunneling port 14500 via SSH.
 
