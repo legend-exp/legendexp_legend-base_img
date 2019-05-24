@@ -156,3 +156,12 @@ ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-fab953d4"
 # Final steps
 
 CMD /bin/bash
+
+
+# Add Intel Python Distribution to Anaconda installation
+
+RUN true \
+    && conda install -y -c intel \
+        intelpython3_core=2019.4 \
+        icc_rt=2019.4 \
+    && conda clean -y --tarballs
