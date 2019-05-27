@@ -32,6 +32,11 @@ Then try running an interactive session via
     shifter --image docker:legendexp/legend-base:latest -- /bin/bash
 
 
+### Using Jupyter
+
+You can [use Jupyter kernels in Shifter containers](https://docs.nersc.gov/services/jupyter/#shifter-kernels-on-jupyter) on NERSC's JupyterHub.
+
+
 ### Running GUI/X11 applications
 
 When connected to NERSC via `ssh -X`, you can run X11/GUI applications inside (and outside) of Shifter containers. However, X11 over SSH can be slow, depending on your network bandwidth and latency to NERSC. Starting an Xpra server (see below in, but in contrast to Docker no network port binding is necessary) may be a good alternative.
@@ -58,6 +63,19 @@ On systems with NVIDIA GPUs, use
     singularity shell --nv /path/to/legend-base.[sqsh|sif]
 
 to make the NVIDIA driver available within the container (the command `nvidia-smi` should then become available in the container as well.)
+
+
+### Using Jupyter
+
+Jupyter is installed in the container image, you can simply run
+
+```shell
+    jupyter lab --no-browser
+```
+
+on a Singularity container shell.
+
+Now point your web browser (outside of the container) to "http://127.0.0.1:8888/?token=..." (the Jupyter server will display the current valid token during it's start sequence).
 
 
 ### Running GUI/X11 applications
