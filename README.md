@@ -80,7 +80,22 @@ To load saved Docker image from a file, use `docker load` instead of `docker pul
 docker load -i IMAGE_FILENAME.tar[.gz]
 ```
 
-You will probably want to use additional `docker run` options like `-p 8888:8888` and `-v /dir/outside:/dir/inside`. You may want to familiarize yourself with Docker first.
+You will probably want to use additional `docker run` options like `-p PORT:PORT` and `-v /dir/outside:/dir/inside`. You may want to [familiarize yourself with Docker first](https://docs.docker.com/get-started/). In particular, you will want to understand the [`docker run`](https://docs.docker.com/engine/reference/run/), [`docker container ls`](https://docs.docker.com/engine/reference/commandline/container_ls/)/[`start`](https://docs.docker.com/engine/reference/commandline/container_start/)/[`stop`](https://docs.docker.com/engine/reference/commandline/container_stop/)/[`rm`](https://docs.docker.com/engine/reference/commandline/container_rm/), and [`docker image ls`](https://docs.docker.com/engine/reference/commandline/image_ls/)/[`rm`](https://docs.docker.com/engine/reference/commandline/image_rm/) commands.
+
+If you run out of disk space and everything gets bonked, do something like:
+
+```
+# List all running and stopped containers:
+docker container ls -a
+# Kill all running containers:
+docker container kill `docker container ls -q`
+# Remove all stopped containers:
+docker container prune
+# List container images:
+docker image ls [-a]
+# Also remove all (dangling or all) images (and more):
+docker system prune [-a]
+```
 
 When using Docker Desktop (for Windows or for Mac), files created in mounted volumes (`-v` option) will belong the user who started the container, as one would expect. The docker engine itself actually runs inside a lightweight virtual Linux system (this is mostly transparent to the user). Likewise, the containers themselves are also a Linux systems, independent of the host system's native OS. Docker Desktop automatically manages the Linux VM, and transfers files between the VM and Host OS [which can result in noticeable latency](https://docs.docker.com/docker-for-mac/osxfs-caching/).
 
