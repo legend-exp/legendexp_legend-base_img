@@ -11,6 +11,13 @@ WORKDIR /root
 COPY provisioning/install-sw.sh /root/provisioning/
 
 
+# Install Developer Toolset 8 (for GCC 8):
+
+RUN true \
+    && yum install -y centos-release-scl \
+    && yum install -y devtoolset-8
+
+
 # Install MXNet:
 
 COPY provisioning/install-sw-scripts/mxnet-* provisioning/install-sw-scripts/
