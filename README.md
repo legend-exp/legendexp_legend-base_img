@@ -11,7 +11,7 @@ The Docker image includes the following Software:
 * CUDA v10.1
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
-* Julia v1.1
+* Julia v1.2
 * MXNet
 * Node.js
 
