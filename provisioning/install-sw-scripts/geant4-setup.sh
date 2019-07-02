@@ -60,7 +60,7 @@ function remove_from_path {
 
 
 pkg_install() {
-    if (command -v ls > /dev/null) ; then
+    if (command -v conda > /dev/null) ; then
         remove_from_path "$(dirname `command -v conda`)"
     fi
 
