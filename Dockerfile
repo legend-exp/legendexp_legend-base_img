@@ -119,11 +119,19 @@ RUN true \
     && ssh-keygen -N "" -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
 
 
-# Install device control development dependencies:
+# Install additional LEGEND software build dependencies:
+
 RUN yum install -y \
-        net-snmp-devel net-snmp-utils \
-        libmodbus-devel \
-        libusbx-devel
+    libcurl-devel \
+    boost-devel
+
+
+# Install device control development dependencies:
+
+RUN yum install -y \
+    net-snmp-devel net-snmp-utils \
+    libmodbus-devel \
+    libusbx-devel
 
 
 # Install additional packages and clean up:
