@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:julia11-anaconda3201903
+FROM mppmu/julia-anaconda:julia11-anaconda3201903-cuda101
 
 # User and workdir settings:
 
@@ -16,6 +16,21 @@ COPY provisioning/install-sw.sh /root/provisioning/
 RUN true \
     && yum install -y centos-release-scl \
     && yum install -y devtoolset-8
+
+
+# Install MXNet:
+
+COPY provisioning/install-sw-scripts/mxnet-* provisioning/install-sw-scripts/
+
+ENV \
+    LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
+    MXNET_HOME="/opt/mxnet"
+
+RUN true \
+    && yum install -y \
+        openblas-devel \
+        opencv-devel \
+    && provisioning/install-sw.sh mxnet apache/294a34a /opt/mxnet
 
 
 # Install CLHep and Geant4:
@@ -75,6 +90,12 @@ RUN pip install metakernel
 
 # Accessing ROOT via Cxx.jl requires RTTI:
 ENV JULIA_CXX_RTTI="1"
+
+
+# Install ArrayFire:
+
+RUN true \
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.2/ArrayFire-no-gl-v3.6.2_Linux_x86_64.rpm"
 
 
 # Install additional Jupyter-related Python packages:
@@ -147,6 +168,13 @@ RUN yum install -y \
     && conda install -y pyserial
 
 
+# Install Nvidia visual profiler:
+
+RUN true \
+    && yum install -y \
+        cuda-nvvp-10-1
+
+
 # Install additional packages and clean up:
 
 RUN yum install -y \
@@ -171,7 +199,7 @@ RUN yum install -y \
 
 # Set container-specific SWMOD_HOSTSPEC:
 
-ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-fab953d4"
+ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-38e8fd83"
 
 
 # Final steps
