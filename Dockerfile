@@ -147,7 +147,7 @@ COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
 ENV PATH="/opt/dcraw/bin:$PATH"
 
 RUN true \
-    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel
+    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel \
     && provisioning/install-sw.sh dcraw current /opt/dcraw
 
 
@@ -155,7 +155,9 @@ RUN true \
 RUN yum install -y \
         net-snmp-devel net-snmp-utils \
         libmodbus-devel \
-        libusbx-devel
+        libusbx-devel \
+    && yum install -y http://springdale.math.ias.edu/data/puias/unsupported/7/x86_64//gphoto2-2.5.15-1.sdl7.x86_64.rpm \
+    && conda install -y pyserial
 
 
 # Install Nvidia visual profiler:
