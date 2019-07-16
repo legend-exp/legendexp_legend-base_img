@@ -126,6 +126,17 @@ RUN yum install -y \
     boost-devel
 
 
+# Install dcraw
+
+COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
+
+ENV PATH="/opt/dcraw/bin:$PATH"
+
+RUN true \
+    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel
+    && provisioning/install-sw.sh dcraw current /opt/dcraw
+
+
 # Install device control development dependencies:
 
 RUN yum install -y \
