@@ -140,6 +140,17 @@ RUN true \
     && ssh-keygen -N "" -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
 
 
+# Install dcraw
+
+COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
+
+ENV PATH="/opt/dcraw/bin:$PATH"
+
+RUN true \
+    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel
+    && provisioning/install-sw.sh dcraw current /opt/dcraw
+
+
 # Install device control development dependencies:
 RUN yum install -y \
         net-snmp-devel net-snmp-utils \
