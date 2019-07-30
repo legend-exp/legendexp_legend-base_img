@@ -30,7 +30,7 @@ RUN true \
     && yum install -y \
         openblas-devel \
         opencv-devel \
-    && provisioning/install-sw.sh mxnet apache/294a34a /opt/mxnet
+    && provisioning/install-sw.sh mxnet apache/1.5.0 /opt/mxnet
 
 
 # Install CLHep and Geant4:
