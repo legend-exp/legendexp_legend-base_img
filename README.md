@@ -6,7 +6,7 @@ The Docker image includes the following Software:
 
 * Anaconda v2019.03 (Python 3.7)
 * GitHub Atom
-* CERN ROOT v6.16
+* CERN ROOT v6.18
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
 * Julia v1.1
