@@ -100,7 +100,7 @@ RUN yum install -y \
 
 # Install Xpra:
 
-COPY provisioning/xpra-centos7.repo /etc/yum.repos.d/xpra-centos7.repo
+COPY provisioning/winswitch.repo /etc/yum.repos.d/winswitch7.repo
 
 RUN yum install -y \
     xpra python2-uinput python-paramiko python-websockify \
