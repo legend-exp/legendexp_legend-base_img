@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:julia12-anaconda3201907
+FROM mppmu/julia-anaconda:julia13-anaconda3201910
 
 # User and workdir settings:
 
@@ -16,6 +16,17 @@ COPY provisioning/install-sw.sh /root/provisioning/
 RUN true \
     && yum install -y centos-release-scl \
     && yum install -y devtoolset-8
+
+
+# Install HDF5:
+
+COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/hdf5/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/hdf5/lib:$LD_LIBRARY_PATH"
+
+RUN provisioning/install-sw.sh hdf5-srcbuild 1.10.5 /opt/hdf5
 
 
 # Install CLHep and Geant4:
@@ -143,7 +154,6 @@ RUN yum install -y \
 
 RUN yum install -y \
         \
-        numactl \
         htop nmon \
         nano vim \
         git-gui gitk \
