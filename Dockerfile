@@ -90,14 +90,6 @@ RUN true \
 RUN conda install -y -c conda-forge lz4 && pip install uproot
 
 
-# Install Atom:
-
-RUN yum install -y \
-        lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
-        levien-inconsolata-fonts dejavu-sans-fonts libsecret \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.40.1/atom.x86_64.rpm
-
-
 # Install Xpra:
 
 COPY provisioning/winswitch.repo /etc/yum.repos.d/winswitch7.repo
