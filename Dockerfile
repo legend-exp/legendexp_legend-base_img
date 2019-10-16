@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:julia12-anaconda3201907-cuda101
+FROM mppmu/julia-anaconda:julia13-anaconda3201910-cuda101
 
 # User and workdir settings:
 
@@ -31,6 +31,17 @@ RUN true \
         openblas-devel \
         opencv-devel \
     && provisioning/install-sw.sh mxnet apache/1.5.0 /opt/mxnet
+
+
+# Install HDF5:
+
+COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/hdf5/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/hdf5/lib:$LD_LIBRARY_PATH"
+
+RUN provisioning/install-sw.sh hdf5-srcbuild 1.10.5 /opt/hdf5
 
 
 # Install CLHep and Geant4:
@@ -111,14 +122,6 @@ RUN true \
 RUN conda install -y -c conda-forge lz4 && pip install uproot
 
 
-# Install Atom:
-
-RUN yum install -y \
-        lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
-        levien-inconsolata-fonts dejavu-sans-fonts libsecret \
-    && rpm -ihv https://github.com/atom/atom/releases/download/v1.40.1/atom.x86_64.rpm
-
-
 # Install Xpra:
 
 COPY provisioning/winswitch.repo /etc/yum.repos.d/winswitch7.repo
@@ -179,7 +182,6 @@ RUN true \
 
 RUN yum install -y \
         \
-        numactl \
         htop nmon \
         nano vim \
         git-gui gitk \
