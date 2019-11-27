@@ -163,13 +163,6 @@ RUN yum install -y \
     && conda install -y pyserial
 
 
-# Install Nvidia visual profiler:
-
-RUN true \
-    && yum install -y \
-        cuda-nvvp-10-1
-
-
 # Install additional packages and clean up:
 
 RUN yum install -y \
