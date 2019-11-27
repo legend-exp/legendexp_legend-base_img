@@ -109,14 +109,6 @@ RUN true \
     && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.2/ArrayFire-no-gl-v3.6.2_Linux_x86_64.rpm"
 
 
-# Install additional Jupyter-related Python packages:
-
-RUN true \
-    && conda install -y -c conda-forge rise \
-    && conda install -y -c conda-forge jupyter_contrib_nbextensions \
-    && pip install bash_kernel && JUPYTER_DATA_DIR="/opt/anaconda3/share/jupyter" python -m bash_kernel.install
-
-
 # Install additional Science-related Python packages:
 
 RUN conda install -y -c conda-forge lz4 && pip install uproot
@@ -181,12 +173,7 @@ RUN true \
 # Install additional packages and clean up:
 
 RUN yum install -y \
-        \
-        htop nmon \
-        nano vim \
-        git-gui gitk \
         valgrind \
-        nmap-ncat \
         \
         pbzip2 zstd libzstd-devel \
         \
@@ -194,8 +181,6 @@ RUN yum install -y \
         graphviz-devel \
         \
         poppler-utils \
-        \
-        http://linuxsoft.cern.ch/cern/centos/7/cern/x86_64/Packages/parallel-20150522-1.el7.cern.noarch.rpm \
     && yum clean all
 
 
