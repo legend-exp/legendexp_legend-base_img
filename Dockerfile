@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:julia13-anaconda3201910-cuda101
+FROM mppmu/julia-anaconda:julia14-anaconda3201910-cuda102
 
 # User and workdir settings:
 
@@ -51,17 +51,17 @@ COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/gea
 ENV \
     PATH="/opt/geant4/bin:/opt/clhep/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/geant4/lib64:/opt/clhep/lib:$LD_LIBRARY_PATH" \
-    G4ABLADATA="/opt/geant4/share/Geant4-10.5.1/data/G4ABLA3.1" \
-    G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.5.1/data/G4ENSDFSTATE2.2" \
-    G4INCLDATA="/opt/geant4/share/Geant4-10.5.1/data/G4INCL1.0" \
-    G4LEDATA="/opt/geant4/share/Geant4-10.5.1/data/G4EMLOW7.7" \
-    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.5.1/data/PhotonEvaporation5.3" \
-    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4NDL4.5" \
-    G4PARTICLEXSDATA="/opt/geant4/share/Geant4-10.5.1/data/G4PARTICLEXS1.1" \
-    G4PIIDATA="/opt/geant4/share/Geant4-10.5.1/data/G4PII1.3" \
-    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.5.1/data/RadioactiveDecay5.3" \
-    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.5.1/data/RealSurface2.1.1" \
-    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.5.1/data/G4SAIDDATA2.0" \
+    G4ABLADATA="/opt/geant4/share/Geant4-10.6.0/data/G4ABLA3.1" \
+    G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.6.0/data/G4ENSDFSTATE2.2" \
+    G4INCLDATA="/opt/geant4/share/Geant4-10.6.0/data/G4INCL1.0" \
+    G4LEDATA="/opt/geant4/share/Geant4-10.6.0/data/G4EMLOW7.9" \
+    G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.6.0/data/PhotonEvaporation5.5" \
+    G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.6.0/data/G4NDL4.6" \
+    G4PARTICLEXSDATA="/opt/geant4/share/Geant4-10.6.0/data/G4PARTICLEXS2.1" \
+    G4PIIDATA="/opt/geant4/share/Geant4-10.6.0/data/G4PII1.3" \
+    G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.6.0/data/RadioactiveDecay5.4" \
+    G4REALSURFACEDATA="/opt/geant4/share/Geant4-10.6.0/data/RealSurface2.1.1" \
+    G4SAIDXSDATA="/opt/geant4/share/Geant4-10.6.0/data/G4SAIDDATA2.0" \
     AllowForHeavyElements=1
 
 RUN true \
@@ -69,8 +69,13 @@ RUN true \
         expat-devel xerces-c-devel zlib-devel \
         libXmu-devel libXi-devel \
         mesa-libGLU-devel motif-devel mesa-libGLw qt-devel \
-    && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
-    && provisioning/install-sw.sh geant4 10.5.1 /opt/geant4
+    && provisioning/install-sw.sh clhep 2.4.1.3 /opt/clhep \
+    && provisioning/install-sw.sh geant4 10.6.0 /opt/geant4
+
+ENV G4TENDLDATA="/opt/geant4/share/Geant4-10.6.0/data/G4TENDL1.3.2"
+RUN mkdir "$G4TENDLDATA" \
+    && wget -O- "http://geant4-data.web.cern.ch/geant4-data/datasets/G4TENDL.1.3.2.tar.gz" \
+        | tar --strip-components 1 -C "$G4TENDLDATA" --strip=1 -x -z
 
 
 # Install CERN ROOT:
