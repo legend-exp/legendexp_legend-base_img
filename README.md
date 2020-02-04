@@ -8,7 +8,7 @@ The Docker image includes the following Software:
 * CERN ROOT v6.18
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
-* Julia v1.0 and v1.3 (default)
+* Julia v1.0 and v1.4 (default)
 * Node.js
 
 Builds of this image are available on [Dockerhub](https://hub.docker.com/r/legendexp/legend-base/).
