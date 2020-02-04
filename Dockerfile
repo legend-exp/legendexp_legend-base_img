@@ -57,6 +57,11 @@ RUN true \
     && provisioning/install-sw.sh clhep 2.4.1.3 /opt/clhep \
     && provisioning/install-sw.sh geant4 10.6.0 /opt/geant4
 
+ENV G4TENDLDATA="/opt/geant4/share/Geant4-10.6.0/data/G4TENDL1.3.2"
+RUN mkdir "$G4TENDLDATA" \
+    && wget -O- "http://geant4-data.web.cern.ch/geant4-data/datasets/G4TENDL.1.3.2.tar.gz" \
+        | tar --strip-components 1 -C "$G4TENDLDATA" --strip=1 -x -z
+
 
 # Install CERN ROOT:
 
