@@ -71,12 +71,14 @@ pkg_install() {
     curl -L "${DOWNLOAD_URL}" | tar --strip-components 1 -C src --strip=1 -x -z
     cd build
 
-    cmake \
+    devtoolset=`rpm -qa "devtoolset-*-gcc" | head -n1 | sed 's/-gcc.*//'`
+
+    scl enable "${devtoolset}" -- cmake \
         -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" \
         ${DEFAULT_BUILD_OPTS} \
         ../src
 
-    time make -j"$(nproc)" install
+    time scl enable "${devtoolset}" -- make -j"$(nproc)" install
 }
 
 
