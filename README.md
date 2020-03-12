@@ -8,7 +8,7 @@ The Docker image includes the following Software:
 * ArrayFire v3.6
 * CERN ROOT v6.18
 * CUDA v10.1
-* Geant4 v10.6 and CLHep
+* Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
 * Julia v1.0 and v1.4 (default)
 * MXNet
