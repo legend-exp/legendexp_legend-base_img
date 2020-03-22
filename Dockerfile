@@ -18,21 +18,6 @@ RUN true \
     && yum install -y devtoolset-8
 
 
-# Install MXNet:
-
-COPY provisioning/install-sw-scripts/mxnet-* provisioning/install-sw-scripts/
-
-ENV \
-    LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
-    MXNET_HOME="/opt/mxnet"
-
-RUN true \
-    && yum install -y \
-        openblas-devel \
-        opencv-devel \
-    && provisioning/install-sw.sh mxnet apache/1.5.0 /opt/mxnet
-
-
 # Install HDF5:
 
 COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
@@ -106,12 +91,6 @@ RUN pip install metakernel
 
 # Accessing ROOT via Cxx.jl requires RTTI:
 ENV JULIA_CXX_RTTI="1"
-
-
-# Install ArrayFire:
-
-RUN true \
-    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.6.2/ArrayFire-no-gl-v3.6.2_Linux_x86_64.rpm"
 
 
 # Install additional Science-related Python packages:
