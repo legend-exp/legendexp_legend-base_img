@@ -95,7 +95,9 @@ ENV JULIA_CXX_RTTI="1"
 
 # Install additional Science-related Python packages:
 
-RUN conda install -y -c conda-forge lz4 && pip install uproot
+RUN true \
+    && conda install -y lz4 zstandard \
+    && pip install uproot xxhash
 
 
 # Install Xpra:
