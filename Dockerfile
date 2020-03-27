@@ -84,7 +84,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.18.04 /opt/root
+    && provisioning/install-sw.sh root 6.20.02 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN pip install metakernel  
@@ -95,7 +95,10 @@ ENV JULIA_CXX_RTTI="1"
 
 # Install additional Science-related Python packages:
 
-RUN conda install -y -c conda-forge lz4 && pip install uproot
+RUN true \
+    && conda install -y lz4 zstandard \
+    && pip install uproot xxhash \
+    && pip install hepunits particle
 
 
 # Install Xpra:
