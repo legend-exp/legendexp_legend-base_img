@@ -153,7 +153,7 @@ RUN yum install -y \
 # Install additional packages and clean up:
 
 RUN yum install -y \
-        valgrind \
+        valgrind perf \
         \
         pbzip2 zstd libzstd-devel \
         \
