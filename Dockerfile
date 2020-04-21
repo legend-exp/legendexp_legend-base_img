@@ -26,7 +26,7 @@ ENV \
     PATH="/opt/hdf5/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/hdf5/lib:$LD_LIBRARY_PATH"
 
-RUN provisioning/install-sw.sh hdf5-srcbuild 1.10.5 /opt/hdf5
+RUN provisioning/install-sw.sh hdf5-srcbuild 1.12.0 /opt/hdf5
 
 
 # Install CLHep and Geant4:
@@ -84,7 +84,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.20.02 /opt/root
+    && provisioning/install-sw.sh root 6.20.04 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN pip install metakernel  
