@@ -84,7 +84,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.22.00 /opt/root
+    && provisioning/install-sw.sh root 6.22.02 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN pip install metakernel  
@@ -97,7 +97,7 @@ ENV JULIA_CXX_RTTI="1"
 
 RUN true \
     && conda install -y lz4 zstandard \
-    && pip install uproot xxhash \
+    && pip install uproot uproot4 xxhash \
     && pip install hepunits particle
 
 
