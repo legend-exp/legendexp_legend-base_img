@@ -45,7 +45,7 @@ download_url() {
     && local PKG_VERSION_PATCH=$(seq -f "%02g" "${PKG_VERSION_PATCH}" "${PKG_VERSION_PATCH}") \
     && local PKG_VERSION_DNL="${PKG_VERSION_MAJOR}.${PKG_VERSION_MINOR}" \
     && local PKG_VERSION_DNL=$(test "${PKG_VERSION_PATCH}" -ne 0 && echo "${PKG_VERSION_DNL}.p${PKG_VERSION_PATCH}" || echo "${PKG_VERSION_DNL}") \
-    && echo "http://geant4.cern.ch/support/source/geant4.${PKG_VERSION_DNL}.tar.gz"
+    && echo "https://geant4-data.web.cern.ch/geant4-data/releases/geant4.${PKG_VERSION_DNL}.tar.gz"
 }
 
 
