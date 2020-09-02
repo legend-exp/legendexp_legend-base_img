@@ -86,8 +86,6 @@ RUN true \
         mesa-libGLU-devel \
     && provisioning/install-sw.sh root 6.22.02 /opt/root
 
-RUN conda create -n cernroot -c conda-forge root=6.22.2
-
 # Required for ROOT Jupyter kernel:
 RUN pip install metakernel  
 
