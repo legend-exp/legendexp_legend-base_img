@@ -98,7 +98,8 @@ ENV JULIA_CXX_RTTI="1"
 RUN true \
     && conda install -y lz4 zstandard \
     && pip install uproot awkward uproot3 awkward0 uproot4 awkward1 xxhash \
-    && pip install hepunits particle
+    && pip install hepunits particle \
+    && pip install ultranest
 
 
 # Install Xpra:
