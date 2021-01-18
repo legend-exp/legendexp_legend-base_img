@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:julia15-anaconda3202007-cuda111
+FROM mppmu/julia-anaconda:julia16-anaconda3202011-cuda112
 
 # User and workdir settings:
 
@@ -97,8 +97,10 @@ ENV JULIA_CXX_RTTI="1"
 
 RUN true \
     && conda install -y lz4 zstandard \
-    && pip install uproot uproot4 xxhash \
-    && pip install hepunits particle
+    && conda install -y -c conda-forge tensorboard \
+    && pip install uproot awkward uproot3 awkward0 uproot4 awkward1 xxhash \
+    && pip install hepunits particle \
+    && pip install ultranest
 
 
 # Install Xpra:
