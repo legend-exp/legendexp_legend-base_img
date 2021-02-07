@@ -122,6 +122,15 @@ RUN yum install -y \
     boost-devel
 
 
+# Install Snakemake and panoptes-ui
+
+RUN true \
+    && mamba install -y -c conda-forge -c bioconda \
+        snakemake \
+        sqlite flask humanfriendly marshmallow pytest requests sqlalchemy \
+    && pip3 install panoptes-ui
+
+
 # Install dcraw
 
 COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
