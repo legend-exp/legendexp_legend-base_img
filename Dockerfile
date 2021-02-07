@@ -87,7 +87,7 @@ RUN true \
     && provisioning/install-sw.sh root 6.22.02 /opt/root
 
 # Required for ROOT Jupyter kernel:
-RUN pip install metakernel  
+RUN mamba install -y metakernel  
 
 # Accessing ROOT via Cxx.jl requires RTTI:
 ENV JULIA_CXX_RTTI="1"
@@ -96,11 +96,12 @@ ENV JULIA_CXX_RTTI="1"
 # Install additional Science-related Python packages:
 
 RUN true \
-    && conda install -y lz4 zstandard \
-    && conda install -y -c conda-forge tensorboard \
-    && pip install uproot awkward uproot3 awkward0 uproot4 awkward1 xxhash \
-    && pip install hepunits particle \
-    && pip install ultranest
+    && mamba install -y lz4 zstandard \
+    && mamba install -y -c conda-forge \
+        tensorboard \
+        ultranest \
+        uproot awkward uproot3 awkward0 uproot4 awkward1 xxhash \
+        hepunits particle
 
 
 # Install Xpra:
@@ -139,7 +140,7 @@ RUN yum install -y \
         libmodbus-devel \
         libusbx-devel \
     && yum install -y http://springdale.math.ias.edu/data/puias/unsupported/7/x86_64//gphoto2-2.5.15-1.sdl7.x86_64.rpm \
-    && conda install -y pyserial
+    && mamba install -y pyserial
 
 
 # Install additional packages and clean up:
