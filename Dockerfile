@@ -84,7 +84,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.22.02 /opt/root
+    && provisioning/install-sw.sh root 6.22.08 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN mamba install -y metakernel  
@@ -112,7 +112,7 @@ RUN yum install -y \
     xpra python2-uinput python-paramiko python-websockify \
     pwgen apg \
     xterm rxvt-unicode st \
-    https://download.opensuse.org/repositories/home:/rabin-io/CentOS_7/x86_64/mlterm-3.8.7-3.4.x86_64.rpm
+    https://download.opensuse.org/repositories/home:/rabin-io/CentOS_7/x86_64/mlterm-3.9.0-8.3.x86_64.rpm
 
 
 # Install additional LEGEND software build dependencies:
