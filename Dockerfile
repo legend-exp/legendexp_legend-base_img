@@ -84,7 +84,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.22.08 /opt/root
+    && provisioning/install-sw.sh root 6.24.00 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN mamba install -y metakernel  
