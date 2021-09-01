@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:julia16-anaconda3202011-cuda112
+FROM mppmu/julia-anaconda:julia17-anaconda3202105-cuda113
 
 # User and workdir settings:
 
@@ -26,7 +26,7 @@ ENV \
     PATH="/opt/hdf5/bin:$PATH" \
     LD_LIBRARY_PATH="/opt/hdf5/lib:$LD_LIBRARY_PATH"
 
-RUN provisioning/install-sw.sh hdf5-srcbuild 1.12.0 /opt/hdf5
+RUN provisioning/install-sw.sh hdf5-srcbuild 1.12.1 /opt/hdf5
 
 
 # Install CLHep and Geant4:
@@ -84,7 +84,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
-    && provisioning/install-sw.sh root 6.22.08 /opt/root
+    && provisioning/install-sw.sh root 6.24.04 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN mamba install -y metakernel  
