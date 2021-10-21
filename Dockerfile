@@ -119,7 +119,9 @@ RUN yum install -y \
 
 RUN yum install -y \
     libcurl-devel \
-    boost-devel
+    boost-devel \
+    zeromq-devel \
+    gsl-devel fftw-devel
 
 
 # Install Snakemake and panoptes-ui
@@ -131,14 +133,14 @@ RUN true \
     && pip3 install panoptes-ui
 
 
-# Install dcraw
+# Install dcraw and ImageMagick
 
 COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
 
 ENV PATH="/opt/dcraw/bin:$PATH"
 
 RUN true \
-    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel \
+    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel ImageMagick \
     && provisioning/install-sw.sh dcraw current /opt/dcraw
 
 
