@@ -247,3 +247,16 @@ docker run -it --rm \
 This will start a container with an interactive X11-enabled bash shell. You should now be able to run X11/GUI programs. See the Jupyter example above for the meaning of the `-it`, `--rm` and `-v` options.
 
 **Note:** Using `xhost + 127.0.0.1` is less than optimal from a security point of view! It is only barely acceptable on a single user system, and *must not* be used on a system with multiple users. Is may be possible to bind the ".Xauthority" from the host into the container instead, but at least on OS-X that alone doesn't seem to be sufficient.
+
+
+## Building Software
+
+### Disabling Anaconda
+
+When compiling/linking software, files like `/opt/anaconda3/bin/*-config` can get in the way, they can cause software to link against Anaconda libraries (which are not on `$LD_LIBRARY_PATH`, by default) instead of system libraries. You can use
+
+```shell
+source disable-conda.sh
+```
+
+to remove `"/opt/anaconda3/bin"` and `"/opt/anaconda3/condabin"` from `$PATH` in your current shell or build script.
