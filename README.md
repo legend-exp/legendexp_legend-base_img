@@ -39,7 +39,7 @@ You can [use Jupyter kernels in Shifter containers](https://docs.nersc.gov/servi
 When connected to NERSC via `ssh -X`, you can run X11/GUI applications inside (and outside) of Shifter containers. However, X11 over SSH can be slow, depending on your network bandwidth and latency to NERSC. Starting an Xpra server (see below in, but in contrast to Docker no network port binding is necessary) may be a good alternative.
 
 
-## Use with [Singularity](https://www.sylabs.io/singularity/)
+## Use with [Singularity](http://singularity.hpcng.org/)
 
 With Singularity v2.x, convert the Docker image to a Singularity image via
 
