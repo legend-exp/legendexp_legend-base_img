@@ -5,12 +5,8 @@
 
 pkg_install() {
     DOWNLOAD_URL=""
-    if [ "${LINUX_DIST_BINCOMPAT}" = "ubuntu-14.04" ] ; then
-        DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-ubuntu14-x86_64-gcc4.8.tar.gz"
-    elif [ "${LINUX_DIST_BINCOMPAT}" = "ubuntu-16.04" ] ; then
-        DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-ubuntu16-x86_64-gcc5.4.tar.gz"
-    elif [ "${LINUX_DIST_BINCOMPAT}" = "rhel-6" ] ; then
-        DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-slc6-x86_64-gcc4.4.tar.gz"
+    if [ "${LINUX_DIST_BINCOMPAT}" = "ubuntu-20.04" ] ; then
+        DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-ubuntu20-x86_64-gcc9.3.tar.gz"
     elif [ "${LINUX_DIST_BINCOMPAT}" = "rhel-7" ] ; then
         DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-centos7-x86_64-gcc4.8.tar.gz"
     else

@@ -260,23 +260,3 @@ source disable-conda.sh
 ```
 
 to remove `"/opt/anaconda3/bin"` and `"/opt/anaconda3/condabin"` from `$PATH` in your current shell or build script.
-
-
-### Using devtoolset to build with a newer GCC
-
-CentOS-7 comes with GCC v4.8, which is too old to build some current software. Use
-
-```shell
-source scl_source enable devtoolset-8
-```
-
-to switch to a GCC v8.3 toolchain in your current shell or build script. You can also use
-
-```shell
-scl enable devtoolset-8 configure [...]
-scl enable devtoolset-8 make [...]
-```
-
-and so on to use `devtoolset-8` for individual build commands.
-
-You do **not** need to use `scl enable devtoolset-8` to **run** the software, once built/installed, updated GCC-related libraries will be loaded automatically.

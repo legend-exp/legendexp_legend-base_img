@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:co7-jl17-ac3202105-cu113
+FROM mppmu/julia-anaconda:ub20-jl17-ac3202105-cu113
 
 # User and workdir settings:
 
@@ -9,13 +9,6 @@ WORKDIR /root
 # Copy provisioning script(s):
 
 COPY provisioning/install-sw.sh /root/provisioning/
-
-
-# Install Developer Toolset 8 (for GCC 8):
-
-RUN true \
-    && yum install -y centos-release-scl \
-    && yum install -y devtoolset-8
 
 
 # Install HDF5:
@@ -51,10 +44,12 @@ ENV \
     AllowForHeavyElements=1
 
 RUN true \
-    && yum install -y \
-        expat-devel xerces-c-devel zlib-devel \
-        libXmu-devel libXi-devel \
-        mesa-libGLU-devel motif-devel mesa-libGLw qt-devel \
+    && apt-get update && apt-get install -y \
+        libexpat-dev libxerces-c-dev libz-dev \
+        libxmu-dev libxi-dev \
+        libglu1-mesa-dev libmotif-dev libglfw3-dev \
+        qt5-default qtbase5-dev-tools \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
     && provisioning/install-sw.sh geant4 10.5.1 /opt/geant4
 
@@ -79,12 +74,13 @@ ENV \
     ROOTSYS="/opt/root"
 
 RUN true \
-    && yum install -y \
-        libSM-devel \
-        libX11-devel libXext-devel libXft-devel libXpm-devel \
-        libXrandr-devel libXinerama-devel libXcursor-devel \
-        libjpeg-devel libpng-devel \
-        mesa-libGLU-devel \
+    && apt-get update && apt-get install -y \
+        libsm-dev \
+        libx11-dev libxext-dev libxft-dev libxpm-dev \
+        libxrandr-dev libxinerama-dev libxcursor-dev \
+        libjpeg-dev libpng-dev \
+        libglu1-mesa-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && provisioning/install-sw.sh root 6.24.06 /opt/root
 
 # Required for ROOT Jupyter kernel:
@@ -107,22 +103,21 @@ RUN true \
 
 # Install Xpra:
 
-COPY provisioning/winswitch.repo /etc/yum.repos.d/winswitch7.repo
-
-RUN yum install -y \
-    xpra python2-uinput python-paramiko python-websockify \
-    pwgen apg \
-    xterm rxvt-unicode st \
-    https://download.opensuse.org/repositories/home:/rabin-io/CentOS_7/x86_64/mlterm-3.9.0-8.3.x86_64.rpm
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        xpra python3-uinput python3-paramiko python3-websockify \
+        pwgen apg \
+        xterm mlterm rxvt-unicode \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 # Install additional LEGEND software build dependencies:
 
-RUN yum install -y \
-    libcurl-devel \
-    boost-devel \
-    zeromq-devel \
-    gsl-devel fftw-devel
+RUN apt-get update && apt-get install -y \
+        libcurl4-gnutls-dev \
+        libboost-all-dev \
+        libzmq3-dev \
+        libfftw3-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 # Install Snakemake and panoptes-ui
@@ -136,42 +131,41 @@ RUN true \
 
 # Install dcraw and ImageMagick
 
-COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
-
-ENV PATH="/opt/dcraw/bin:$PATH"
-
-RUN true \
-    && yum install -y libjpeg-turbo-devel jasper-devel lcms2-devel ImageMagick \
-    && provisioning/install-sw.sh dcraw current /opt/dcraw
+RUN apt-get update && apt-get install -y \
+        imagemagick dcraw \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 # Install device control development dependencies:
 
-RUN yum install -y \
-        net-snmp-devel net-snmp-utils \
-        libmodbus-devel \
-        libusbx-devel \
-    && yum install -y http://springdale.math.ias.edu/data/puias/unsupported/7/x86_64//gphoto2-2.5.15-1.sdl7.x86_64.rpm \
+RUN apt-get update && apt-get install -y \
+        snmp libsnmp-dev \
+        libmodbus-dev \
+        libusb-1.0-0-dev \
+        gphoto2 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && mamba install -y pyserial
 
 
 # Install additional packages and clean up:
 
-RUN yum install -y \
-        valgrind perf \
+RUN apt-get update && apt-get install -y \
+        valgrind linux-tools-common \
         \
-        pbzip2 zstd libzstd-devel \
+        pbzip2 zstd libzstd-dev \
         \
-        readline-devel \
-        graphviz-devel \
+        libreadline-dev \
+        graphviz-dev \
         \
         poppler-utils \
-    && yum clean all
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+    # linux-tools-common for perf
 
 
 # Set container-specific SWMOD_HOSTSPEC:
 
-ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-fab953d4"
+ENV SWMOD_HOSTSPEC="linux-ubuntu-20.04-x86_64-470e63d7"
 
 
 # Final steps
