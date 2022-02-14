@@ -52,7 +52,6 @@ ENV \
     G4LEDATA="/opt/geant4/share/Geant4-10.5.1/data/G4EMLOW7.7" \
     G4LEVELGAMMADATA="/opt/geant4/share/Geant4-10.5.1/data/PhotonEvaporation5.3" \
     G4NEUTRONHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4NDL4.5" \
-    G4PARTICLEHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2" \
     G4PARTICLEXSDATA="/opt/geant4/share/Geant4-10.5.1/data/G4PARTICLEXS1.1" \
     G4PIIDATA="/opt/geant4/share/Geant4-10.5.1/data/G4PII1.3" \
     G4RADIOACTIVEDATA="/opt/geant4/share/Geant4-10.5.1/data/RadioactiveDecay5.3" \
@@ -68,7 +67,15 @@ RUN true \
     && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
     && provisioning/install-sw.sh geant4 10.5.1 /opt/geant4
 
-ENV G4TENDLDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2"
+ENV \
+    G4TENDLDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2" \
+    G4PARTICLEHPDATA="$G4TENDLDATA" \
+    G4PROTONHPDATA="$G4TENDLDATA/Proton" \
+    G4DEUTERONHPDATA="$G4TENDLDATA/Deuteron" \
+    G4TRITONHPDATA="$G4TENDLDATA/Triton" \
+    G4HE3HPDATA="$G4TENDLDATA/He3" \
+    G4ALPHAHPDATA="$G4TENDLDATA/Alpha"
+
 RUN mkdir "$G4TENDLDATA" \
     && wget -O- "http://geant4-data.web.cern.ch/geant4-data/datasets/G4TENDL.1.3.2.tar.gz" \
         | tar --strip-components 1 -C "$G4TENDLDATA" --strip=1 -x -z
