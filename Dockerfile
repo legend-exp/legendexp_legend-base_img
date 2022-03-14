@@ -18,6 +18,16 @@ RUN true \
     && yum install -y devtoolset-8
 
 
+# Install additional LEGEND software build dependencies:
+
+RUN yum install -y \
+    libcurl-devel \
+    boost-devel \
+    zeromq-devel \
+    gsl-devel fftw-devel \
+    libxml2-devel
+
+
 # Install HDF5:
 
 COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
@@ -114,15 +124,6 @@ RUN yum install -y \
     pwgen apg \
     xterm rxvt-unicode st \
     https://download.opensuse.org/repositories/home:/rabin-io/CentOS_7/x86_64/mlterm-3.9.0-8.3.x86_64.rpm
-
-
-# Install additional LEGEND software build dependencies:
-
-RUN yum install -y \
-    libcurl-devel \
-    boost-devel \
-    zeromq-devel \
-    gsl-devel fftw-devel
 
 
 # Install Snakemake and panoptes-ui
