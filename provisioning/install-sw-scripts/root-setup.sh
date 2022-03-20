@@ -2,11 +2,10 @@
 #
 # Copyright (c) 2016: Oliver Schulz.
 
-DEFAULT_BUILD_OPTS="-Dminuit2=ON"
+DEFAULT_BUILD_OPTS="-Dbuiltin_davix=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_unuran=ON -Dbuiltin_vdt=ON -Dbuiltin_veccore=ON -Dbuiltin_zlib=ON -Dfortran=ON -Dminuit2=ON -Dshadowpw=ON -Dsoversion=ON -Dunuran=ON -Dvmc=ON"
 
 pkg_install() {
     source disable-conda.sh
-    scl enable devtoolset-8 bash
     
     DOWNLOAD_URL="https://root.cern/download/root_v${PACKAGE_VERSION}.source.tar.gz"
     echo "INFO: Download URL: \"${DOWNLOAD_URL}\"." >&2

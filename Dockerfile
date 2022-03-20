@@ -95,6 +95,7 @@ RUN true \
         libXrandr-devel libXinerama-devel libXcursor-devel \
         libjpeg-devel libpng-devel \
         mesa-libGLU-devel \
+	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
     && provisioning/install-sw.sh root 6.24.06 /opt/root
 
 # Required for ROOT Jupyter kernel:
