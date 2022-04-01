@@ -97,7 +97,7 @@ RUN true \
     && mamba install -y -c conda-forge \
         tensorboard \
         ultranest \
-        uproot awkward uproot3 awkward0 uproot4 awkward1 xxhash \
+        uproot awkward xxhash \
         hepunits particle
 
 
