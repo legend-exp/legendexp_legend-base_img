@@ -120,7 +120,8 @@ RUN true \
         tensorboard \
         ultranest \
         uproot awkward0 uproot3 awkward uproot4 xxhash \
-        hepunits particle
+        hepunits particle \
+        iminuit
 
 
 # Install Xpra:
