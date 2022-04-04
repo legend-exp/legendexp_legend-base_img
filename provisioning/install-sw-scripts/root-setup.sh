@@ -2,22 +2,26 @@
 #
 # Copyright (c) 2016: Oliver Schulz.
 
+DEFAULT_BUILD_OPTS="-Dbuiltin_davix=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_unuran=ON -Dbuiltin_vc=ON -Dbuiltin_vdt=ON -Dbuiltin_veccore=ON -Dbuiltin_zlib=ON -Dbuiltin_zstd=OFF -Dfortran=ON -Dminuit2=ON -Dpythia8=ON -Dshadowpw=ON -Dsoversion=ON -Dunuran=ON -Dvmc=ON"
 
 pkg_install() {
-    DOWNLOAD_URL=""
-    if [ "${LINUX_DIST_BINCOMPAT}" = "ubuntu-20.04" ] ; then
-        DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-ubuntu20-x86_64-gcc9.3.tar.gz"
-    elif [ "${LINUX_DIST_BINCOMPAT}" = "rhel-7" ] ; then
-        DOWNLOAD_URL="https://root.cern.ch/download/root_v${PACKAGE_VERSION}.Linux-centos7-x86_64-gcc4.8.tar.gz"
-    else
-        echo "ERROR: Unsupported Linux distribution (binary compatible) \"${LINUX_DIST_BINCOMPAT}\"".
-        exit 1
-    fi
+    source disable-conda.sh
+    
+    DOWNLOAD_URL="https://root.cern/download/root_v${PACKAGE_VERSION}.source.tar.gz"
     echo "INFO: Download URL: \"${DOWNLOAD_URL}\"." >&2
 
+    mkdir src build
     mkdir -p "${INSTALL_PREFIX}"
-    download "${DOWNLOAD_URL}" \
-        | tar --strip-components=1 -x -z -f - -C "${INSTALL_PREFIX}"
+    download "${DOWNLOAD_URL}" | tar --strip-components 1 -C src --strip=1 -x -z
+    cd build
+    
+    cmake \
+	 -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" \
+	 -DPython3_ROOT_DIR=${CONDA_PREFIX}/bin \
+	 ${DEFAULT_BUILD_OPTS} \
+	 ../src
+    
+    time make -j"$(nproc)" install
 }
 
 

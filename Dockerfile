@@ -11,6 +11,18 @@ WORKDIR /root
 COPY provisioning/install-sw.sh /root/provisioning/
 
 
+# Install additional LEGEND software build dependencies:
+
+RUN apt-get update && apt-get install -y \
+        libcurl4-gnutls-dev \
+        libboost-all-dev \
+        libzmq3-dev \
+        libfftw3-dev \
+	libxml2-dev \
+	libgsl-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 # Install HDF5:
 
 COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
@@ -80,6 +92,8 @@ RUN true \
         libxrandr-dev libxinerama-dev libxcursor-dev \
         libjpeg-dev libpng-dev \
         libglu1-mesa-dev \
+	libcfitsio-dev libzstd-dev pythia8-root-interface \
+	libmysqlclient-dev libpq-dev libsqlite3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && provisioning/install-sw.sh root 6.24.06 /opt/root
 
@@ -107,16 +121,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         xpra python3-uinput python3-paramiko python3-websockify \
         pwgen apg \
         xterm mlterm rxvt-unicode \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
-# Install additional LEGEND software build dependencies:
-
-RUN apt-get update && apt-get install -y \
-        libcurl4-gnutls-dev \
-        libboost-all-dev \
-        libzmq3-dev \
-        libfftw3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
