@@ -154,6 +154,12 @@ RUN pip3 install \
     -f https://download.pytorch.org/whl/cu113/torch_stable.html
 
 
+# Install JAX:
+
+RUN pip3 install \
+    --upgrade "jax[cuda]" "jaxlib" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+
+
 # Install dcraw and ImageMagick
 
 COPY provisioning/install-sw-scripts/dcraw-* provisioning/install-sw-scripts/
