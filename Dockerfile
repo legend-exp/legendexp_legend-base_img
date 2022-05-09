@@ -134,11 +134,13 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 
 # Install Snakemake and panoptes-ui
+# (Temporary: Pin jinja2 to v3.0, >v3.1 causes trouble for Jupyter of Anaconda 2021.11.)
 
 RUN true \
     && mamba install -y -c conda-forge -c bioconda \
         snakemake \
         sqlite flask humanfriendly marshmallow pytest requests sqlalchemy \
+        jinja2=3.0 \
     && pip3 install panoptes-ui
 
 
