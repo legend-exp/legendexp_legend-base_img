@@ -65,6 +65,15 @@ pkg_install() {
         ../src
 
     time make -j"$(nproc)" install
+
+    (
+        cd "${INSTALL_PREFIX}/share/Geant4-10.5.1/geant4make/config"
+        for f in *.gmk sys/*.gmk; do
+            if (geant4-config --cflags | grep -q qt5) ; then
+                sed  's/QtCore/Qt5Core/g; s/QtGui/Qt5Gui/g; s/QtOpenGL/Qt5OpenGL/g; s/QtPrintSupport/Qt5PrintSupport/g; s/QtWidgets/Qt5Widgets/g' -i "$f"
+            fi
+        done
+    )
 }
 
 

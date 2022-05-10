@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2016: Oliver Schulz.
 
-DEFAULT_BUILD_OPTS="-Dbuiltin_davix=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_unuran=ON -Dbuiltin_vdt=ON -Dbuiltin_veccore=ON -Dbuiltin_zlib=ON -Dfortran=ON -Dminuit2=ON -Dshadowpw=ON -Dsoversion=ON -Dunuran=ON -Dvmc=ON"
+DEFAULT_BUILD_OPTS="-Dbuiltin_davix=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_unuran=ON -Dbuiltin_vc=ON -Dbuiltin_vdt=ON -Dbuiltin_veccore=ON -Dbuiltin_zlib=ON -Dbuiltin_zstd=OFF -Dfortran=ON -Dminuit2=ON -Dpythia8=ON -Dshadowpw=ON -Dsoversion=ON -Dunuran=ON -Dvmc=ON"
 
 pkg_install() {
     source disable-conda.sh
