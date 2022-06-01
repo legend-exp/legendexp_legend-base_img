@@ -153,10 +153,11 @@ RUN pip3 install \
     torchaudio==0.11.0 \
     --extra-index-url https://download.pytorch.org/whl/cu113
 
+
 # Install JAX:
 
 RUN pip3 install \
-    --upgrade "jax[cuda]" "jaxlib" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+    --upgrade "jax[cuda]==0.3.13" "jaxlib==0.3.10" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 
 
 # Install dcraw and ImageMagick
