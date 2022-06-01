@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:ub20-jl17-ac3202111-cu113
+FROM mppmu/julia-anaconda:ub20-jl18-ac3202205-cu113
 
 # User and workdir settings:
 

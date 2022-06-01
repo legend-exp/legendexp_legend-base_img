@@ -4,12 +4,12 @@ This repository contains the files necessary to generate a CentOS-7 based Docker
 
 The Docker image includes the following Software:
 
-* Anaconda v2021.11 (Python 3.9)
+* Anaconda v2022.05 (Python 3.9)
 * CERN ROOT v6.24
 * CUDA v11.3
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
-* Julia v1.6 and v1.7 (default)
+* Julia v1.6 and v1.8 (default)
 * Node.js
 
 Builds of this image are available on [Dockerhub](https://hub.docker.com/r/legendexp/legend-base/).
