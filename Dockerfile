@@ -182,6 +182,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get update && apt-get install -y \
         valgrind linux-tools-common \
+        uuid-runtime \
         \
         pbzip2 zstd libzstd-dev \
         \
