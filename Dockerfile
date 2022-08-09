@@ -40,7 +40,7 @@ COPY provisioning/install-sw-scripts/clhep-* provisioning/install-sw-scripts/gea
 
 ENV \
     PATH="/opt/geant4/bin:/opt/clhep/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/geant4/lib64:/opt/clhep/lib:$LD_LIBRARY_PATH" \
+    LD_LIBRARY_PATH="/opt/geant4/lib:/opt/clhep/lib:$LD_LIBRARY_PATH" \
     G4ABLADATA="/opt/geant4/share/Geant4-10.5.1/data/G4ABLA3.1" \
     G4ENSDFSTATEDATA="/opt/geant4/share/Geant4-10.5.1/data/G4ENSDFSTATE2.2" \
     G4INCLDATA="/opt/geant4/share/Geant4-10.5.1/data/G4INCL1.0" \
