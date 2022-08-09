@@ -157,7 +157,7 @@ RUN pip3 install \
 # Install JAX:
 
 RUN pip3 install \
-    --upgrade "jax[cuda]==0.3.13" "jaxlib==0.3.10" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+    --upgrade "jax[cuda]==0.3.15" "jaxlib[cuda]==0.3.15" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 
 # Install dcraw and ImageMagick
