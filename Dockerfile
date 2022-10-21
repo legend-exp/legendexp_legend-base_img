@@ -54,6 +54,9 @@ ENV \
     G4SAIDXSDATA="/opt/geant4/share/Geant4-10.5.1/data/G4SAIDDATA2.0" \
     AllowForHeavyElements=1
 
+# https://askubuntu.com/questions/1034313/ubuntu-18-4-libqt5core-so-5-cannot-open-shared-object-file-no-such-file-or-dir
+RUN strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
+
 RUN true \
     && apt-get update && apt-get install -y \
         libexpat-dev libxerces-c-dev libz-dev \
