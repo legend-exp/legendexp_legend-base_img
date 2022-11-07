@@ -69,12 +69,12 @@ RUN true \
 
 ENV \
     G4TENDLDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2" \
-    G4PARTICLEHPDATA="$G4TENDLDATA" \
-    G4PROTONHPDATA="$G4TENDLDATA/Proton" \
-    G4DEUTERONHPDATA="$G4TENDLDATA/Deuteron" \
-    G4TRITONHPDATA="$G4TENDLDATA/Triton" \
-    G4HE3HPDATA="$G4TENDLDATA/He3" \
-    G4ALPHAHPDATA="$G4TENDLDATA/Alpha"
+    G4PARTICLEHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2" \
+    G4PROTONHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2/Proton" \
+    G4DEUTERONHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2/Deuteron" \
+    G4TRITONHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2/Triton" \
+    G4HE3HPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2/He3" \
+    G4ALPHAHPDATA="/opt/geant4/share/Geant4-10.5.1/data/G4TENDL1.3.2/Alpha"
 
 RUN mkdir "$G4TENDLDATA" \
     && wget -O- "http://geant4-data.web.cern.ch/geant4-data/datasets/G4TENDL.1.3.2.tar.gz" \
