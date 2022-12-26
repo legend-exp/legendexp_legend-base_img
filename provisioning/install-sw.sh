@@ -24,9 +24,9 @@ get_linux_dist_info() {
     if [ -f /etc/debian_version ] ; then
         LINUX_DIST_FAMILY="debian"
         local VER_STRING=`cat /etc/issue.net | head -n1`
-        if (echo "${VER_STRING}" | grep -q '^Debian GNU/Linux \([0-9]\).*$') ; then
+        if (echo "${VER_STRING}" | grep -q '^Debian GNU/Linux \([0-9]\+\).*$') ; then
             LINUX_DIST_NAME="debian"
-            LINUX_DIST_VERSION=`echo "${VER_STRING}" | sed 's@^Debian GNU/Linux \([0-9]\).*$@\1@'`
+            LINUX_DIST_VERSION=`echo "${VER_STRING}" | sed 's@^Debian GNU/Linux \([0-9]\+\).*$@\1@'`
         elif (echo "${VER_STRING}" | grep -q '^Ubuntu \([0-9][0-9][.][0-9][0-9]\).*$') ; then
             LINUX_DIST_NAME="ubuntu"
             LINUX_DIST_VERSION=`echo "${VER_STRING}" | sed 's@^Ubuntu \([0-9][0-9][.][0-9][0-9]\).*$@\1@'`
