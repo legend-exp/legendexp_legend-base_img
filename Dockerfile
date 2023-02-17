@@ -119,7 +119,8 @@ ENV JULIA_CXX_RTTI="1"
 
 RUN true \
     && mamba install -y lz4 zstandard \
-    && mamba install -y -c conda-forge \
+    && mamba install -c main -c conda-forge -y \
+        lz4 zstandard \
         tensorboard \
         ultranest \
         uproot awkward0 uproot3 awkward uproot4 xxhash \
@@ -140,7 +141,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 # (Temporary: Pin jinja2 to v3.0, >v3.1 causes trouble for Jupyter of Anaconda 2021.11.)
 
 RUN true \
-    && mamba install -y -c conda-forge -c bioconda \
+    && mamba install -c main -c conda-forge -c bioconda -y \
         snakemake \
         sqlite flask humanfriendly marshmallow pytest requests sqlalchemy \
         jinja2=3.0 \
