@@ -102,7 +102,7 @@ RUN true \
         libxrandr-dev libxinerama-dev libxcursor-dev \
         libjpeg-dev libpng-dev \
         libglu1-mesa-dev \
-	libcfitsio-dev libzstd-dev pythia8-root-interface \
+	libcfitsio-dev libzstd-dev \
 	libmysqlclient-dev libpq-dev libsqlite3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
 	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
