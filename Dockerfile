@@ -106,7 +106,7 @@ RUN true \
 	libmysqlclient-dev libpq-dev libsqlite3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
 	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
-    && provisioning/install-sw.sh root 6.24.06 /opt/root
+    && provisioning/install-sw.sh root 6.28.00 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN mamba install -y metakernel  
