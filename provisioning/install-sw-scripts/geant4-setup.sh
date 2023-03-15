@@ -3,11 +3,7 @@
 # Copyright (c) 2016: Oliver Schulz.
 
 
-BASIC_BUILD_OPTS="\
---fail-on-missing \
---enable-shared \
---enable-soversion \
-"
+BASIC_BUILD_OPTS=""
 
 ADDITIONAL_BUILD_OPTS="\
 -DGEANT4_BUILD_MULTITHREADED=ON \
