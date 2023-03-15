@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:ub20-jl19-ac3202210-cu117
+FROM mppmu/julia-anaconda:ub22-jl19-ac3202210-cu117
 
 # User and workdir settings:
 
@@ -62,7 +62,7 @@ RUN true \
         libexpat-dev libxerces-c-dev libz-dev \
         libxmu-dev libxi-dev \
         libglu1-mesa-dev libmotif-dev libglfw3-dev \
-        qt5-default qtbase5-dev-tools \
+        qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
     && provisioning/install-sw.sh geant4 10.5.1 /opt/geant4
