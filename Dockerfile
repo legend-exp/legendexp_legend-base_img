@@ -23,22 +23,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-# Make GCC-9 the default, Geant4-10.5 won't build with GCC-11:
-
-RUN true \
-    && apt-get update && apt-get install -y gcc-9 g++-9 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 50 \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100 \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 50 \
-    && update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-9 100 \
-    && update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-11 50 \
-    && update-alternatives --set g++ /usr/bin/g++-9 \
-    && update-alternatives --set gcc /usr/bin/gcc-9 \
-    && update-alternatives --set cpp-bin /usr/bin/cpp-9 \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
 # Install HDF5:
 
 COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
