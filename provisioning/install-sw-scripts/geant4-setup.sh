@@ -55,6 +55,10 @@ pkg_install() {
     curl -L "${DOWNLOAD_URL}" | tar --strip-components 1 -C src --strip=1 -x -z
     cd build
 
+    # Patch Geant4 for newer GCC versions as suggested by David Platten,
+    # see https://geant4-forum.web.cern.ch/t/compiling-10-07-p01-on-ubuntu-22-04/7848/8 :
+    sed 's/fsqrt/fltsqrt/g' -i ../src/source/persistency/ascii/src/G4tgrEvaluator.cc
+
     cmake \
         -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" \
         ${DEFAULT_BUILD_OPTS} \
