@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:ub20-jl19-ac3202210-cu117
+FROM mppmu/julia-anaconda:ub22-jl19-ac3202210-cu117
 
 # User and workdir settings:
 
@@ -62,7 +62,7 @@ RUN true \
         libexpat-dev libxerces-c-dev libz-dev \
         libxmu-dev libxi-dev \
         libglu1-mesa-dev libmotif-dev libglfw3-dev \
-        qt5-default qtbase5-dev-tools \
+        qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && provisioning/install-sw.sh clhep 2.4.1.0 /opt/clhep \
     && provisioning/install-sw.sh geant4 10.5.1 /opt/geant4
@@ -102,11 +102,11 @@ RUN true \
         libxrandr-dev libxinerama-dev libxcursor-dev \
         libjpeg-dev libpng-dev \
         libglu1-mesa-dev \
-	libcfitsio-dev libzstd-dev pythia8-root-interface \
+	libcfitsio-dev libzstd-dev \
 	libmysqlclient-dev libpq-dev libsqlite3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
 	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
-    && provisioning/install-sw.sh root 6.24.06 /opt/root
+    && provisioning/install-sw.sh root 6.28.00 /opt/root
 
 # Required for ROOT Jupyter kernel:
 RUN mamba install -y metakernel  
@@ -152,16 +152,15 @@ RUN true \
 
 # Need to use pip to make PyTorch uses system-wide CUDA libs:
 RUN pip3 install \
-    torch==1.13.1 \
-    torchvision==0.14.1 \
-    torchaudio==0.13.1 \
-    --extra-index-url https://download.pytorch.org/whl/cu113
+    torch==2.0.0 \
+    torchvision==0.15.1 \
+    torchaudio==2.0.1
 
 
 # Install JAX:
 
 RUN pip3 install \
-    --upgrade "jax[cuda]==0.4.1" "jaxlib[cuda]==0.4.1" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+    --upgrade "jax[cuda]==0.4.6" "jaxlib[cuda]==0.4.6" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 
 # Install dcraw and ImageMagick
