@@ -3,7 +3,7 @@
 # Copyright (c) 2016: Oliver Schulz.
 
 
-DEFAULT_BUILD_OPTS=""
+DEFAULT_BUILD_OPTS="-DCLHEP_BUILD_CXXSTD=-std=c++14"
 
 
 pkg_install() {
