@@ -200,7 +200,7 @@ RUN apt-get update && apt-get install -y \
 
 # Set container-specific SWMOD_HOSTSPEC:
 
-ENV SWMOD_HOSTSPEC="linux-ubuntu-20.04-x86_64-470e63d7"
+ENV SWMOD_HOSTSPEC="linux-ubuntu-22.04-x86_64-3f6848ed"
 
 
 # Final steps
