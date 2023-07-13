@@ -89,19 +89,18 @@ RUN true \
         libmysqlclient-dev libpq-dev libsqlite3-dev \
         cfitsio-devel mysql-devel postgresql-devel sqlite-devel \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
-    && provisioning/install-sw.sh root 6.28.00 /usr/local
+    && provisioning/install-sw.sh root 6.28.00 /usr/local \
+# Required for ROOT Jupyter kernel
+    && mamba install -y metakernel
 
+# Make PyROOT visible
+# Accessing ROOT via Cxx.jl requires RTTI
 ENV \
     JUPYTER_PATH="$JUPYTER_PATH:/usr/local/etc/notebook" \
     CLING_STANDARD_PCH="none" \
     PYTHONPATH="$PYTHONPATH:/usr/local/lib" \
-    ROOTSYS="/usr/local"
-
-# Required for ROOT Jupyter kernel:
-RUN mamba install -y metakernel  
-
-# Accessing ROOT via Cxx.jl requires RTTI:
-ENV JULIA_CXX_RTTI="1"
+    ROOTSYS="/usr/local" \
+    JULIA_CXX_RTTI="1"
 
 
 # Install additional Science-related Python packages:
