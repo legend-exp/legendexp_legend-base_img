@@ -79,9 +79,6 @@ RUN mkdir "$G4TENDLDATA" \
 
 COPY provisioning/install-sw-scripts/root-* provisioning/install-sw-scripts/
 
-ENV \
-    JUPYTER_PATH="/usr/local/etc/notebook:$JUPYTER_PATH"
-
 RUN true \
     && apt-get update && apt-get install -y \
         libsm-dev \
@@ -94,6 +91,12 @@ RUN true \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
 	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
     && provisioning/install-sw.sh root 6.28.00 /usr/local
+
+ENV \
+    JUPYTER_PATH="$JUPYTER_PATH:/usr/local/etc/notebook" \
+    CLING_STANDARD_PCH="none" \
+    PYTHONPATH="$PYTHONPATH:/usr/local/lib" \
+    ROOTSYS="/usr/local"
 
 # Required for ROOT Jupyter kernel:
 RUN mamba install -y metakernel  
