@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
         libboost-all-dev \
         libzmq3-dev \
         libfftw3-dev \
-	libxml2-dev \
-	libgsl-dev \
+        libxml2-dev \
+        libgsl-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
@@ -48,10 +48,9 @@ ENV \
     G4SAIDXSDATA="/usr/local/share/Geant4-10.5.1/data/G4SAIDDATA2.0" \
     AllowForHeavyElements=1
 
-# https://askubuntu.com/questions/1034313/ubuntu-18-4-libqt5core-so-5-cannot-open-shared-object-file-no-such-file-or-dir
-RUN strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-
 RUN true \
+    # https://askubuntu.com/questions/1034313/ubuntu-18-4-libqt5core-so-5-cannot-open-shared-object-file-no-such-file-or-dir
+    && strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5 \
     && apt-get update && apt-get install -y \
         libexpat-dev libxerces-c-dev libz-dev \
         libxmu-dev libxi-dev \
@@ -79,9 +78,6 @@ RUN mkdir "$G4TENDLDATA" \
 
 COPY provisioning/install-sw-scripts/root-* provisioning/install-sw-scripts/
 
-ENV \
-    JUPYTER_PATH="/usr/local/etc/notebook:$JUPYTER_PATH"
-
 RUN true \
     && apt-get update && apt-get install -y \
         libsm-dev \
@@ -89,17 +85,21 @@ RUN true \
         libxrandr-dev libxinerama-dev libxcursor-dev \
         libjpeg-dev libpng-dev \
         libglu1-mesa-dev \
-	libcfitsio-dev libzstd-dev \
-	libmysqlclient-dev libpq-dev libsqlite3-dev \
+        libcfitsio-dev libzstd-dev \
+        libmysqlclient-dev libpq-dev libsqlite3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
-	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
-    && provisioning/install-sw.sh root 6.28.00 /usr/local
+    && provisioning/install-sw.sh root 6.28.00 /usr/local \
+# Required for ROOT Jupyter kernel
+    && mamba install -y metakernel
 
-# Required for ROOT Jupyter kernel:
-RUN mamba install -y metakernel  
-
-# Accessing ROOT via Cxx.jl requires RTTI:
-ENV JULIA_CXX_RTTI="1"
+# Make PyROOT visible
+# Accessing ROOT via Cxx.jl requires RTTI
+ENV \
+    JUPYTER_PATH="$JUPYTER_PATH:/usr/local/etc/notebook" \
+    CLING_STANDARD_PCH="none" \
+    PYTHONPATH="$PYTHONPATH:/usr/local/lib" \
+    ROOTSYS="/usr/local" \
+    JULIA_CXX_RTTI="1"
 
 
 # Install additional Science-related Python packages:
