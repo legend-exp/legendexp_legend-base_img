@@ -86,10 +86,10 @@ RUN true \
         libxrandr-dev libxinerama-dev libxcursor-dev \
         libjpeg-dev libpng-dev \
         libglu1-mesa-dev \
-	libcfitsio-dev libzstd-dev \
-	libmysqlclient-dev libpq-dev libsqlite3-dev \
+        libcfitsio-dev libzstd-dev \
+        libmysqlclient-dev libpq-dev libsqlite3-dev \
+        cfitsio-devel mysql-devel postgresql-devel sqlite-devel \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
-	cfitsio-devel mysql-devel postgresql-devel sqlite-devel\
     && provisioning/install-sw.sh root 6.28.00 /usr/local
 
 ENV \
