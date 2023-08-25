@@ -147,7 +147,7 @@ RUN pip3 install --upgrade --index-url https://download.pytorch.org/whl/cu118 \
 # Install JAX:
 
 RUN pip3 install --upgrade \
-    "jax[cuda]==0.4.13" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+    "jax[cuda]==0.4.14" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 
 # Install dcraw and ImageMagick
