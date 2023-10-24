@@ -180,6 +180,7 @@ RUN apt-get update && apt-get install -y \
         graphviz-dev \
         \
         poppler-utils \
+        pre-commit \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
     # linux-tools-common for perf
