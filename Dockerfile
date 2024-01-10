@@ -139,7 +139,7 @@ RUN true \
 
 # Need to use pip to make PyTorch uses system-wide CUDA libs:
 RUN pip3 install --upgrade \
-    torch==2.1.1 \
+    torch==2.1.2 \
     torchvision \
     torchaudio
 
