@@ -139,7 +139,7 @@ RUN true \
 
 # Need to use pip to make PyTorch uses system-wide CUDA libs:
 RUN pip3 install --upgrade \
-    torch==2.1.2 \
+    torch==2.3.1 \
     torchvision \
     torchaudio
 
@@ -147,10 +147,7 @@ RUN pip3 install --upgrade \
 # Install JAX:
 
 RUN pip3 install --upgrade \
-    "jax[cuda]==0.4.16" \
-    "jaxlib[cuda]==0.4.16" \
-    -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-
+    "jax[cuda12]==0.4.30"
 
 # Install dcraw and ImageMagick
 
