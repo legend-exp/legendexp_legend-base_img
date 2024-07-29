@@ -9,11 +9,12 @@ pkg_installed_check() {
 
 pkg_install() {
     PACKAGE_VERSION_MAJOR=`echo "${PACKAGE_VERSION}" | cut -f 1,2 -d .`
-    DOWNLOAD_URL="http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-${PACKAGE_VERSION_MAJOR}/hdf5-${PACKAGE_VERSION}/src/hdf5-${PACKAGE_VERSION}.tar.bz2"
+    VERSION_WITH_UNDERSCORES=`echo $PACKAGE_VERSION | sed 's/\./_/g'`
+    DOWNLOAD_URL="https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_${VERSION_WITH_UNDERSCORES}/src/hdf5-${PACKAGE_VERSION}.tar.bz2"
 
     mkdir hdf5
     download "${DOWNLOAD_URL}" \
-        | tar --strip-components=1 -x -j -f - -C hdf5
+        | tar --strip-components=2 -x -j -f - -C hdf5
 
     cd hdf5
 

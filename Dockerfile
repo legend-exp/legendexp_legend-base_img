@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
 
-RUN provisioning/install-sw.sh hdf5-srcbuild 1.12.1 /usr/local
+RUN provisioning/install-sw.sh hdf5-srcbuild 1.12.3 /usr/local
 
 
 # Install CLHep and Geant4:
