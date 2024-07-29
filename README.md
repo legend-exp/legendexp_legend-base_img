@@ -9,7 +9,7 @@ The Docker image includes the following Software:
 * CUDA v11.8
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
-* Julia v1.6, v1.10 (default) and v1.11
+* Julia v1.6, v1.10 and v1.11 (default)
 * PyTorch and JAX
 * Snakemake with panoptes web-GUI
 * Node.js
