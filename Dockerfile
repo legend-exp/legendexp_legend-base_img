@@ -127,18 +127,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 # (Temporary: Pin jinja2 to v3.0, >v3.1 causes trouble for Jupyter of Anaconda 2021.11.)
 
 RUN true \
-    && mamba install -c main -c conda-forge -c bioconda -y \
-        snakemake \
+    && mamba install -c conda-forge -c bioconda -y \
+        snakemake panoptes-ui \
         sqlite flask humanfriendly marshmallow pytest requests sqlalchemy \
-        jinja2=3.0 \
-    && pip3 install panoptes-ui
+        jinja2=3.0
 
 
 # Install PyTorch:
 
 # Need to use pip to make PyTorch uses system-wide CUDA libs:
 RUN pip3 install --upgrade \
-    torch==2.3.1 \
+    torch~=2.4.1 \
     torchvision \
     torchaudio
 
@@ -146,7 +145,8 @@ RUN pip3 install --upgrade \
 # Install JAX:
 
 RUN pip3 install --upgrade \
-    "jax[cuda12]==0.4.30"
+    "jax[cuda12]~=0.4.34"
+
 
 # Install dcraw and ImageMagick
 
