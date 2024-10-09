@@ -1,4 +1,4 @@
-FROM mppmu/julia-anaconda:ub22-jl111-ac3202307-cu121
+FROM mppmu/julia-conda:ub22-jl111-mf-cu121
 
 # User and workdir settings:
 
@@ -104,15 +104,14 @@ ENV \
 
 # Install additional Science-related Python packages:
 
-RUN true \
-    && mamba install -y lz4 zstandard \
-    && mamba install -c main -c conda-forge -y \
-        lz4 zstandard \
-        tensorboard \
-        ultranest \
-        uproot awkward0 uproot3 awkward uproot4 xxhash \
-        hepunits particle \
-        iminuit
+RUN mamba install -y \
+    lz4 zstandard \
+    tensorboard \
+    ultranest \
+    uproot awkward0 uproot3 awkward uproot4 xxhash \
+    hepunits particle \
+    iminuit \
+    numba
 
 
 # Install Xpra:

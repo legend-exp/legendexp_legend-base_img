@@ -4,9 +4,9 @@ This repository contains the files necessary to generate a CentOS-7 based Docker
 
 The Docker image includes the following Software:
 
-* Anaconda v2023.07 (Python 3.11)
+* Python via miniforge (Python 3.12)
 * CERN ROOT v6.28
-* CUDA v11.8
+* CUDA v12.1
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
 * Julia v1.6, v1.10 and v1.11 (default)
