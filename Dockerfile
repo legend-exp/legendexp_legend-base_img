@@ -113,6 +113,8 @@ RUN mamba install -y \
     iminuit \
     numba
 
+# Enable interop between pip and conda
+RUN conda config --system --set pip_interop_enabled True
 
 # Install Xpra:
 
