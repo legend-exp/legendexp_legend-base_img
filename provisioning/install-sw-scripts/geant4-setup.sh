@@ -1,6 +1,6 @@
 # This software is licensed under the MIT "Expat" License.
 #
-# Copyright (c) 2016: Oliver Schulz.
+# Copyright (c) 2025 McCoy L Stevens.
 
 
 BASIC_BUILD_OPTS=""
@@ -12,7 +12,6 @@ ADDITIONAL_BUILD_OPTS="\
 -DGEANT4_USE_XM=ON \
 -DGEANT4_USE_OPENGL_X11=ON \
 -DGEANT4_USE_RAYTRACER_X11=ON \
--DGEANT4_USE_HDF5=ON \
 -DGEANT4_INSTALL_DATA=ON \
 -DGEANT4_INSTALL_EXAMPLES=ON \
 -DGEANT4_USE_SYSTEM_EXPAT=ON \
@@ -41,13 +40,11 @@ download_url() {
     && local PKG_VERSION_PATCH=$(seq -f "%02g" "${PKG_VERSION_PATCH}" "${PKG_VERSION_PATCH}") \
     && local PKG_VERSION_DNL="${PKG_VERSION_MAJOR}.${PKG_VERSION_MINOR}" \
     && local PKG_VERSION_DNL=$(test "${PKG_VERSION_PATCH}" -ne 0 && echo "${PKG_VERSION_DNL}.p${PKG_VERSION_PATCH}" || echo "${PKG_VERSION_DNL}") \
-    && echo "https://geant4-data.web.cern.ch/geant4-data/releases/geant4.${PKG_VERSION_DNL}.tar.gz"
+    && echo "http://geant4.cern.ch/support/source/geant4.${PKG_VERSION_DNL}.tar.gz"
 }
 
 
 pkg_install() {
-    source disable-conda.sh
-
     DOWNLOAD_URL=`download_url "${PACKAGE_VERSION}"`
     echo "INFO: Download URL: \"${DOWNLOAD_URL}\"." >&2
 
@@ -55,25 +52,12 @@ pkg_install() {
     curl -L "${DOWNLOAD_URL}" | tar --strip-components 1 -C src --strip=1 -x -z
     cd build
 
-    # Patch Geant4 for newer GCC versions as suggested by David Platten,
-    # see https://geant4-forum.web.cern.ch/t/compiling-10-07-p01-on-ubuntu-22-04/7848/8 :
-    sed 's/fsqrt/fltsqrt/g' -i ../src/source/persistency/ascii/src/G4tgrEvaluator.cc
-
     cmake \
         -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" \
         ${DEFAULT_BUILD_OPTS} \
         ../src
 
     time make -j"$(nproc)" install
-
-    (
-        cd "${INSTALL_PREFIX}/share/Geant4-10.5.1/geant4make/config"
-        for f in *.gmk sys/*.gmk; do
-            if (geant4-config --cflags | grep -q qt5) ; then
-                sed  's/QtCore/Qt5Core/g; s/QtGui/Qt5Gui/g; s/QtOpenGL/Qt5OpenGL/g; s/QtPrintSupport/Qt5PrintSupport/g; s/QtWidgets/Qt5Widgets/g' -i "$f"
-            fi
-        done
-    )
 }
 
 

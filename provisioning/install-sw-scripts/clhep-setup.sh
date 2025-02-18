@@ -1,13 +1,13 @@
 # This software is licensed under the MIT "Expat" License.
 #
-# Copyright (c) 2016: Oliver Schulz.
+# Copyright (c) 2025 McCoy L Stevens.
 
 
 DEFAULT_BUILD_OPTS=""
 
 
 pkg_install() {
-    DOWNLOAD_URL="https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-${PACKAGE_VERSION}.tgz"
+    DOWNLOAD_URL="https://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-${PACKAGE_VERSION}.tgz"
     echo "INFO: Download URL: \"${DOWNLOAD_URL}\"." >&2
 
     mkdir src build
