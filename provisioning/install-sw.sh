@@ -2,7 +2,7 @@
 
 # This software is licensed under the MIT "Expat" License.
 #
-# Copyright (c) 2016: Oliver Schulz.
+# Copyright (c) 2025 McCoy L Stevens.
 
 
 # ===========================================================================
@@ -27,6 +27,9 @@ get_linux_dist_info() {
         if (echo "${VER_STRING}" | grep -q '^Debian GNU/Linux \([0-9]\+\).*$') ; then
             LINUX_DIST_NAME="debian"
             LINUX_DIST_VERSION=`echo "${VER_STRING}" | sed 's@^Debian GNU/Linux \([0-9]\+\).*$@\1@'`
+        if (echo "${VER_STRING}" | grep -q '^Debian GNU/Linux \([0-9]\).*$') ; then
+            LINUX_DIST_NAME="debian"
+            LINUX_DIST_VERSION=`echo "${VER_STRING}" | sed 's@^Debian GNU/Linux \([0-9]\).*$@\1@'`
         elif (echo "${VER_STRING}" | grep -q '^Ubuntu \([0-9][0-9][.][0-9][0-9]\).*$') ; then
             LINUX_DIST_NAME="ubuntu"
             LINUX_DIST_VERSION=`echo "${VER_STRING}" | sed 's@^Ubuntu \([0-9][0-9][.][0-9][0-9]\).*$@\1@'`

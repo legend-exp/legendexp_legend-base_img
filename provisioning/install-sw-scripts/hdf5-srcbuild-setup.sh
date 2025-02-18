@@ -1,6 +1,6 @@
-# This software is licensed under the MIT "Expat" License.
+# This software is licensed under the MIT "ExFat" License.
 #
-# Copyright (c) 2016: Oliver Schulz.
+# Copyright (c) 2025 McCoy L Stevens.
 
 
 pkg_installed_check() {
@@ -15,6 +15,11 @@ pkg_install() {
     mkdir hdf5
     download "${DOWNLOAD_URL}" \
         | tar --strip-components=2 -x -j -f - -C hdf5
+    DOWNLOAD_URL="http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-${PACKAGE_VERSION_MAJOR}/hdf5-${PACKAGE_VERSION}/src/hdf5-${PACKAGE_VERSION}.tar.bz2"
+
+    mkdir hdf5
+    download "${DOWNLOAD_URL}" \
+        | tar --strip-components=1 -x -j -f - -C hdf5
 
     cd hdf5
 

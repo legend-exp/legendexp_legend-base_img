@@ -1,4 +1,6 @@
-FROM mppmu/julia-conda:ub22-jl111-mf-cu124
+FROM nvidia/cuda:8.0-cudnn5-devel-centos7
+# FROM centos:7
+
 
 # User and workdir settings:
 
@@ -78,92 +80,108 @@ RUN mkdir "$G4TENDLDATA" \
 
 COPY provisioning/install-sw-scripts/root-* provisioning/install-sw-scripts/
 
-RUN true \
-    && apt-get update && apt-get install -y \
-        libsm-dev \
-        libx11-dev libxext-dev libxft-dev libxpm-dev \
-        libxrandr-dev libxinerama-dev libxcursor-dev \
-        libjpeg-dev libpng-dev \
-        libglu1-mesa-dev \
-        libcfitsio-dev libzstd-dev \
-        libmysqlclient-dev libpq-dev libsqlite3-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* \
-    && provisioning/install-sw.sh root 6.28.00 /usr/local \
-# Required for ROOT Jupyter kernel
-    && mamba install -y metakernel
-
-# Make PyROOT visible
-# Accessing ROOT via Cxx.jl requires RTTI
 ENV \
-    JUPYTER_PATH="$JUPYTER_PATH:/usr/local/etc/notebook" \
-    CLING_STANDARD_PCH="none" \
-    PYTHONPATH="$PYTHONPATH:/usr/local/lib" \
-    ROOTSYS="/usr/local" \
-    JULIA_CXX_RTTI="1"
-
-
-# Install additional Science-related Python packages:
-
-RUN mamba install -y \
-    lz4 zstandard \
-    tensorboard \
-    ultranest \
-    uproot awkward0 uproot3 awkward uproot4 xxhash \
-    hepunits particle \
-    iminuit \
-    numba
-
-
-# Install Xpra:
-
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        xpra python3-uinput python3-paramiko python3-websockify \
-        pwgen apg \
-        xterm mlterm rxvt-unicode \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
-# Install Snakemake and panoptes-ui
-# (Temporary: Pin jinja2 to v3.0, >v3.1 causes trouble for Jupyter of Anaconda 2021.11.)
+    PATH="/opt/root/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/root/lib:$LD_LIBRARY_PATH" \
+    MANPATH="/opt/root/man:$MANPATH" \
+    PYTHONPATH="/opt/root/lib:$PYTHONPATH" \
+    CMAKE_PREFIX_PATH="/opt/root;$CMAKE_PREFIX_PATH" \
+    JUPYTER_PATH="/opt/root/etc/notebook:$JUPYTER_PATH" \
+    \
+    ROOTSYS="/opt/root"
 
 RUN true \
-    && mamba install -c conda-forge -c bioconda -y \
-        snakemake panoptes-ui \
-        sqlite flask humanfriendly marshmallow pytest requests sqlalchemy \
-        jinja2=3.0
+    && yum install -y \
+        libSM-devel \
+        libX11-devel libXext-devel libXft-devel libXpm-devel \
+        libjpeg-devel libpng-devel \
+        mesa-libGLU-devel \
+    && provisioning/install-sw.sh root 6.10.02 /opt/root
 
 
-# Install PyTorch:
+# Install MXNet:
 
-# Need to use pip to make PyTorch uses system-wide CUDA libs:
-RUN pip3 install --upgrade \
-    torch~=2.5.1 \
-    torchvision \
-    torchaudio
+COPY provisioning/install-sw-scripts/mxnet-* provisioning/install-sw-scripts/
+
+ENV \
+    LD_LIBRARY_PATH="/opt/mxnet/lib:$LD_LIBRARY_PATH" \
+    MXNET_HOME="/opt/mxnet"
+
+RUN true \
+    && yum install -y \
+        openblas-devel \
+        opencv-devel \
+    && provisioning/install-sw.sh mxnet dmlc/bbf1c0b /opt/mxnet
 
 
-# Install JAX:
+# Install Anaconda2:
 
-RUN pip3 install --upgrade \
-    "jax[cuda12]~=0.4.35"
+COPY provisioning/install-sw-scripts/anaconda2-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/anaconda2/bin:$PATH" \
+    MANPATH="/opt/anaconda2/share/man:$MANPATH" \
+    JUPYTER=jupyter
+
+    # JUPYTER environment variable used by IJulia to detect Jupyter installation
+
+RUN true \
+    && yum install -y \
+        libXdmcp \
+        texlive-collection-latexrecommended texlive-dvipng texlive-adjustbox texlive-upquote texlive-ulem \
+    && provisioning/install-sw.sh anaconda2 4.4.0 /opt/anaconda2 \
+    && conda install -c conda-forge nbpresent pandoc \
+    && conda install -c anaconda-nb-extensions nbbrowserpdf \
+    && conda install -c damianavila82 rise \
+    && pip install jupyterlab metakernel bash_kernel \
+    && JUPYTER_DATA_DIR="/opt/anaconda2/share/jupyter" python -m bash_kernel.install
+
+EXPOSE 8888
 
 
-# Install dcraw and ImageMagick
+# Install ArrayFire:
 
-RUN apt-get update && apt-get install -y \
-        imagemagick dcraw \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN true \
+    && rpm -ihv "https://arrayfire.s3.amazonaws.com/3.5.0/ArrayFire-no-gl-v3.5.0_Linux_x86_64.rpm" \
+    && (cd /usr/lib64 && ln -s ../lib/libaf*.so* .)
+
+
+# Install Java:
+
+RUN yum install -y \
+        java-1.8.0-openjdk-devel
+
+
+# Install HDF5:
+
+COPY provisioning/install-sw-scripts/hdf5-* provisioning/install-sw-scripts/
+
+ENV \
+    PATH="/opt/hdf5/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/hdf5/lib:$LD_LIBRARY_PATH"
+
+RUN provisioning/install-sw.sh hdf5-srcbuild 1.10.1 /opt/hdf5
+
+
+# Install GitHub Atom:
+
+RUN yum install -y \
+        lsb-core-noarch libXScrnSaver libXss.so.1 gtk3 libXtst libxkbfile GConf2 alsa-lib \
+        levien-inconsolata-fonts dejavu-sans-fonts libsecret \
+    && rpm -ihv https://github.com/atom/atom/releases/download/v1.21.0/atom.x86_64.rpm
+
+
+
+# Install development tools:
+RUN yum install -y \
+        valgrind
 
 
 # Install device control development dependencies:
-
-RUN apt-get update && apt-get install -y \
-        snmp libsnmp-dev \
-        libmodbus-dev \
-        libusb-1.0-0-dev \
-        gphoto2 \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* \
-    && mamba install -y pyserial
+RUN yum install -y \
+        net-snmp-devel net-snmp-utils \
+        libmodbus-devel \
+        libusbx-devel
 
 
 # Install additional packages and clean up:
@@ -187,6 +205,7 @@ RUN apt-get update && apt-get install -y \
 # Set container-specific SWMOD_HOSTSPEC:
 
 ENV SWMOD_HOSTSPEC="linux-ubuntu-22.04-x86_64-3f6848ed"
+ENV SWMOD_HOSTSPEC="linux-centos-7-x86_64-aec2b2b4"
 
 
 # Final steps

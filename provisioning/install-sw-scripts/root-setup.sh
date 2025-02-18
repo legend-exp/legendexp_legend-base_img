@@ -1,6 +1,6 @@
-# This software is licensed under the MIT "Expat" License.
+# This software is licensed under the MIT "ExFat" License.
 #
-# Copyright (c) 2016: Oliver Schulz.
+# Copyright (c) 2025 McCoy L Stevens.
 
 DEFAULT_BUILD_OPTS="-Dbuiltin_davix=ON -Dbuiltin_lzma=ON -Dbuiltin_pcre=ON -Dbuiltin_unuran=ON -Dbuiltin_vc=ON -Dbuiltin_vdt=ON -Dbuiltin_veccore=ON -Dbuiltin_zlib=ON -Dbuiltin_zstd=OFF -Dfortran=ON -Dminuit2=ON -Dpythia8=OFF -Dshadowpw=ON -Dsoversion=ON -Dunuran=ON"
 
