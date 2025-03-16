@@ -6,10 +6,10 @@ The Docker image includes the following Software:
 
 * Python via miniforge (Python 3.12)
 * CERN ROOT v6.28
-* CUDA v12.1
+* CUDA v12.6
 * Geant4 v10.5 and CLHep
 * HDF5 (thread-safe build)
-* Julia v1.6, v1.10 and v1.11 (default)
+* Julia v1.10 and v1.11 (default)
 * PyTorch and JAX
 * Snakemake with panoptes web-GUI
 * Node.js

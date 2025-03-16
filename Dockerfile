@@ -1,4 +1,4 @@
-FROM mppmu/julia-conda:ub22-jl111-mf-cu124
+FROM mppmu/julia-conda:ub22-jl111-mf-cu126
 
 # User and workdir settings:
 
@@ -136,8 +136,8 @@ RUN true \
 # Install PyTorch:
 
 # Need to use pip to make PyTorch uses system-wide CUDA libs:
-RUN pip3 install --upgrade \
-    torch~=2.5.1 \
+RUN pip3 install --upgrade --index-url https://download.pytorch.org/whl/cu126 \
+    torch~=2.6.0 \
     torchvision \
     torchaudio
 
@@ -145,7 +145,7 @@ RUN pip3 install --upgrade \
 # Install JAX:
 
 RUN pip3 install --upgrade \
-    "jax[cuda12]~=0.5.0"
+    "jax[cuda12]~=0.5.2"
 
 
 # Install dcraw and ImageMagick
