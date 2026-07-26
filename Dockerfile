@@ -1,4 +1,4 @@
-FROM mppmu/julia-python:ub24-jl112-pixi-cu128
+FROM mppmu/julia-python:ub24-jl112-pixi-cu130
 
 # User and workdir settings:
 
@@ -48,16 +48,31 @@ RUN true \
 
 # Install PyTorch:
 
+# Install from the PyTorch CUDA package index, as recommended on
+# https://pytorch.org/ - PyPI only provides CPU-only builds of PyTorch for
+# linux-aarch64. PyTorch bundles its own CUDA runtime (as "nvidia-*" packages),
+# so the CUDA version selected here is independent of the CUDA installation in
+# the image.
+
+# torchaudio is not part of the recommended PyTorch installation any more, its
+# last release (2.11.0) doesn't support current PyTorch versions.
+
+# torchvision declares the torch version it requires, so it doesn't need to be
+# pinned separately:
+
 RUN cd "$PIXI_GLOBALPRJ" && pixi add --pypi \
-    torch~=2.10.0 \
-    torchvision \
-    torchaudio
+    torch torchvision \
+    --index https://download.pytorch.org/whl/cu130
 
 
 # Install JAX:
 
+# Use the CUDA installation in the image ("-local"). JAX's CUDA 12 builds can
+# only generate PTX 8.7, which can't target Blackwell GPUs (compute capability
+# 12.1, "sm_121a", needs PTX 8.8), so the image has to provide CUDA 13:
+
 RUN cd "$PIXI_GLOBALPRJ" && pixi add --pypi \
-    "jax[cuda12-local]~=0.10.1"
+    "jax[cuda13-local]~=0.11.0"
 
 
 # Install additional packages and clean up:
